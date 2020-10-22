@@ -32,7 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-public class GiaoDienQLyTro extends JFrame{
+public class GiaoDienQLyTro extends JPanel{
 
 	private JTextField txtMaNhatro;
 	private JTextField txtChuNha;
@@ -65,11 +65,7 @@ public class GiaoDienQLyTro extends JFrame{
 	
 	private JComboBox<String> cmp;
 	public GiaoDienQLyTro() {
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		//setLocationRelativeTo(null);
-		setTitle("Quan Ly Thong Tin Tro");
-		setSize(1550, 860);
-		
+		this.setPreferredSize(new Dimension(1200,700));
 		JPanel pnl = new JPanel();
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
@@ -316,8 +312,4 @@ public class GiaoDienQLyTro extends JFrame{
       }
 
   }
-	
-	public static void main(String[] args) {
-		new GiaoDienQLyTro(); 
-	}
 }
