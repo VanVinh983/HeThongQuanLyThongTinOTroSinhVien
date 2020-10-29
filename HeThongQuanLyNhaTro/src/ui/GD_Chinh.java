@@ -10,5 +10,6 @@ public class GD_Chinh {
 		frame.pack();
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
+		frame.setResizable(false);
 	}
 }
