@@ -31,7 +31,7 @@ public class GD_DangNhap extends JPanel implements ActionListener{
 
 	public GD_DangNhap() {
 		this.setLayout(new BorderLayout());
-		this.setPreferredSize(new Dimension(800,700));
+		this.setPreferredSize(new Dimension(800,600));
 		JPanel pnltop = new JPanel();
 		pnltop.setBackground(new Color(0, 102, 255));
 		
