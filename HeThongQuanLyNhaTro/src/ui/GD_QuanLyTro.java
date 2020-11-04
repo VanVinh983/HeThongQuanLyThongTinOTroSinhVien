@@ -11,6 +11,8 @@ import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.Label;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +34,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-public class GiaoDienQLyTro extends JPanel{
+public class GD_QuanLyTro extends JPanel implements ActionListener{
 
 	private JTextField txtMaNhatro;
 	private JTextField txtChuNha;
@@ -64,8 +66,10 @@ public class GiaoDienQLyTro extends JPanel{
 	private JButton btnThoat;
 	
 	private JComboBox<String> cmp;
-	public GiaoDienQLyTro() {
-		this.setPreferredSize(new Dimension(1200,700));
+	public GD_QuanLyTro() {
+		this.setLayout(new BorderLayout());
+		this.setPreferredSize(new Dimension(1200, 600));
+		
 		JPanel pnl = new JPanel();
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
@@ -98,9 +102,9 @@ public class GiaoDienQLyTro extends JPanel{
 				pnluser1.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		b1.add(pnluser1);
 		pnl.add(box, BorderLayout.WEST);
-		add(pnl);
+		this.add(pnl, BorderLayout.CENTER);
 		
-		/////////////////////////////////////////////////
+		/////////////////////////////////////////////////////////////
 		
 		JPanel pnluser2 = new JPanel();
 		pnluser2.setLayout(new BorderLayout());
@@ -110,7 +114,7 @@ public class GiaoDienQLyTro extends JPanel{
 			pnluser22.setLayout(new BoxLayout(pnluser22, BoxLayout.Y_AXIS));
 				box.add(pnluser2);
 				
-				//Box bQlyTro = Box.createVerticalBox();
+				
 				pnluser22.add(Box.createVerticalStrut(20));
 				pnluser22.add(btnTro = new JButton("Quan Ly Tro"));
 				
@@ -276,12 +280,23 @@ public class GiaoDienQLyTro extends JPanel{
 		 pnlSouthRight.setBackground(Color.CYAN);
 		 pnlSouthRight.add(boxbtnTim);
 		 
-		 
 		lblMaNhaTro.setPreferredSize(lblSDT.getPreferredSize());
 		lblChuNha.setPreferredSize(lblSDT.getPreferredSize());
 		lblDiaChi.setPreferredSize(lblSDT.getPreferredSize());
 		lblTim.setPreferredSize(lblSDT.getPreferredSize());
 	
+		btnHuongDanSD.addActionListener(this);
+		btnNhanVien.addActionListener(this);
+		btnSinhVien.addActionListener(this);
+		btnSua.addActionListener(this);
+		btnThem.addActionListener(this);
+		btnThoat.addActionListener(this);
+		btnThongKe.addActionListener(this);
+		btnThueTro.addActionListener(this);
+		btnTim.addActionListener(this);
+		btnTro.addActionListener(this);
+		btnXoa.addActionListener(this);
+		btnXoaTrang.addActionListener(this);
 		
 		
 		
@@ -310,6 +325,64 @@ public class GiaoDienQLyTro extends JPanel{
       } catch (IOException ex) {
     	  JOptionPane.showMessageDialog(null, "Loi hinh anh");
       }
-
   }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object ob = e.getSource();
+		
+		if(ob.equals(btnHuongDanSD))
+		{
+			
+		}
+		else if(ob.equals(btnNhanVien))
+		{
+			
+		}
+		else if(ob.equals(btnSinhVien))
+		{
+			
+		}
+		else if(ob.equals(btnSua))
+		{
+			
+		}
+		else if(ob.equals(btnThem))
+		{
+			
+		}
+		else if(ob.equals(btnThoat))
+		{
+			
+		}
+		else if(ob.equals(btnThongKe))
+		{
+			
+		}
+		else if(ob.equals(btnThueTro))
+		{
+			
+		}
+		else if(ob.equals(btnTim))
+		{
+			
+		}
+		else if(ob.equals(btnTro))
+		{
+			
+		}
+		else if(ob.equals(btnXoa))
+		{
+			
+		}
+		else if(ob.equals(btnXoaTrang))
+		{
+			txtChuNha.setText("");
+			txtDiaChi.setText("");
+			txtMaNhatro.setText("");
+			txtSDT.setText("");
+			txtTim.setText("");
+			txtUser.setText("");
+			txtTim.setText("");
+		}
+	}
 }
