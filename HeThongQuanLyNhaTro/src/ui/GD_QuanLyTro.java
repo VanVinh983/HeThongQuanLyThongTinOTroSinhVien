@@ -94,7 +94,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 					pnlcontent.add(lblBanner);
 					lblBanner.setSize(250,250);
 					add(pnlcontent);
-					setPicture(lblBanner, "img/User.png");
+					setPicture(lblBanner, "HinhAnh/User.png");
 					
 					buser2.add(pnlcontent);
 				pnluser1.add(buser);
