@@ -2,15 +2,8 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.Label;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -24,29 +17,32 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
-public class GD_QuanLyTro extends JPanel implements ActionListener{
-
-	private JTextField txtMaNhatro;
-	private JTextField txtChuNha;
-	private JTextField txtDiaChi;
-	private JTextField txtSDT;
-	private JTextField txtTim;
-	private JLabel lblMaNhaTro;
-	private JLabel lblChuNha;
-	private JLabel lblDiaChi;
-	private JLabel lblSDT;
-	private JLabel lblTim;
+public class GD_QLNhanVien extends JPanel implements ActionListener{
+	
+	//nhanVien
+	private JLabel lblMaNV;
+	private JLabel lblTenNV;
+	private JLabel lblNgaySinh;
+	private JLabel lblLoaiNV;
+	private JLabel lblKhoa;
+	private JTextField txtMaNV;
+	private JTextField txtTenNV;
+	private JTextField txtNgaySinh;
+	private JTextField txtLoaiNV;
+	private JTextField txtKhoa;
+	
+	//GDchung
 	private JTextField txtUser;
+	private JTextField txtTim;
+	private JLabel lblTim;
 	private JButton btnTim;
 	private JButton btnThem;
 	private JButton btnXoa;
@@ -64,9 +60,10 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 	private JButton btnNhanVien;
 	private JButton btnHuongDanSD;
 	private JButton btnThoat;
-	
 	private JComboBox<String> cmp;
-	public GD_QuanLyTro() {
+
+	public GD_QLNhanVien() {
+		// TODO Auto-generated constructor stub
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
 		
@@ -146,7 +143,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 				btnHuongDanSD.add(Box.createHorizontalStrut(30));
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
 				pnluser22.add(Box.createVerticalStrut(10));
-				pnluser22.add(btnThoat = new JButton("Thoá"));
+				pnluser22.add(btnThoat = new JButton("Thoát"));
 				btnThoat.add(Box.createHorizontalStrut(30));
 				btnThoat.add(Box.createVerticalStrut(20));
 		
@@ -158,7 +155,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 		boxCen.add(bcen1 = Box.createHorizontalBox());
 		
 		JPanel pnlQuanLyTro = new JPanel();
-		pnlQuanLyTro.add(lblcen1 = new JLabel("Quản Lý Nhà Trọ"));
+		pnlQuanLyTro.add(lblcen1 = new JLabel("QUẢN LÝ NHÂN VIÊN"));
 		bcen1.add(pnlQuanLyTro);
 		pnlQuanLyTro.setBackground(Color.blue);
 		lblcen1.setFont(new Font("Arial", Font.BOLD, 40));
@@ -169,7 +166,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 		
 		JPanel pnlcen2 = new JPanel();
 			JScrollPane scroll;
-			String[] header="Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
+			String[] header="Mã Nhân Viên;Tên Nhân Viên;Ngày Sinh;Khoa;Cấp Bậc".split(";");
 			tableModel=new DefaultTableModel(header,20);
 			pnlcen2.add(scroll=new JScrollPane(table=new JTable(tableModel),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),BorderLayout.SOUTH);
 			scroll.setBorder(BorderFactory.createTitledBorder("Danh Sách"));
@@ -213,38 +210,49 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 		
 		
 		pnlForm.add(Box.createVerticalStrut(30));
-		Box boxMaTro = Box.createHorizontalBox();
-		boxMaTro.add(lblMaNhaTro=new JLabel("Mã Tro:"));
-		boxMaTro.add(txtMaNhatro=new JTextField());
-		pnlForm.add(boxMaTro);
+		Box boxMaNV = Box.createHorizontalBox();
+		boxMaNV.add(lblMaNV=new JLabel("Mã Nhân Viên: "));
+		boxMaNV.add(txtMaNV=new JTextField());
+		pnlForm.add(boxMaNV);
 		
 		pnlForm.add(Box.createVerticalStrut(10));
-		Box boxDiaChi = Box.createHorizontalBox();
-		boxDiaChi.add(lblDiaChi=new JLabel("Địa chỉ: "));
-		boxDiaChi.add(txtDiaChi=new JTextField());
-		pnlForm.add(boxDiaChi);
+		Box boxTenNV = Box.createHorizontalBox();
+		boxTenNV.add(lblTenNV=new JLabel("Tên Nhân Viên: "));
+		boxTenNV.add(txtTenNV=new JTextField());
+		pnlForm.add(boxTenNV);
 		
 		pnlForm.add(Box.createVerticalStrut(10));
-		Box boxChuNha = Box.createHorizontalBox();
-		boxChuNha.add(lblChuNha=new JLabel("Tên chu tro"));
-		boxChuNha.add(txtChuNha=new JTextField());
-		pnlForm.add(boxChuNha);
+		Box boxNgaySinh = Box.createHorizontalBox();
+		boxNgaySinh.add(lblNgaySinh=new JLabel("Ngày Sinh: "));
+		boxNgaySinh.add(txtNgaySinh=new JTextField());
+		pnlForm.add(boxNgaySinh);
 		
 		pnlForm.add(Box.createVerticalStrut(10));
-		Box boxSDT = Box.createHorizontalBox();
-		boxSDT.add(lblSDT=new JLabel("Số điện thoại"));
-		boxSDT.add(txtSDT=new JTextField());
-		pnlForm.add(boxSDT);
+		Box boxKhoa = Box.createHorizontalBox();
+		boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
+		boxKhoa.add(txtKhoa=new JTextField());
+		pnlForm.add(boxKhoa);
+		
+		pnlForm.add(Box.createVerticalStrut(10));
+		Box boxLoaiNV = Box.createHorizontalBox();
+		boxLoaiNV.add(lblLoaiNV=new JLabel("Cấp bậc: "));
+		boxLoaiNV.add(txtLoaiNV=new JTextField());
+		pnlForm.add(boxLoaiNV);
+		
+		lblMaNV.setPreferredSize(lblTenNV.getPreferredSize());
+		lblNgaySinh.setPreferredSize(lblTenNV.getPreferredSize());
+		lblKhoa.setPreferredSize(lblTenNV.getPreferredSize());
+		lblLoaiNV.setPreferredSize(lblTenNV.getPreferredSize());
 		
 		pnlForm.add(Box.createVerticalStrut(10));
 		Box boxButton = Box.createHorizontalBox();
-		boxButton.add(btnThem =new JButton("Them"));
+		boxButton.add(btnThem =new JButton("Thêm"));
 		boxButton.add(Box.createHorizontalStrut(20));
-		boxButton.add(btnXoa =new JButton("Xoa"));
+		boxButton.add(btnXoa =new JButton("Xoá"));
 		boxButton.add(Box.createHorizontalStrut(20));
-		boxButton.add(btnSua =new JButton("Sua"));
+		boxButton.add(btnSua =new JButton("Sửa"));
 		boxButton.add(Box.createHorizontalStrut(20));
-		boxButton.add(btnXoaTrang =new JButton("Xoa Trang"));
+		boxButton.add(btnXoaTrang =new JButton("Xoá Trắng"));
 		pnlForm.add(boxButton);
 		pnlForm.add(Box.createVerticalStrut(20));
 		
@@ -261,7 +269,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 		 
 		 pnlSouthRight.add(Box.createVerticalStrut(30));
 		 Box boxtxtTim = Box.createHorizontalBox();
-		 boxtxtTim.add(lblTim=new JLabel("Tim"));
+		 boxtxtTim.add(lblTim=new JLabel("Tìm"));
 		 boxtxtTim.add(txtTim=new JTextField(20));
 		 pnlSouthRight.add(boxtxtTim);
 		 
@@ -271,19 +279,18 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 		 boxcmpTim.add(cmp = new JComboBox<String>(s));
 		 pnlSouthRight.add(boxcmpTim);
 		 
+		 
+		 
 		 pnlSouthRight.add(Box.createVerticalStrut(30));
 		 Box boxbtnTim = Box.createHorizontalBox();
-		 boxbtnTim.add(btnTim = new JButton("Tim"));
+		 boxbtnTim.add(btnTim = new JButton("Tìm"));
 		 btnTim.add(Box.createHorizontalStrut(50));
 		 btnTim.add(Box.createVerticalStrut(50));
 		 btnTim.setBackground(Color.green);
 		 pnlSouthRight.setBackground(Color.CYAN);
 		 pnlSouthRight.add(boxbtnTim);
 		 
-		lblMaNhaTro.setPreferredSize(lblSDT.getPreferredSize());
-		lblChuNha.setPreferredSize(lblSDT.getPreferredSize());
-		lblDiaChi.setPreferredSize(lblSDT.getPreferredSize());
-		lblTim.setPreferredSize(lblSDT.getPreferredSize());
+		
 	
 		btnHuongDanSD.addActionListener(this);
 		btnNhanVien.addActionListener(this);
@@ -326,7 +333,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
     	  JOptionPane.showMessageDialog(null, "Loi hinh anh");
       }
   }
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
 		
@@ -376,13 +382,8 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
-			txtChuNha.setText("");
-			txtDiaChi.setText("");
-			txtMaNhatro.setText("");
-			txtSDT.setText("");
-			txtTim.setText("");
-			txtUser.setText("");
-			txtTim.setText("");
+			
 		}
+	
 	}
 }
