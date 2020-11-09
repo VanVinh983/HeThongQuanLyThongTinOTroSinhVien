@@ -4,119 +4,123 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Label;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
 public class GD_DangNhap extends JPanel implements ActionListener{
 
 
-	private JLabel lblmaNV;
-	private JLabel lbltitle;
-	private JTextField txtmaNV;
-	private JLabel lblmatkhau;
-	private JTextField txtmatkhau;
-	private JButton btnDangNhap;
-	private JButton btnXemMatKhau;
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private JLabel lbltitle;
+
+	private JLabel lblImgUser;
+	private JButton btnDN;
+	private JButton btnXemMK;
+	private JTextField txtMaDN;
+	private JTextField txtMK;
 	public GD_DangNhap() {
-		this.setLayout(new BorderLayout());
-		this.setPreferredSize(new Dimension(800,600));
-		JPanel pnltop = new JPanel();
-		pnltop.setBackground(new Color(0, 102, 255));
+		this.setPreferredSize(new Dimension(1200, 600));
+		
+		ImageIcon img_background = new ImageIcon(new ImageIcon("HinhAnh/background.jpg").getImage().getScaledInstance(1200, 600, Image.SCALE_SMOOTH));
+		JLabel lblbackground = new JLabel(img_background);
+		lblbackground.setPreferredSize(new Dimension(1200, 600));
+	    lblbackground.setLayout(new BorderLayout());
+
+		JPanel pnlDangNhap = new JPanel();
+		JPanel pnlLeft = new JPanel();
+		JPanel pnlRight = new JPanel();
+		JPanel pnlTieuDe = new JPanel();
+		JPanel pnlMaDN = new JPanel();
+		JPanel pnlMK = new JPanel();
+		JPanel pnlDN = new JPanel();
+		
+		pnlLeft.setPreferredSize(new Dimension(400, 400));
+		pnlLeft.setLayout(new BoxLayout(pnlLeft, BoxLayout.Y_AXIS));
+		pnlLeft.setBackground(Color.white);
+		pnlRight.setBackground(Color.white);
+		pnlTieuDe.setBackground(Color.white);
+		pnlMaDN.setBackground(Color.white);
+		pnlMK.setBackground(Color.white);
+		pnlDN.setBackground(Color.white);
+		
+		ImageIcon img_user = new ImageIcon(new ImageIcon("HinhAnh/person_login.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
+		ImageIcon img_eye = new ImageIcon(new ImageIcon("HinhAnh/eye.png").getImage().getScaledInstance(17, 17, Image.SCALE_DEFAULT));
 		
 		
-		pnltop.add(Box.createVerticalStrut(100));
-		JPanel pnlbottom = new JPanel();
-		pnlbottom.add(Box.createVerticalStrut(100));
-		pnlbottom.setBackground(new Color(0, 102, 255));
-		
-		JPanel pnlleft = new JPanel();
-		pnlleft.add(Box.createHorizontalStrut(10));
-		pnlleft.setBackground(new Color(0, 102, 255));
-		
-		JPanel pnlright = new JPanel();
-		pnlright.setBackground(new Color(0, 102, 255));
-		pnlright.add(Box.createHorizontalStrut(10));
-		
-		JPanel pnlcenter = new JPanel();
-		pnlcenter.setLayout(new BoxLayout(pnlcenter, BoxLayout.Y_AXIS));
-		JPanel pnltitle = new JPanel();
-		pnltitle.setBackground(Color.WHITE);
 		lbltitle = new JLabel("ĐĂNG NHẬP");
-		lbltitle.setFont(new Font("arial", 1, 40));
-		lbltitle.setForeground(new Color(0, 102, 255));
-		pnltitle.add(lbltitle);
-		JPanel pnlmaNV = new JPanel();
-		pnlmaNV.setBackground(Color.WHITE);
-		lblmaNV = new JLabel("Mã Nhân Viên: ");
-		lblmaNV.setFont(new Font("arial", 1, 25));
-		lblmaNV.setForeground(new Color(0, 102, 255));
-		pnlmaNV.add(lblmaNV);
-		txtmaNV = new JTextField(20);
-		txtmaNV.setPreferredSize(new Dimension(20, 50));
-		txtmaNV.setFont(new Font("arial", 1	, 25));
-		pnlmaNV.add(txtmaNV);
-		pnlmaNV.add(Box.createHorizontalStrut(70));
+		lblImgUser = new JLabel(img_user);
 		
-		JPanel pnlmatKhau = new JPanel();
-		pnlmatKhau.setBackground(Color.WHITE);
-		lblmatkhau = new JLabel("Mật Khẩu: ");
-		lblmatkhau.setFont(new Font("arial", 1, 25));
-		lblmatkhau.setForeground(new Color(0, 102, 255));
-		lblmatkhau.setPreferredSize(lblmaNV.getPreferredSize());
-		pnlmatKhau.add(lblmatkhau);
-		txtmatkhau = new JTextField(20);
-		txtmatkhau.setPreferredSize(new Dimension(20, 50));
-		txtmatkhau.setFont(new Font("arial", 1, 25));
-		pnlmatKhau.add(txtmatkhau);
-		
-		btnXemMatKhau = new JButton("xem");
-		btnXemMatKhau.setPreferredSize(new Dimension(70, 50));
-		pnlmatKhau.add(btnXemMatKhau);
+		txtMaDN = new JTextField("Mã Nhân Viên",20);
+		txtMK = new JTextField("Mật Khẩu",17);
 		
 		
-		JPanel pnlDangNhap= new JPanel();
+		txtMaDN.setPreferredSize(new Dimension(200, 50));
+		txtMK.setPreferredSize(new Dimension(150, 50));
+		
+		txtMaDN.setBackground(new Color(242, 242, 242));
+		txtMK.setBackground(new Color(242, 242, 242));
+		
+		txtMaDN.setForeground(new Color(153, 153, 153));
+		txtMK.setForeground(new Color(153,153,153));
+		
+		btnDN = new JButton("Đăng Nhập");
+		btnXemMK = new JButton(img_eye);
+		
+		btnDN.setPreferredSize(new Dimension(320,50));
+		btnDN.setBackground(new Color(254, 0, 54));
+		btnDN.setForeground(Color.white);
+		
+		lblImgUser.setPreferredSize(new Dimension(300, 300));
+		lbltitle.setFont(new Font("arial",Font.BOLD, 30));
+		txtMaDN.setFont(new Font("arial",Font.ITALIC,20));
+		txtMK.setFont(new Font("arial",Font.ITALIC,20));
+		btnDN.setFont(new Font("arial",1,20));
+		
+
+		pnlDangNhap.setPreferredSize(new Dimension(800, 400));
 		pnlDangNhap.setBackground(Color.WHITE);
-		btnDangNhap = new JButton("Đăng Nhập");
-		btnDangNhap.setPreferredSize(new Dimension(350, 50));
-		btnDangNhap.setFont(new Font("arial", 1, 25));
-		btnDangNhap.setBackground(new Color(255, 102, 0));
+		pnlDangNhap.setLayout(new BoxLayout(pnlDangNhap, BoxLayout.X_AXIS));
 		
-		pnlDangNhap.add(btnDangNhap);
+		pnlLeft.add(lblImgUser);
 		
-		pnlcenter.add(pnltitle);
-		pnlcenter.add(Box.createVerticalStrut(20));
-		pnlcenter.add(pnlmaNV);
-		pnlcenter.add(Box.createVerticalStrut(20));
-		pnlcenter.add(pnlmatKhau);
-		pnlcenter.add(Box.createVerticalStrut(20));
-		pnlcenter.add(pnlDangNhap);
-		Border border = BorderFactory.createLineBorder(new Color(0, 102, 255));
-		pnlcenter.setBorder(border);
+		pnlTieuDe.add(lbltitle);
+		pnlMaDN.add(txtMaDN);
+		pnlMK.add(txtMK);
+		pnlMK.add(btnXemMK);
+		pnlDN.add(btnDN);
 		
+		pnlRight.setLayout(new BoxLayout(pnlRight, BoxLayout.Y_AXIS));
+		pnlRight.add(pnlTieuDe);
+		pnlRight.add(pnlMaDN);
+		pnlRight.add(pnlMaDN);
+		pnlRight.add(pnlMK);
+		pnlRight.add(pnlDN);
 		
+		pnlDangNhap.add(pnlLeft);
+		pnlDangNhap.add(pnlRight);
 		
-		this.add(pnlleft,BorderLayout.WEST);
-		this.add(pnlright,BorderLayout.EAST);
-		this.add(pnlbottom,BorderLayout.SOUTH);
-		this.add(pnltop,BorderLayout.NORTH);
-		pnlcenter.setBackground(Color.WHITE);
-		this.add(pnlcenter,BorderLayout.CENTER);
+		lblbackground.add(Box.createVerticalStrut(100),BorderLayout.NORTH);
+		lblbackground.add(Box.createVerticalStrut(100),BorderLayout.SOUTH);
+		lblbackground.add(Box.createHorizontalStrut(200),BorderLayout.WEST);
+		lblbackground.add(Box.createHorizontalStrut(200),BorderLayout.EAST);
+		lblbackground.add(pnlDangNhap);
 		
-		txtmaNV.addActionListener(this);
-		txtmatkhau.addActionListener(this);
-		btnDangNhap.addActionListener(this);
+		this.add(lblbackground);
+		
 	}
 
 	@Override
