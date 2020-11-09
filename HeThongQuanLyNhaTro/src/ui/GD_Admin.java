@@ -42,11 +42,11 @@ public class GD_Admin extends JPanel{
 		ImageIcon imgSinhVien =  new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		
 		lblTieuDe = new JLabel("Quản Lý");
-		lblNhanVien = new JLabel("Nhân Viên");
+		lblNhanVien = new JLabel("        Nhân Viên");
 		lblSinhVien = new JLabel("        Sinh Viên");
-		lblThongKe = new JLabel("Thống Kê");
-		lblBangThongTin = new JLabel("Bảng Thông Tin");
-		lblTro = new JLabel("Bảng Thông Tin");
+		lblThongKe = new JLabel("         Thống Kê");
+		lblBangThongTin = new JLabel("    Bảng Thông Tin");
+		lblTro = new JLabel("              Trọ");
 		
 		lblNhanVien.setFont(new Font("arial", 1, 20));
 		lblSinhVien.setFont(new Font("arial", 1, 20));
