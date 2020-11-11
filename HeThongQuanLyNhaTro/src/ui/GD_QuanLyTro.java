@@ -214,25 +214,25 @@ public class GD_QuanLyTro extends JPanel implements ActionListener{
 		
 		pnlForm.add(Box.createVerticalStrut(30));
 		Box boxMaTro = Box.createHorizontalBox();
-		boxMaTro.add(lblMaNhaTro=new JLabel("Mã Tro:"));
+		boxMaTro.add(lblMaNhaTro=new JLabel("Mã Trọ:"));
 		boxMaTro.add(txtMaNhatro=new JTextField());
 		pnlForm.add(boxMaTro);
 		
 		pnlForm.add(Box.createVerticalStrut(10));
 		Box boxDiaChi = Box.createHorizontalBox();
-		boxDiaChi.add(lblDiaChi=new JLabel("Địa chỉ: "));
+		boxDiaChi.add(lblDiaChi=new JLabel("Địa Chỉ: "));
 		boxDiaChi.add(txtDiaChi=new JTextField());
 		pnlForm.add(boxDiaChi);
 		
 		pnlForm.add(Box.createVerticalStrut(10));
 		Box boxChuNha = Box.createHorizontalBox();
-		boxChuNha.add(lblChuNha=new JLabel("Tên chu tro"));
+		boxChuNha.add(lblChuNha=new JLabel("Tên Chủ Trọ"));
 		boxChuNha.add(txtChuNha=new JTextField());
 		pnlForm.add(boxChuNha);
 		
 		pnlForm.add(Box.createVerticalStrut(10));
 		Box boxSDT = Box.createHorizontalBox();
-		boxSDT.add(lblSDT=new JLabel("Số điện thoại"));
+		boxSDT.add(lblSDT=new JLabel("Số Điện Thoại"));
 		boxSDT.add(txtSDT=new JTextField());
 		pnlForm.add(boxSDT);
 		
