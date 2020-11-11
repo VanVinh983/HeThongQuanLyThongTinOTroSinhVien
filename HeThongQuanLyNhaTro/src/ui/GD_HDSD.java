@@ -41,18 +41,5 @@ public class GD_HDSD  extends JFrame{
 				+ " là Phó Tổng thống thứ 47 của Hoa Kỳ từ năm 2009 đến năm 2017. Ô"
 				+ "ng cũng từng là Thượng nghị sĩ Hoa Kỳ đại diện tiểu bang Dela"
 				+ "ware từ năm 1973 đến năm 2009."));
-		
-		
-		
-		
-		
-		setSize(1000, 6000);
-		setVisible(true);
-		
-	
-	
-		
-		setLocationRelativeTo(null);
-		
 }
 }
