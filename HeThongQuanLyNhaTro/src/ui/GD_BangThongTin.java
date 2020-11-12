@@ -63,6 +63,8 @@ public class GD_BangThongTin extends JPanel{
 		ImageIcon imgTK = new ImageIcon(new ImageIcon("HinhAnh/thongke.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		ImageIcon imgBTT = new ImageIcon(new ImageIcon("HinhAnh/ghichu1.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		ImageIcon imgTro = new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		ImageIcon imgexit = new ImageIcon(new ImageIcon("HinhAnh/exit.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		
 		JPanel pnlTrai = new JPanel();
 		pnlTrai.setBackground(Color.CYAN);
@@ -192,7 +194,7 @@ public class GD_BangThongTin extends JPanel{
 			}
 		});
 		btnHDSD.setFont(new Font("Arial", Font.BOLD, 16));
-		btnHDSD.setIcon(imgTK);
+		btnHDSD.setIcon(imgHDSD);
 		pnlHDSD.add(btnHDSD);
 		
 		JPanel pnlThoat = new JPanel();
@@ -208,7 +210,7 @@ public class GD_BangThongTin extends JPanel{
 			}
 		});
 		btnThoat.setFont(new Font("Arial", Font.BOLD, 16));
-		btnThoat.setIcon(imgTK);
+		btnThoat.setIcon(imgexit);
 		pnlThoat.add(btnThoat);
 		
 		JPanel pnlRight = new JPanel();
@@ -221,7 +223,7 @@ public class GD_BangThongTin extends JPanel{
 		pnlTieuDe.setBackground(Color.CYAN);
 		pnlRight.add(pnlTieuDe, BorderLayout.NORTH);
 		
-		JLabel lblTieuDe = new JLabel("Bảng Thông Tin\r\n");
+		JLabel lblTieuDe = new JLabel("Thuê Trọ\r\n");
 		lblTieuDe.setBackground(Color.CYAN);
 		lblTieuDe.setForeground(Color.BLUE);
 		lblTieuDe.setFont(new Font("Arial", Font.BOLD, 30));

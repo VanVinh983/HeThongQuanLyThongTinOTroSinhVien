@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.sql.SQLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,6 +22,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import connectDB.ConnectDB;
+import dao.NhanVien_Dao;
+import entity.NhanVien;
+
 public class GD_DangNhap extends JPanel implements ActionListener {
 
 	private JLabel lbltitle;
@@ -31,7 +36,18 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 	private JTextField txtMaDN;
 	private JPasswordField txtMK;
 
+	private NhanVien_Dao nv_Dao;
+
 	public GD_DangNhap() {
+		
+		nv_Dao = new NhanVien_Dao();
+		// Mở kết nối SQL
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		this.setPreferredSize(new Dimension(1200, 600));
 
 		ImageIcon img_background = new ImageIcon(
@@ -188,5 +204,39 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 			}
 
 		}
+		if(o.equals(btnDN)) {
+			if(vaidData()==true) {
+				if(nv_Dao.dangNhap(txtMaDN.getText(), txtMK.getText()) != null) {
+					NhanVien nv = nv_Dao.dangNhap(txtMaDN.getText(), txtMK.getText());
+					if(nv.getLoaiNV().equals("GVK")) {
+						removeAll();
+						add(new GD_TrangChuNhanVienGVK());
+						repaint();
+						revalidate();
+					}
+					else if (nv.getLoaiNV().equals("QL")) {
+						removeAll();
+						add(new GD_Admin());
+						repaint();
+						revalidate();
+					}
+				}
+			}
+		}
+	}
+	
+	public boolean vaidData() {
+		String MaNV = txtMaDN.getText().trim();
+		String matkhau = txtMK.getText().trim();
+		
+		if(MaNV.length()<=0) {
+			JOptionPane.showMessageDialog(this, "mời nhập vào mã nhân viên");
+			return false;
+		}
+		else if (matkhau.length() <=0) {
+			JOptionPane.showMessageDialog(this, "mời nhập đầy đủ mật khẩu và mã nhân viên");
+			return false;
+		}
+		return true;
 	}
 }
