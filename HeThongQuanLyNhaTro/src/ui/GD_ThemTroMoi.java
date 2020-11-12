@@ -34,7 +34,7 @@ public class GD_ThemTroMoi extends JPanel{
 	public GD_ThemTroMoi() {
 		setAutoscrolls(true);
 		setBorder(null);
-		this.setPreferredSize(new Dimension(1400, 350));
+		this.setPreferredSize(new Dimension(1400, 280));
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlRight = new JPanel();
@@ -199,16 +199,7 @@ public class GD_ThemTroMoi extends JPanel{
 		Component horizontalStrut_11 = Box.createHorizontalStrut(20);
 		pnlGia_NgayCapNhat.add(horizontalStrut_11);
 		
-		JLabel lblGia = new JLabel("Giá Thuê: ");
-		lblGia.setFont(new Font("Arial", Font.PLAIN, 15));
-		pnlGia_NgayCapNhat.add(lblGia);
-		
-		txtGiaThue = new JTextField();
-		txtGiaThue.setFont(new Font("Arial", Font.PLAIN, 15));
-		pnlGia_NgayCapNhat.add(txtGiaThue);
-		txtGiaThue.setColumns(10);
-		
 		lblTPMaNhaTro.setPreferredSize(lblSDT.getPreferredSize());
-		lblGia.setPreferredSize(lblSDT.getPreferredSize());
+
 	}
 }
