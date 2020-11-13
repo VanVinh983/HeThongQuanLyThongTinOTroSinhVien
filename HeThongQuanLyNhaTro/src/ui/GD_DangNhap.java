@@ -36,15 +36,18 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 	private JTextField txtMaDN;
 	private JPasswordField txtMK;
 
-	private NhanVien_Dao nv_Dao;
+	private NhanVien_Dao nv_dao;
+
+	
 
 	public GD_DangNhap() {
 		
-		nv_Dao = new NhanVien_Dao();
-		// Mở kết nối SQL
+		nv_dao = new NhanVien_Dao();
+		//mở kết nối sql
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
+			// TODO: handle exception
 			e.printStackTrace();
 		}
 		
@@ -206,14 +209,14 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 		}
 		if(o.equals(btnDN)) {
 			if(vaidData()==true) {
-				if(nv_Dao.dangNhap(txtMaDN.getText(), txtMK.getText()) != null) {
-					NhanVien nv = nv_Dao.dangNhap(txtMaDN.getText(), txtMK.getText());
-					if(nv.getLoaiNV().equals("GVK")) {
+				NhanVien nv = nv_dao.dangNhap(txtMaDN.getText().trim(), txtMK.getText().trim());
+				if(nv!=null) {
+					if(nv.getLoaiNV().equals("NV")) {
 						removeAll();
 						add(new GD_TrangChuNhanVienGVK());
 						repaint();
 						revalidate();
-					}
+						JOptionPane.showMessageDialog(this,"là giáo vụ khoa");					}
 					else if (nv.getLoaiNV().equals("QL")) {
 						removeAll();
 						add(new GD_Admin());
@@ -221,19 +224,23 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 						revalidate();
 					}
 				}
+				else {
+					JOptionPane.showMessageDialog(this, "sai mật khẩu hoặc sai mã nhân viên! mời nhập lại");
+				}
 			}
 		}
+		
 	}
 	
 	public boolean vaidData() {
 		String MaNV = txtMaDN.getText().trim();
 		String matkhau = txtMK.getText().trim();
 		
-		if(MaNV.length()<=0) {
+		if(MaNV.length()<=0||MaNV.equals("Mã Nhân Viên")) {
 			JOptionPane.showMessageDialog(this, "mời nhập vào mã nhân viên");
 			return false;
 		}
-		else if (matkhau.length() <=0) {
+		else if (matkhau.length() <=0||matkhau.equals("Mật Khẩu")) {
 			JOptionPane.showMessageDialog(this, "mời nhập đầy đủ mật khẩu và mã nhân viên");
 			return false;
 		}
