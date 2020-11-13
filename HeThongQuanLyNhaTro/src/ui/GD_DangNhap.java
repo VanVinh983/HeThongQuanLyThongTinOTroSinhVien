@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 
 import connectDB.ConnectDB;
 import dao.NhanVien_Dao;
+import dao.TamLuuMaNhanVien_Dao;
 import entity.NhanVien;
 
 public class GD_DangNhap extends JPanel implements ActionListener {
@@ -38,11 +39,14 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 
 	private NhanVien_Dao nv_dao;
 
+	private TamLuuMaNhanVien_Dao tamLuuMaNhanVien_dao;
+
 	
 
 	public GD_DangNhap() {
 		
 		nv_dao = new NhanVien_Dao();
+		tamLuuMaNhanVien_dao = new TamLuuMaNhanVien_Dao();
 		//mở kết nối sql
 		try {
 			ConnectDB.getInstance().connect();
@@ -51,12 +55,13 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 			e.printStackTrace();
 		}
 		
-		this.setPreferredSize(new Dimension(1200, 600));
+		tamLuuMaNhanVien_dao.xoaMaNhanVienVaoVungNhoTam();
+		this.setPreferredSize(new Dimension(1400, 600));
 
 		ImageIcon img_background = new ImageIcon(
-				new ImageIcon("HinhAnh/background.jpg").getImage().getScaledInstance(1200, 600, Image.SCALE_SMOOTH));
+				new ImageIcon("HinhAnh/background.jpg").getImage().getScaledInstance(1400, 600, Image.SCALE_SMOOTH));
 		JLabel lblbackground = new JLabel(img_background);
-		lblbackground.setPreferredSize(new Dimension(1200, 600));
+		lblbackground.setPreferredSize(new Dimension(1400, 600));
 		lblbackground.setLayout(new BorderLayout());
 
 		JPanel pnlDangNhap = new JPanel();
@@ -99,6 +104,7 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 
 		btnDN = new JButton("Đăng Nhập");
 		btnXemMK = new JCheckBox("Hiển thị mật khẩu!");
+		btnXemMK.setFont(new Font("Arial", Font.BOLD, 20));
 		btnXemMK.setBackground(Color.white);
 
 		btnDN.setPreferredSize(new Dimension(320, 50));
@@ -193,7 +199,6 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if (o.equals(btnXemMK)) {
 			if (txtMK.getText().equals("Mật Khẩu")) {
@@ -211,12 +216,13 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 			if(vaidData()==true) {
 				NhanVien nv = nv_dao.dangNhap(txtMaDN.getText().trim(), txtMK.getText().trim());
 				if(nv!=null) {
+					tamLuuMaNhanVien_dao.themMaNhanVienVaoVungNhoTam(txtMaDN.getText().trim());
 					if(nv.getLoaiNV().equals("NV")) {
 						removeAll();
 						add(new GD_TrangChuNhanVienGVK());
 						repaint();
 						revalidate();
-						JOptionPane.showMessageDialog(this,"là giáo vụ khoa");					}
+					}
 					else if (nv.getLoaiNV().equals("QL")) {
 						removeAll();
 						add(new GD_Admin());
@@ -245,5 +251,8 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 			return false;
 		}
 		return true;
+	}
+	public String getMaNhanVien() {
+		return txtMaDN.getText().trim();
 	}
 }

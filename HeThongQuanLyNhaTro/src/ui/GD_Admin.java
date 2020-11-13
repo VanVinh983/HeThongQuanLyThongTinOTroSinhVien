@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -16,7 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-public class GD_Admin extends JPanel{
+import connectDB.ConnectDB;
+import dao.TamLuuMaNhanVien_Dao;
+
+public class GD_Admin extends JPanel implements ActionListener{
 
 	private JLabel lblTieuDe;
 	private JButton btnSinhVien;
@@ -30,10 +36,19 @@ public class GD_Admin extends JPanel{
 	private JLabel lblThongKe;
 	private JLabel lblTro;
 	private JLabel lblBangThongTin;
+	private TamLuuMaNhanVien_Dao TamLuuMaNhanVien_Dao;
 
 	public GD_Admin() {
-		this.setPreferredSize(new Dimension(1200, 600));
+		this.setPreferredSize(new Dimension(1400, 600));
 		this.setLayout(new BorderLayout());
+		
+		TamLuuMaNhanVien_Dao = new TamLuuMaNhanVien_Dao();
+		try {
+			ConnectDB.getInstance().connect();;
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		
 		ImageIcon imgNhanVien = new ImageIcon(new ImageIcon("HinhAnh/nhanvien.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		ImageIcon imgGhiChu =  new ImageIcon(new ImageIcon("HinhAnh/ghichu1.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
@@ -41,7 +56,7 @@ public class GD_Admin extends JPanel{
 		ImageIcon imgNhaTro =  new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		ImageIcon imgSinhVien =  new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		
-		lblTieuDe = new JLabel("Quản Lý");
+		lblTieuDe = new JLabel("Trang Chủ Quản Lý");
 		lblNhanVien = new JLabel("        Nhân Viên");
 		lblSinhVien = new JLabel("        Sinh Viên");
 		lblThongKe = new JLabel("         Thống Kê");
@@ -121,6 +136,44 @@ public class GD_Admin extends JPanel{
 		this.add(pnlTitle,BorderLayout.NORTH);
 		this.add(pnlCenter,BorderLayout.CENTER);
 		this.add(pnlBottom,BorderLayout.SOUTH);
+		
+		btnDangXuat.addActionListener(this);
+		btnBangThongTin.addActionListener(this);
+		btnNhanVien.addActionListener(this);
+		btnSinhVien.addActionListener(this);
+		btnThongKe.addActionListener(this);
+		btnTro.addActionListener(this);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnDangXuat)){
+			TamLuuMaNhanVien_Dao.xoaMaNhanVienVaoVungNhoTam();
+			removeAll();
+			add(new GD_DangNhap());
+			repaint();
+			revalidate();
+		}
+		else if (o.equals(btnBangThongTin)) {
+			removeAll();
+			add(new GD_BangThongTin());
+			repaint();
+			revalidate();
+		}
+		else if (o.equals(btnNhanVien)) {
+			removeAll();
+			add(new GD_QLNhanVien());
+			repaint();
+			revalidate();
+		}
+		else if (o.equals(btnTro)) {
+			removeAll();
+			add(new GD_QuanLyTro());
+			repaint();
+			revalidate();
+		}
 	}
 	
 	

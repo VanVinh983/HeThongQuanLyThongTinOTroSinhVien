@@ -74,3 +74,8 @@ create table ThongTinThueTro
 	constraint pk_maNhaTro_maSinhVien primary key (maNhaTro,maSinhVien)
 )
 
+create table TamLuuMaNhanVien
+(
+	maNhanVien varchar(8),
+)
+

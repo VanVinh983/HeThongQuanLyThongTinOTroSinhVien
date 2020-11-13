@@ -1,17 +1,13 @@
 package ui;
 
 import java.awt.Dimension;
-import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.Rectangle;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,12 +24,8 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-
 public class GD_BangThongTin extends JPanel{
 
-	private DefaultTableModel tableModel;
-	private JTable table;
 	private DefaultTableModel tableModelBTT;
 	private JTable tableBTT;
 	private JTextField txtTPMaSinhVien;
@@ -44,6 +36,7 @@ public class GD_BangThongTin extends JPanel{
 	private JTextField txtNgayCapNhat;
 	private JTextField txtNgayBatDau;
 	private JTextField txtNgayKetThuc;
+	private JTextField txtTuKhoa;
 
 	/**
 	 * Launch the application.
@@ -485,7 +478,7 @@ public class GD_BangThongTin extends JPanel{
 		lblNgayBatDau.setPreferredSize(lblNgayKetThuc.getPreferredSize());
 		
 		JPanel pnlTimKiem = new JPanel();
-		pnlTimKiem.setPreferredSize(new Dimension(300, 10));
+		pnlTimKiem.setPreferredSize(new Dimension(400, 10));
 		pnlNhapThongTin.add(pnlTimKiem, BorderLayout.EAST);
 		pnlTimKiem.setLayout(new BorderLayout(0, 0));
 		
@@ -494,29 +487,84 @@ public class GD_BangThongTin extends JPanel{
 		pnlTieuDeTimKiem.setBackground(Color.CYAN);
 		pnlTimKiem.add(pnlTieuDeTimKiem, BorderLayout.NORTH);
 		
-		JLabel lblTieuDeTimKiem = new JLabel("Tìm Kiếm\r\n");
+		JLabel lblTieuDeTimKiem = new JLabel("Tác Vụ\r\n");
 		lblTieuDeTimKiem.setFont(new Font("Arial", Font.BOLD, 25));
 		pnlTieuDeTimKiem.add(lblTieuDeTimKiem);
 		
+		JPanel pnlTacVuVaTimKiem = new JPanel();
+		pnlTimKiem.add(pnlTacVuVaTimKiem, BorderLayout.CENTER);
+		pnlTacVuVaTimKiem.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTacVuBenTrai = new JPanel();
+		pnlTacVuBenTrai.setPreferredSize(new Dimension(210, 10));
+		pnlTacVuVaTimKiem.add(pnlTacVuBenTrai, BorderLayout.WEST);
+		pnlTacVuBenTrai.setLayout(new GridLayout(2,2));
+		
+		JButton btnThem = new JButton("Thêm \r\n");
+		btnThem.setFont(new Font("Arial", Font.BOLD, 15));
+		pnlTacVuBenTrai.add(btnThem);
+		
+		JButton btnXoa = new JButton("Xóa\r\n");
+		btnXoa.setFont(new Font("Arial", Font.BOLD, 15));
+		pnlTacVuBenTrai.add(btnXoa);
+		
+		JButton btnSua = new JButton("Sửa\r\n");
+		btnSua.setFont(new Font("Arial", Font.BOLD, 15));
+		pnlTacVuBenTrai.add(btnSua);
+		
+		JButton btnXoaTrang = new JButton("Xóa Trắng\r\n");
+		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 15));
+		pnlTacVuBenTrai.add(btnXoaTrang);
+		
+		JPanel pnlTacVuBenPhai = new JPanel();
+		pnlTacVuBenPhai.setPreferredSize(new Dimension(190, 10));
+		pnlTacVuVaTimKiem.add(pnlTacVuBenPhai, BorderLayout.EAST);
+		pnlTacVuBenPhai.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTieuDeTacVuBenPhai = new JPanel();
+		pnlTieuDeTacVuBenPhai.setBackground(Color.LIGHT_GRAY);
+		pnlTacVuBenPhai.add(pnlTieuDeTacVuBenPhai, BorderLayout.NORTH);
+		
+		JLabel lblTacVuTimKiem = new JLabel("Tìm Kiếm\r\n");
+		lblTacVuTimKiem.setForeground(Color.BLACK);
+		lblTacVuTimKiem.setFont(new Font("Arial", Font.BOLD, 15));
+		pnlTieuDeTacVuBenPhai.add(lblTacVuTimKiem);
+		
 		JPanel pnlTacVuTimKiem = new JPanel();
-		pnlTimKiem.add(pnlTacVuTimKiem, BorderLayout.CENTER);
-		pnlTacVuTimKiem.setLayout(new GridLayout(2,2));
+		pnlTacVuBenPhai.add(pnlTacVuTimKiem, BorderLayout.CENTER);
+		pnlTacVuTimKiem.setLayout(new BoxLayout(pnlTacVuTimKiem, BoxLayout.Y_AXIS));
 		
-		JButton btnTimNhaTroTheoDiaChi = new JButton("Theo Địa Chỉ\r\n");
-		btnTimNhaTroTheoDiaChi.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuTimKiem.add(btnTimNhaTroTheoDiaChi);
+		Component verticalStrut = Box.createVerticalStrut(20);
+		pnlTacVuTimKiem.add(verticalStrut);
 		
-		JButton btnTheoMaTro = new JButton("Theo Mã Trọ\r\n");
-		btnTheoMaTro.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuTimKiem.add(btnTheoMaTro);
+		JComboBox comboBox = new JComboBox();
+		comboBox.setPreferredSize(new Dimension(30, 40));
+		pnlTacVuTimKiem.add(comboBox);
 		
-		JButton btnTheoSDT = new JButton("Theo SĐT\r\n");
-		btnTheoSDT.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuTimKiem.add(btnTheoSDT);
+		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		pnlTacVuTimKiem.add(verticalStrut_1);
 		
-		JButton btnThemDiaChiMoi = new JButton("Thêm Địa Chỉ");
-		btnThemDiaChiMoi.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuTimKiem.add(btnThemDiaChiMoi);
+		txtTuKhoa = new JTextField();
+		txtTuKhoa.setPreferredSize(new Dimension(7, 40));
+		txtTuKhoa.setForeground(Color.LIGHT_GRAY);
+		txtTuKhoa.setText("mời nhập vào đây");
+		txtTuKhoa.setFont(new Font("Arial", Font.PLAIN, 15));
+		pnlTacVuTimKiem.add(txtTuKhoa);
+		txtTuKhoa.setColumns(10);
+		
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		pnlTacVuTimKiem.add(verticalStrut_2);
+		
+		JPanel pnlNutTim = new JPanel();
+		pnlTacVuTimKiem.add(pnlNutTim);
+		
+		JButton btnTim = new JButton("Tìm Kiếm\r\n");
+		btnTim.setPreferredSize(new Dimension(190, 40));
+		btnTim.setFont(new Font("Arial", Font.BOLD, 15));
+		pnlNutTim.add(btnTim);
+		
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
+		pnlTacVuBenPhai.add(verticalStrut_3, BorderLayout.SOUTH);
 		
 		
 	}
