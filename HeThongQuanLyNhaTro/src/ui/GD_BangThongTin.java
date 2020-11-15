@@ -11,6 +11,10 @@ import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import connectDB.ConnectDB;
+import dao.NhanVien_Dao;
+import dao.TamLuuMaNhanVien_Dao;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
@@ -18,13 +22,19 @@ import java.awt.Font;
 import java.awt.Image;
 import javax.swing.BoxLayout;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.GridLayout;
-public class GD_BangThongTin extends JPanel{
+public class GD_BangThongTin extends JPanel implements ActionListener{
 
 	private DefaultTableModel tableModelBTT;
 	private JTable tableBTT;
@@ -37,6 +47,18 @@ public class GD_BangThongTin extends JPanel{
 	private JTextField txtNgayBatDau;
 	private JTextField txtNgayKetThuc;
 	private JTextField txtTuKhoa;
+	private JComboBox cboQuan;
+	private JComboBox cboPhuong;
+	private JComboBox cboDuong;
+	private JComboBox cboSoNha;
+	private JButton btnThem;
+	private JButton btnXoa;
+	private JButton btnSua;
+	private JButton btnXoaTrang;
+	private JComboBox cboLuaChon;
+	private JButton btnTim;
+	private NhanVien_Dao nv_Dao;
+	private TamLuuMaNhanVien_Dao tamluu_dao;
 
 	/**
 	 * Launch the application.
@@ -45,10 +67,22 @@ public class GD_BangThongTin extends JPanel{
 	 * Create the application.
 	 */
 	public GD_BangThongTin() {
+		
+		nv_Dao = new NhanVien_Dao(); 
+		tamluu_dao = new TamLuuMaNhanVien_Dao();
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
 		setAutoscrolls(true);
 		setBorder(null);
-		this.setPreferredSize(new Dimension(1400, 600));
+		this.setPreferredSize(new Dimension(1600, 600));
 		setLayout(new BorderLayout(0, 0));
+		String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+		String khoa = tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa();
 		
 		ImageIcon imgUser = new ImageIcon(new ImageIcon("HinhAnh/User.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 		ImageIcon imgSV = new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
@@ -78,6 +112,12 @@ public class GD_BangThongTin extends JPanel{
 		
 		JLabel lblChucVu = new JLabel("Quản Lý\r\n");
 		lblChucVu.setFont(new Font("Arial", Font.BOLD, 27));
+		
+		if(loaiNV.equals("NV")) {
+			lblChucVu.setText("    Giáo Vụ Khoa: "+ khoa);
+			lblChucVu.setFont(new Font("Arial", 1, 15));
+		}
+		
 		pnlChucVu.add(lblChucVu);
 		
 		JLabel lblAnhUser = new JLabel("");
@@ -102,6 +142,10 @@ public class GD_BangThongTin extends JPanel{
 		btnSinhVien.setPreferredSize(new Dimension(170, 45));
 		btnSinhVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				add(new GD_QuanLySinhVien());
+				repaint();
+				revalidate();
 			}
 		});
 		btnSinhVien.setFont(new Font("Arial", Font.BOLD, 16));
@@ -110,14 +154,21 @@ public class GD_BangThongTin extends JPanel{
 		
 		JPanel pnlNhanVien = new JPanel();
 		pnlNhanVien.setPreferredSize(new Dimension(200, 50));
-		pnlTacVu.add(pnlNhanVien);
 		
+		
+		if(loaiNV.equals("QL")) {
+			pnlTacVu.add(pnlNhanVien);
+		}
 		JButton btnNhanVien = new JButton("Nhân Viên\r\n");
 		btnNhanVien.setBorder(null);
 		btnNhanVien.setBackground(Color.CYAN);
 		btnNhanVien.setPreferredSize(new Dimension(170, 45));
 		btnNhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				add(new GD_QLNhanVien());
+				repaint();
+				revalidate();
 			}
 		});
 		btnNhanVien.setFont(new Font("Arial", Font.BOLD, 16));
@@ -150,6 +201,10 @@ public class GD_BangThongTin extends JPanel{
 		btnBTT.setPreferredSize(new Dimension(170, 45));
 		btnBTT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				add(new GD_BangThongTin());
+				repaint();
+				revalidate();
 			}
 		});
 		btnBTT.setPreferredSize(btnNhanVien.getPreferredSize());
@@ -168,6 +223,10 @@ public class GD_BangThongTin extends JPanel{
 		btnTro.setPreferredSize(new Dimension(170, 45));
 		btnTro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				add(new GD_QuanLyTro());
+				repaint();
+				revalidate();
 			}
 		});
 		btnTro.setFont(new Font("Arial", Font.BOLD, 16));
@@ -184,6 +243,10 @@ public class GD_BangThongTin extends JPanel{
 		btnHDSD.setPreferredSize(new Dimension(170, 45));
 		btnHDSD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				add(new GD_HDSD());
+				repaint();
+				revalidate();
 			}
 		});
 		btnHDSD.setFont(new Font("Arial", Font.BOLD, 16));
@@ -200,6 +263,19 @@ public class GD_BangThongTin extends JPanel{
 		btnThoat.setPreferredSize(new Dimension(170, 45));
 		btnThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+				if(loaiNV.equals("QL")) {
+					removeAll();
+					add(new GD_Admin());
+					repaint();
+					revalidate();
+				}
+				else if (loaiNV.equals("NV")) {
+					removeAll();
+					add(new GD_TrangChuNhanVienGVK());
+					repaint();
+					revalidate();
+				}
 			}
 		});
 		btnThoat.setFont(new Font("Arial", Font.BOLD, 16));
@@ -253,12 +329,13 @@ public class GD_BangThongTin extends JPanel{
 		pnlNhapThongTin.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlNhapThongTinCoBan = new JPanel();
+		pnlNhapThongTinCoBan.setPreferredSize(new Dimension(700, 10));
 		pnlNhapThongTin.add(pnlNhapThongTinCoBan, BorderLayout.CENTER);
 		pnlNhapThongTinCoBan.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlKhoangTrongTrai = new JPanel();
 		pnlKhoangTrongTrai.setBackground(Color.GRAY);
-		pnlKhoangTrongTrai.setPreferredSize(new Dimension(50, 10));
+		pnlKhoangTrongTrai.setPreferredSize(new Dimension(30, 10));
 		pnlNhapThongTinCoBan.add(pnlKhoangTrongTrai, BorderLayout.WEST);
 		
 		JPanel pnlTieuDeNhapThongTin = new JPanel();
@@ -359,7 +436,7 @@ public class GD_BangThongTin extends JPanel{
 		lblQuan.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(lblQuan);
 		
-		JComboBox cboQuan = new JComboBox();
+		cboQuan = new JComboBox();
 		cboQuan.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(cboQuan);
 		
@@ -370,7 +447,7 @@ public class GD_BangThongTin extends JPanel{
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(lblNewLabel);
 		
-		JComboBox cboPhuong = new JComboBox();
+		cboPhuong = new JComboBox();
 		cboPhuong.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(cboPhuong);
 		
@@ -381,7 +458,7 @@ public class GD_BangThongTin extends JPanel{
 		lblDuong.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(lblDuong);
 		
-		JComboBox cboDuong = new JComboBox();
+		cboDuong = new JComboBox();
 		cboDuong.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(cboDuong);
 		
@@ -392,7 +469,7 @@ public class GD_BangThongTin extends JPanel{
 		lblSoNha.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(lblSoNha);
 		
-		JComboBox cboSoNha = new JComboBox();
+		cboSoNha = new JComboBox();
 		cboSoNha.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(cboSoNha);
 		
@@ -426,6 +503,7 @@ public class GD_BangThongTin extends JPanel{
 		
 		Component horizontalGlue = Box.createHorizontalGlue();
 		pnlGia_NgayCapNhat.add(horizontalGlue);
+		
 		
 		txtNgayCapNhat = new JTextField();
 		txtNgayCapNhat.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -496,29 +574,63 @@ public class GD_BangThongTin extends JPanel{
 		pnlTacVuVaTimKiem.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlTacVuBenTrai = new JPanel();
-		pnlTacVuBenTrai.setPreferredSize(new Dimension(210, 10));
+		pnlTacVuBenTrai.setBorder(new LineBorder(Color.CYAN));
 		pnlTacVuVaTimKiem.add(pnlTacVuBenTrai, BorderLayout.WEST);
-		pnlTacVuBenTrai.setLayout(new GridLayout(2,2));
+		pnlTacVuBenTrai.setLayout(new BoxLayout(pnlTacVuBenTrai, BoxLayout.Y_AXIS));
 		
-		JButton btnThem = new JButton("Thêm \r\n");
+		JPanel pnlThem = new JPanel();
+		pnlTacVuBenTrai.add(pnlThem);
+		
+		btnThem = new JButton("Thêm \r\n");
+		btnThem.setPreferredSize(new Dimension(200, 30));
+		pnlThem.add(btnThem);
 		btnThem.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuBenTrai.add(btnThem);
 		
-		JButton btnXoa = new JButton("Xóa\r\n");
+		Component verticalStrut_4 = Box.createVerticalStrut(20);
+		verticalStrut_4.setMinimumSize(new Dimension(0, 10));
+		verticalStrut_4.setPreferredSize(new Dimension(0, 10));
+		pnlTacVuBenTrai.add(verticalStrut_4);
+		
+		JPanel pnlXoa = new JPanel();
+		pnlTacVuBenTrai.add(pnlXoa);
+		
+		btnXoa = new JButton("Xóa\r\n");
+		btnXoa.setPreferredSize(new Dimension(200, 30));
+		pnlXoa.add(btnXoa);
 		btnXoa.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuBenTrai.add(btnXoa);
 		
-		JButton btnSua = new JButton("Sửa\r\n");
+		Component verticalStrut_5 = Box.createVerticalStrut(20);
+		verticalStrut_5.setPreferredSize(new Dimension(0, 10));
+		verticalStrut_5.setMinimumSize(new Dimension(0, 10));
+		pnlTacVuBenTrai.add(verticalStrut_5);
+		
+		JPanel pnlSua = new JPanel();
+		pnlTacVuBenTrai.add(pnlSua);
+		
+		btnSua = new JButton("Sửa\r\n");
+		btnSua.setPreferredSize(new Dimension(200, 30));
+		pnlSua.add(btnSua);
 		btnSua.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuBenTrai.add(btnSua);
 		
-		JButton btnXoaTrang = new JButton("Xóa Trắng\r\n");
+		Component verticalStrut_6 = Box.createVerticalStrut(20);
+		verticalStrut_6.setPreferredSize(new Dimension(0, 10));
+		pnlTacVuBenTrai.add(verticalStrut_6);
+		
+		JPanel pnlXoaTrang = new JPanel();
+		pnlTacVuBenTrai.add(pnlXoaTrang);
+		
+		btnXoaTrang = new JButton("Xóa Trắng\r\n");
+		btnXoaTrang.setPreferredSize(new Dimension(200, 30));
+		pnlXoaTrang.add(btnXoaTrang);
 		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 15));
-		pnlTacVuBenTrai.add(btnXoaTrang);
+		
+		Component verticalStrut_7 = Box.createVerticalStrut(20);
+		verticalStrut_7.setPreferredSize(new Dimension(0, 10));
+		pnlTacVuBenTrai.add(verticalStrut_7);
 		
 		JPanel pnlTacVuBenPhai = new JPanel();
 		pnlTacVuBenPhai.setPreferredSize(new Dimension(190, 10));
-		pnlTacVuVaTimKiem.add(pnlTacVuBenPhai, BorderLayout.EAST);
+		pnlTacVuVaTimKiem.add(pnlTacVuBenPhai, BorderLayout.CENTER);
 		pnlTacVuBenPhai.setLayout(new BorderLayout(0, 0));
 		
 		JPanel pnlTieuDeTacVuBenPhai = new JPanel();
@@ -537,9 +649,9 @@ public class GD_BangThongTin extends JPanel{
 		Component verticalStrut = Box.createVerticalStrut(20);
 		pnlTacVuTimKiem.add(verticalStrut);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setPreferredSize(new Dimension(30, 40));
-		pnlTacVuTimKiem.add(comboBox);
+		cboLuaChon = new JComboBox();
+		cboLuaChon.setPreferredSize(new Dimension(30, 40));
+		pnlTacVuTimKiem.add(cboLuaChon);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		pnlTacVuTimKiem.add(verticalStrut_1);
@@ -551,14 +663,32 @@ public class GD_BangThongTin extends JPanel{
 		txtTuKhoa.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTacVuTimKiem.add(txtTuKhoa);
 		txtTuKhoa.setColumns(10);
-		
+		txtTuKhoa.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if (txtTuKhoa.getText().equals("mời nhập vào đây")) {
+					txtTuKhoa.setForeground(Color.black);
+					txtTuKhoa.setText("");
+				} else {
+					txtTuKhoa.selectAll();
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (txtTuKhoa.getText().equals("")) {
+					txtTuKhoa.setForeground(new Color(153, 153, 153));
+					txtTuKhoa.setText("mời nhập vào đây");
+				}
+			}
+		});
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		pnlTacVuTimKiem.add(verticalStrut_2);
 		
 		JPanel pnlNutTim = new JPanel();
 		pnlTacVuTimKiem.add(pnlNutTim);
 		
-		JButton btnTim = new JButton("Tìm Kiếm\r\n");
+		btnTim = new JButton("Tìm Kiếm\r\n");
 		btnTim.setPreferredSize(new Dimension(190, 40));
 		btnTim.setFont(new Font("Arial", Font.BOLD, 15));
 		pnlNutTim.add(btnTim);
@@ -566,6 +696,52 @@ public class GD_BangThongTin extends JPanel{
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		pnlTacVuBenPhai.add(verticalStrut_3, BorderLayout.SOUTH);
 		
+		Component horizontalStrut_17 = Box.createHorizontalStrut(20);
+		pnlTacVuVaTimKiem.add(horizontalStrut_17, BorderLayout.EAST);
+		
+		btnThem.addActionListener(this);
+		btnXoa.addActionListener(this);
+		btnSua.addActionListener(this);
+		btnXoaTrang.addActionListener(this);
+		btnTim.addActionListener(this);
+		cboDuong.addActionListener(this);
+		cboLuaChon.addActionListener(this);
+		cboPhuong.addActionListener(this);
+		cboQuan.addActionListener(this);
+		cboSoNha.addActionListener(this);
+		
+		DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		txtTPMaSinhVien.setEnabled(false);
+		txtTPTenSinhVien.setEnabled(false);
+		txtTPMaNhaTro.setEnabled(false);
+		txtTPTenChuNhaTro.setEnabled(false);
+		txtNgayCapNhat.setText(dt.format(LocalDate.now()));
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnXoaTrang)) {
+			DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			txtGiaThue.setText("");
+			txtNgayBatDau.setText("");
+			txtNgayKetThuc.setText("");
+			txtNgayCapNhat.setText(dt.format(LocalDate.now()));
+			txtTPMaNhaTro.setText("");
+			txtTPMaSinhVien.setText("");
+			txtTPTenChuNhaTro.setText("");
+			txtTPTenSinhVien.setText("");
+			txtTuKhoa.setText("mời nhập vào đây");
+//			cboLuaChon.setSelectedIndex(0);
+//			cboDuong.setSelectedIndex(0);
+//			cboQuan.setSelectedIndex(0);
+//			cboPhuong.setSelectedIndex(0);
+//			cboSoNha.setSelectedIndex(0);
+			txtGiaThue.isFocusable();
+		}
 		
 	}
 	

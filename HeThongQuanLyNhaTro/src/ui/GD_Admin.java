@@ -174,6 +174,12 @@ public class GD_Admin extends JPanel implements ActionListener{
 			repaint();
 			revalidate();
 		}
+		else if (o.equals(btnSinhVien)) {
+			removeAll();
+			add(new GD_QuanLySinhVien());
+			repaint();
+			revalidate();
+		}
 	}
 	
 	
