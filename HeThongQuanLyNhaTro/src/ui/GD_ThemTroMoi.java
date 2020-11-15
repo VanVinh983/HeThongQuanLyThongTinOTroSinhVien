@@ -6,9 +6,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,21 +20,18 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class GD_ThemTroMoi extends JPanel{
+public class GD_ThemTroMoi extends JPanel implements ActionListener{
 
-
-	private DefaultTableModel tableModel;
-	private JTable table;
-	private DefaultTableModel tableModelBTT;
-	private JTable tableBTT;
 	private JTextField txtSDT;
-	private JTextField txtTPTenSinhVien;
 	private JTextField txtTPMaNhaTro;
 	private JTextField txtTPTenChuNhaTro;
-	private JTextField txtGiaThue;
-	private JTextField txtNgayCapNhat;
-	private JTextField txtNgayBatDau;
-	private JTextField txtNgayKetThuc;
+	private JButton btnThem;
+	private JButton btnLuu;
+	private JComboBox cboDuong;
+	private JComboBox cboQuan;
+	private JComboBox cboSoNha;
+	private JComboBox cboPhuong;
+	
 	public GD_ThemTroMoi() {
 		setAutoscrolls(true);
 		setBorder(null);
@@ -108,32 +109,32 @@ public class GD_ThemTroMoi extends JPanel{
 		Component horizontalStrut_9 = Box.createHorizontalStrut(20);
 		pnlTPNhaTro.add(horizontalStrut_9);
 		
-		JPanel pnlTPSinhVien = new JPanel();
+		JPanel pnlTro = new JPanel();
 		pnlThanhPhan.add(Box.createVerticalStrut(10));
-		pnlThanhPhan.add(pnlTPSinhVien);
-		pnlTPSinhVien.setLayout(new BoxLayout(pnlTPSinhVien, BoxLayout.X_AXIS));
+		pnlThanhPhan.add(pnlTro);
+		pnlTro.setLayout(new BoxLayout(pnlTro, BoxLayout.X_AXIS));
 		
 		Component horizontalStrut_1 = Box.createHorizontalStrut(20);
-		pnlTPSinhVien.add(horizontalStrut_1);
+		pnlTro.add(horizontalStrut_1);
 		
 		JLabel lblSDT = new JLabel("SDT Chủ Nhà: ");
 		lblSDT.setFont(new Font("Arial", Font.PLAIN, 15));
-		pnlTPSinhVien.add(lblSDT);
+		pnlTro.add(lblSDT);
 		
 		txtSDT = new JTextField();
 		txtSDT.setPreferredSize(new Dimension(20, 20));
 		txtSDT.setFont(new Font("Arial", Font.PLAIN, 15));
-		pnlTPSinhVien.add(txtSDT);
+		pnlTro.add(txtSDT);
 		txtSDT.setColumns(10);
 		
 		Component horizontalStrut = Box.createHorizontalStrut(20);
 		horizontalStrut.setPreferredSize(new Dimension(30, 0));
-		pnlTPSinhVien.add(horizontalStrut);
+		pnlTro.add(horizontalStrut);
 		
 		
 		
 		Component horizontalStrut_10 = Box.createHorizontalStrut(20);
-		pnlTPSinhVien.add(horizontalStrut_10);
+		pnlTro.add(horizontalStrut_10);
 		
 		JPanel pnlTPDiaChiTro = new JPanel();
 		pnlThanhPhan.add(Box.createVerticalStrut(10));
@@ -177,9 +178,7 @@ public class GD_ThemTroMoi extends JPanel{
 		cboDuong.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(cboDuong);
 		
-		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
-		pnlTPDiaChiTro.add(horizontalStrut_6);
-		
+
 		JLabel lblSoNha = new JLabel("Số Nhà: ");
 		lblSoNha.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(lblSoNha);
@@ -188,18 +187,37 @@ public class GD_ThemTroMoi extends JPanel{
 		cboSoNha.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(cboSoNha);
 		
-		Component horizontalStrut_8 = Box.createHorizontalStrut(20);
-		pnlTPDiaChiTro.add(horizontalStrut_8);
-		
-		JPanel pnlGia_NgayCapNhat = new JPanel();
+		JPanel Button = new JPanel();
 		pnlThanhPhan.add(Box.createVerticalStrut(10));
-		pnlThanhPhan.add(pnlGia_NgayCapNhat);
-		pnlGia_NgayCapNhat.setLayout(new BoxLayout(pnlGia_NgayCapNhat, BoxLayout.X_AXIS));
+		pnlThanhPhan.add(Button);
+		Button.setLayout(new BoxLayout(Button, BoxLayout.X_AXIS));
+		Component horizontalStrut_8 = Box.createHorizontalStrut(20);
+		Button.add(horizontalStrut_8);
 		
-		Component horizontalStrut_11 = Box.createHorizontalStrut(20);
-		pnlGia_NgayCapNhat.add(horizontalStrut_11);
+		JButton btnthem = new JButton("Thêm");
+		Button.add(btnthem);
+		
+		JButton btnLuu = new JButton("Lưu");
+		Button.add(btnLuu);
 		
 		lblTPMaNhaTro.setPreferredSize(lblSDT.getPreferredSize());
+		btnLuu.addActionListener(this);
+		btnthem.addActionListener(this);
 
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object ob = e.getSource();
+		if(ob.equals(btnThem)) {
+			txtSDT.setText("");
+			txtTPMaNhaTro.setText("");
+			txtTPTenChuNhaTro.setText("");
+			cboQuan.setEditor(null);
+			cboPhuong.setEditor(null);
+			cboSoNha.setEditor(null);
+			cboDuong.setEditor(null);
+		}
 	}
 }
