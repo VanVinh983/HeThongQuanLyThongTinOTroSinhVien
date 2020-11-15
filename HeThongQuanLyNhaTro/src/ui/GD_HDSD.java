@@ -20,19 +20,8 @@ import javax.swing.table.DefaultTableModel;
 public class GD_HDSD extends JPanel{
 
 
-	private DefaultTableModel tableModel;
-	private JTable table;
-	private DefaultTableModel tableModelBTT;
-	private JTable tableBTT;
-	private JTextField txtSDT;
-	private JTextField txtTPTenSinhVien;
-	private JTextField txtTPMaNhaTro;
-	private JTextField txtTPTenChuNhaTro;
-	private JTextField txtGiaThue;
-	private JTextField txtNgayCapNhat;
-	private JTextField txtNgayBatDau;
-	private JTextField txtNgayKetThuc;
-	private JTextArea txtDHSD;
+	
+	
 	public GD_HDSD() {
 		setAutoscrolls(true);
 		setBorder(null);
