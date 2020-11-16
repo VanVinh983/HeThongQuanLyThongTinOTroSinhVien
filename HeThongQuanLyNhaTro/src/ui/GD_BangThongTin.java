@@ -28,6 +28,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import java.awt.Component;
@@ -55,7 +56,7 @@ public class GD_BangThongTin extends JPanel implements ActionListener{
 	private JButton btnXoa;
 	private JButton btnSua;
 	private JButton btnXoaTrang;
-	private JComboBox cboLuaChon;
+	private JComboBox<String> cboLuaChon;
 	private JButton btnTim;
 	private NhanVien_Dao nv_Dao;
 	private TamLuuMaNhanVien_Dao tamluu_dao;
@@ -647,13 +648,25 @@ public class GD_BangThongTin extends JPanel implements ActionListener{
 		pnlTacVuTimKiem.setLayout(new BoxLayout(pnlTacVuTimKiem, BoxLayout.Y_AXIS));
 		
 		Component verticalStrut = Box.createVerticalStrut(20);
+		verticalStrut.setMinimumSize(new Dimension(0, 10));
+		verticalStrut.setPreferredSize(new Dimension(0, 10));
 		pnlTacVuTimKiem.add(verticalStrut);
 		
 		cboLuaChon = new JComboBox();
+		
+		String[] luaChon = {"Theo Địa Chỉ", "Theo Mã Sinh Viên","Theo Mã Nhà Trọ ", "Theo Quận", "Theo Phường", "Theo Đường", "Theo Số Nhà", "Theo Số Điện Thoại", "Theo Tên Chủ Trọ","Theo Mã Nhân Viên"};
+		
+		
+		for (String luachon : luaChon) {
+			cboLuaChon.addItem(luachon);
+		}
+		
 		cboLuaChon.setPreferredSize(new Dimension(30, 40));
 		pnlTacVuTimKiem.add(cboLuaChon);
 		
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		verticalStrut_1.setMinimumSize(new Dimension(0, 10));
+		verticalStrut_1.setPreferredSize(new Dimension(0, 10));
 		pnlTacVuTimKiem.add(verticalStrut_1);
 		
 		txtTuKhoa = new JTextField();
@@ -683,18 +696,34 @@ public class GD_BangThongTin extends JPanel implements ActionListener{
 			}
 		});
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		verticalStrut_2.setMinimumSize(new Dimension(0, 10));
+		verticalStrut_2.setPreferredSize(new Dimension(0, 10));
 		pnlTacVuTimKiem.add(verticalStrut_2);
 		
 		JPanel pnlNutTim = new JPanel();
 		pnlTacVuTimKiem.add(pnlNutTim);
 		
 		btnTim = new JButton("Tìm Kiếm\r\n");
-		btnTim.setPreferredSize(new Dimension(190, 40));
+		btnTim.setPreferredSize(new Dimension(150, 40));
 		btnTim.setFont(new Font("Arial", Font.BOLD, 15));
 		pnlNutTim.add(btnTim);
 		
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
-		pnlTacVuBenPhai.add(verticalStrut_3, BorderLayout.SOUTH);
+		verticalStrut_3.setMinimumSize(new Dimension(0, 10));
+		verticalStrut_3.setPreferredSize(new Dimension(0, 10));
+		pnlTacVuTimKiem.add(verticalStrut_3);
+		
+		JPanel pnlThemTroMoi = new JPanel();
+		pnlTacVuTimKiem.add(pnlThemTroMoi);
+		
+		JButton btnThemTroMoi = new JButton("Thêm Trọ Mới");
+		btnThemTroMoi.setPreferredSize(new Dimension(150, 40));
+		btnThemTroMoi.setFont(new Font("Arial", Font.BOLD, 15));
+		pnlThemTroMoi.add(btnThemTroMoi);
+		
+		Component verticalStrut_8 = Box.createVerticalStrut(20);
+		verticalStrut_8.setMinimumSize(new Dimension(0, 10));
+		pnlTacVuTimKiem.add(verticalStrut_8);
 		
 		Component horizontalStrut_17 = Box.createHorizontalStrut(20);
 		pnlTacVuVaTimKiem.add(horizontalStrut_17, BorderLayout.EAST);
@@ -735,7 +764,7 @@ public class GD_BangThongTin extends JPanel implements ActionListener{
 			txtTPTenChuNhaTro.setText("");
 			txtTPTenSinhVien.setText("");
 			txtTuKhoa.setText("mời nhập vào đây");
-//			cboLuaChon.setSelectedIndex(0);
+			cboLuaChon.setSelectedIndex(0);
 //			cboDuong.setSelectedIndex(0);
 //			cboQuan.setSelectedIndex(0);
 //			cboPhuong.setSelectedIndex(0);

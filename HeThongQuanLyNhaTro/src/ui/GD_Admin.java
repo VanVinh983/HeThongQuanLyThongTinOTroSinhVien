@@ -37,6 +37,10 @@ public class GD_Admin extends JPanel implements ActionListener{
 	private JLabel lblTro;
 	private JLabel lblBangThongTin;
 	private TamLuuMaNhanVien_Dao TamLuuMaNhanVien_Dao;
+	private JButton btnHDSD;
+	private JLabel lblTin;
+	private JLabel lblHD;
+	private JLabel lblSD;
 
 	public GD_Admin() {
 		this.setPreferredSize(new Dimension(1400, 600));
@@ -55,19 +59,26 @@ public class GD_Admin extends JPanel implements ActionListener{
 		ImageIcon imgThongKe = new ImageIcon(new ImageIcon("HinhAnh/thongke.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		ImageIcon imgNhaTro =  new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		ImageIcon imgSinhVien =  new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		
 		lblTieuDe = new JLabel("Trang Chủ Quản Lý");
-		lblNhanVien = new JLabel("        Nhân Viên");
-		lblSinhVien = new JLabel("        Sinh Viên");
-		lblThongKe = new JLabel("         Thống Kê");
-		lblBangThongTin = new JLabel("    Bảng Thông Tin");
-		lblTro = new JLabel("              Trọ");
+		lblNhanVien = new JLabel("     Nhân Viên");
+		lblSinhVien = new JLabel("      Sinh Viên");
+		lblThongKe = new JLabel("     Thống Kê");
+		lblBangThongTin = new JLabel("    Bảng Thông");
+		lblTin = new JLabel("     Tin");
+		lblTro = new JLabel("           Trọ");
+		lblHD = new JLabel("Hướng Dẫn\n");
+		lblSD = new JLabel("Sử Dụng");
 		
 		lblNhanVien.setFont(new Font("arial", 1, 20));
 		lblSinhVien.setFont(new Font("arial", 1, 20));
 		lblTro.setFont(new Font("arial", 1, 20));
 		lblBangThongTin.setFont(new Font("arial", 1, 20));
 		lblThongKe.setFont(new Font("arial", 1, 20));
+		lblTin.setFont(new Font("arial", 1, 20));
+		lblHD.setFont(new Font("arial", 1, 20));
+		lblSD.setFont(new Font("arial", 1, 20));
 		
 		btnSinhVien = new JButton(imgSinhVien);
 		btnNhanVien = new JButton(imgNhanVien);
@@ -92,13 +103,17 @@ public class GD_Admin extends JPanel implements ActionListener{
 		btnTro.add(lblTro,BorderLayout.NORTH);
 		
 		btnBangThongTin.setLayout(new BorderLayout());
-		btnBangThongTin.add(lblBangThongTin,BorderLayout.NORTH);
+		JPanel pnlTieuDeBangThongTin = new JPanel();
+		pnlTieuDeBangThongTin.setLayout(new BorderLayout());
+		pnlTieuDeBangThongTin.add(lblBangThongTin,BorderLayout.NORTH);
+		pnlTieuDeBangThongTin.add(lblTin,BorderLayout.SOUTH);
+		btnBangThongTin.add(pnlTieuDeBangThongTin,BorderLayout.NORTH);
 		
-		btnBangThongTin.setPreferredSize(new Dimension(230, 400));
-		btnNhanVien.setPreferredSize(new Dimension(230, 400));
-		btnSinhVien.setPreferredSize(new Dimension(230, 400));
-		btnThongKe.setPreferredSize(new Dimension(230, 400));
-		btnTro.setPreferredSize(new Dimension(230, 400));
+		btnBangThongTin.setPreferredSize(new Dimension(190, 400));
+		btnNhanVien.setPreferredSize(new Dimension(190, 400));
+		btnSinhVien.setPreferredSize(new Dimension(190, 400));
+		btnThongKe.setPreferredSize(new Dimension(190, 400));
+		btnTro.setPreferredSize(new Dimension(190, 400));
 		btnDangXuat.setPreferredSize(new Dimension(500, 70));
 		
 		
@@ -135,6 +150,20 @@ public class GD_Admin extends JPanel implements ActionListener{
 		
 		this.add(pnlTitle,BorderLayout.NORTH);
 		this.add(pnlCenter,BorderLayout.CENTER);
+		
+		btnHDSD = new JButton(imgHDSD);
+		btnHDSD.setLayout(new BorderLayout());
+		JPanel pnlTieuDeHDSD = new JPanel();
+		pnlTieuDeHDSD.setLayout(new BorderLayout());
+		pnlTieuDeHDSD.add(lblHD,BorderLayout.NORTH);
+		pnlTieuDeHDSD.add(lblSD,BorderLayout.SOUTH);
+		btnHDSD.add(pnlTieuDeHDSD,BorderLayout.NORTH);
+		btnHDSD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnHDSD.setPreferredSize(new Dimension(190, 400));
+		pnlCenter.add(btnHDSD);
 		this.add(pnlBottom,BorderLayout.SOUTH);
 		
 		btnDangXuat.addActionListener(this);
