@@ -35,8 +35,12 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.GridLayout;
-public class GD_BangThongTin extends JPanel implements ActionListener{
+public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultTableModel tableModelBTT;
 	private JTable tableBTT;
 	private JTextField txtTPMaSinhVien;
@@ -67,7 +71,7 @@ public class GD_BangThongTin extends JPanel implements ActionListener{
 	/**
 	 * Create the application.
 	 */
-	public GD_BangThongTin() {
+	public GD_ThongTinThueTro() {
 		
 		nv_Dao = new NhanVien_Dao(); 
 		tamluu_dao = new TamLuuMaNhanVien_Dao();
@@ -203,7 +207,7 @@ public class GD_BangThongTin extends JPanel implements ActionListener{
 		btnBTT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeAll();
-				add(new GD_BangThongTin());
+				add(new GD_ThongTinThueTro());
 				repaint();
 				revalidate();
 			}

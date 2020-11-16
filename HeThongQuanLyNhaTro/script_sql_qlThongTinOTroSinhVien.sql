@@ -30,6 +30,7 @@ create table DiaChi
 (
 	maDiaChi varchar(8) unique not null,
 	soNha nvarchar(50) not null,
+	tenDuong nvarchar(20) not null,
 	constraint pk_fk_maDiaChi foreign key (maDiaChi) references NhaTro(maNhaTro),
 	phuong nvarchar(20),
 	quan nvarchar(20)

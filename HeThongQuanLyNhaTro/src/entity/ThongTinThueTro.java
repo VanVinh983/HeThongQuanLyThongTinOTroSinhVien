@@ -1,5 +1,7 @@
 package entity;
 
-public class ThongTinThueTro {
+import java.sql.Date;
 
+public class ThongTinThueTro {
+	private double giaTien;
 }

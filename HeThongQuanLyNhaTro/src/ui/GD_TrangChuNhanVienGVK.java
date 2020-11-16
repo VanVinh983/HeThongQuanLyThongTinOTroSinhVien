@@ -160,7 +160,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			}
 			else if (o.equals(btnBangThongTin)) {
 				removeAll();
-				add(new GD_BangThongTin());
+				add(new GD_ThongTinThueTro());
 				repaint();
 				revalidate();
 			}
