@@ -8,9 +8,15 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -27,7 +33,18 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class GD_QuanLySinhVien extends JPanel implements ActionListener{
+import connectDB.ConnectDB;
+import dao.NhaTro_Dao;
+import dao.NhanVien_Dao;
+import dao.SinhVien_Dao;
+import dao.TamLuuMaNhanVien_Dao;
+import entity.NhaTro;
+import entity.SinhVien;
+
+public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseListener{
+	private NhanVien_Dao nv_Dao;
+	private TamLuuMaNhanVien_Dao tamluu_dao;
+	
 	//attribute Form thông tin phần txt
 	private JTextField txtMaSV;
 	private JTextField txtTenSV;
@@ -35,6 +52,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 	private JTextField txtQueQuan;
 	private JTextField txtMaLop;
 	private JTextField txtMaNV;
+	private JComboBox<String> cmpMaLop;
+	private JComboBox<String> cmpMaNV;
 	private JTextField txtGioiTinh;
 	private JTextField txtChuyenNghanh;
 	
@@ -81,6 +100,9 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 	private JLabel lblTim;
 	private JComboBox<String> cmp;
 	public GD_QuanLySinhVien() {
+		nv_Dao = new NhanVien_Dao(); 
+		tamluu_dao = new TamLuuMaNhanVien_Dao();
+		
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
 		
@@ -200,10 +222,10 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 			
 			
 			String[] header="Mã sinh viên;Tên sinh viên;Ngày sinh;Quê quán;Mã lớp;Mã nhân viên;Giới tính;Chuyên nghành".split(";");
-			tableModel=new DefaultTableModel(header,20);
+			tableModel=new DefaultTableModel(header,0);
 			pnlTable.add(scroll=new JScrollPane(table=new JTable(tableModel),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),BorderLayout.SOUTH);
 			scroll.setBorder(BorderFactory.createTitledBorder("Danh Sách"));
-			table.setRowHeight(30);
+			table.setRowHeight(20);
 			scroll.setPreferredSize(new Dimension(0,500));
 			bcenTable.add(scroll);
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -256,10 +278,10 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 		Box boxMaSV = Box.createHorizontalBox();
 		boxMaSV.add(lblMaSV=new JLabel("Mã sinh viên:"));
 		boxMaSV.add(txtMaSV=new JTextField());
-		txtMaSV.setEditable(false);
+	//	txtMaSV.setEditable(false);
 		boxMaSV.add(lblMaLop=new JLabel("Mã Lớp: "));
 		boxMaSV.add(txtMaLop=new JTextField());
-		txtMaLop.setEditable(false);
+		//txtMaLop.setEditable(false);
 		pnlFormtxtSV.add(boxMaSV);
 		
 		pnlFormtxtSV.add(Box.createVerticalStrut(10));
@@ -267,8 +289,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 		boxTenSV.add(lblTenSV=new JLabel("Tên sinh viên: "));
 		boxTenSV.add(txtTenSV=new JTextField());
 		boxTenSV.add(lblMaNV=new JLabel("Mã nhân viên: "));
-		boxTenSV.add(txtMaNV=new JTextField());
-		txtMaNV.setEditable(false);
+	    boxTenSV.add(txtMaNV=new JTextField());
+		//txtMaNV.setEditable(false);
 		pnlFormtxtSV.add(boxTenSV);
 		
 		pnlFormtxtSV.add(Box.createVerticalStrut(10));
@@ -283,7 +305,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 		Box boxQueQuan = Box.createHorizontalBox();
 		boxQueQuan.add(lblQueQuan=new JLabel("Quê quán: "));
 		boxQueQuan.add(txtQueQuan=new JTextField());
-		boxQueQuan.add(lblChuyenNghanh=new JLabel("Số điện thoại"));
+		boxQueQuan.add(lblChuyenNghanh=new JLabel("Nghành: "));
 		boxQueQuan.add(txtChuyenNghanh=new JTextField());
 		pnlFormtxtSV.add(boxQueQuan);
 		
@@ -360,13 +382,35 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 		btnTro.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
-		
+		table.addMouseListener(this);
 	////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//pnlcen3.add(Box.createHorizontalStrut(400), BorderLayout.EAST);
 
 		setVisible(true);
+		
+		try {
+			ConnectDB.getInstance().connect();
+			addDatabase();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
+public void addDatabase() {
+		
+		SinhVien_Dao dao = new SinhVien_Dao();
+		List<SinhVien> listSV = dao.layTatCaBang();
+		//Đưa thông tin vào bảng
+		listSV.forEach(v -> {
+			DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+			String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue() + "/" +v.getNgaySinh().getYear();
+			//System.out.println("\nNgay Sinh ____ :" );
+			String[] row = {v.getMaSV(), v.getTenSV(),ngaySinh, v.getQueQuanSV(), v.getMaLop(), v.getMaNV(), v.getGioiTinh(), v.getChuyenNghanh()};
+			tableModel.addRow(row);
+		});
+}
 	// Phương thức đọc hình ảnh từ file
 	public  void setPicture(  JLabel label ,String filename ){
         try {
@@ -392,11 +436,17 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 		
 		if(ob.equals(btnHuongDanSD))
 		{
-			
+			removeAll();
+			add(new GD_HDSD());
+			repaint();
+			revalidate();
 		}
 		else if(ob.equals(btnNhanVien))
 		{
-			
+			removeAll();
+			add(new GD_QLNhanVien());
+			repaint();
+			revalidate();
 		}
 		else if(ob.equals(btnSinhVien))
 		{
@@ -405,14 +455,68 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 		else if(ob.equals(btnSua))
 		{
 			
+			SinhVien_Dao daosv = new SinhVien_Dao();
+			String maSV = txtMaSV.getText();
+			String tenSV = txtTenSV.getText();
+			String[] ns = txtNgaySinh.getText().split("/");
+			LocalDate ngaySinh = LocalDate.of(Integer.parseInt(ns[2]), Integer.parseInt(ns[1]), Integer.parseInt(ns[0]));
+			String queQuanSV = txtQueQuan.getText();
+			String maLop = txtMaLop.getText();
+			String maNV = txtMaNV.getText();
+			String gioiTinh = txtGioiTinh.getText();
+			String chuyenNghanh = txtChuyenNghanh.getText();
+			
+			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, maNV, gioiTinh, chuyenNghanh);
+			if(daosv.UpdateSinhVien(sv)==true)
+			{
+				JOptionPane.showMessageDialog(this, "Sửa thành công!!");
+				tableModel.setRowCount(0);
+				addDatabase();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Sửa thất bại!!");
+			}
 		}
 		else if(ob.equals(btnThem))
 		{
+			SinhVien_Dao daosv = new SinhVien_Dao();
+			String maSV = txtMaSV.getText();
+			String tenSV = txtTenSV.getText();
+			String[] ns = txtNgaySinh.getText().split("/");
+			LocalDate ngaySinh = LocalDate.of(Integer.parseInt(ns[2]), Integer.parseInt(ns[1]), Integer.parseInt(ns[0]));
+			String queQuanSV = txtQueQuan.getText();
+			String maLop = txtMaLop.getText();
+			String maNV = txtMaNV.getText();
+			String gioiTinh = txtGioiTinh.getText();
+			String chuyenNghanh = txtChuyenNghanh.getText();
+			
+			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, maNV, gioiTinh, chuyenNghanh);
+			if(daosv.themSV(sv)==true)
+			{
+				JOptionPane.showMessageDialog(this, "Thêm thành công!!");
+				tableModel.setRowCount(0);
+				addDatabase();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Thêm thất bại!!");
+			}
 			
 		}
 		else if(ob.equals(btnThoat))
 		{
-			
+			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+			if(loaiNV.equals("QL")) {
+				removeAll();
+				add(new GD_Admin());
+				repaint();
+				revalidate();
+			}
+			else if (loaiNV.equals("NV")) {
+				removeAll();
+				add(new GD_TrangChuNhanVienGVK());
+				repaint();
+				revalidate();
+			}
 		}
 		else if(ob.equals(btnThongKe))
 		{
@@ -428,11 +532,24 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 		}
 		else if(ob.equals(btnTro))
 		{
-			
+			removeAll();
+			add(new GD_QuanLyTro());
+			repaint();
+			revalidate();
 		}
 		else if(ob.equals(btnXoa))
 		{
-			
+			SinhVien_Dao dao = new SinhVien_Dao();
+			String id = txtMaSV.getText();
+			if(dao.DeleteSinhVien(id)==true)
+			{
+				JOptionPane.showMessageDialog(this, "Xóa thành công");
+				tableModel.setRowCount(0);
+				addDatabase();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Xóa thất bại");
+			}
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
@@ -447,6 +564,43 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener{
 			txtGioiTinh.setText("");
 			txtChuyenNghanh.setText("");
 		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		int row = table.getSelectedRow();
+		txtMaSV.setText(table.getValueAt(row,0).toString());
+		txtTenSV.setText(table.getValueAt(row, 1).toString());
+		txtNgaySinh.setText(table.getValueAt(row, 2).toString());
+		txtQueQuan.setText(table.getValueAt(row, 3).toString());
+		txtMaLop.setText(table.getValueAt(row, 4).toString());
+		txtGioiTinh.setText(table.getValueAt(row, 6).toString());
+		txtMaNV.setText(table.getValueAt(row, 5).toString());
+		txtChuyenNghanh.setText(table.getValueAt(row, 7).toString());
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

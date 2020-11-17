@@ -7,7 +7,7 @@ public class GD_Chinh {
 		JFrame frame = new JFrame();
 		frame.setTitle("Hệ Thống Quản Lý Ở Trọ Của Sinh Viên Trường Đại Học Công Nghiệp");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(new GD_QuanLyTro());
+		frame.getContentPane().add(new GD_TrangChuNhanVienGVK());
 		frame.pack();
 		frame.setResizable(false);
 		frame.setVisible(true);
