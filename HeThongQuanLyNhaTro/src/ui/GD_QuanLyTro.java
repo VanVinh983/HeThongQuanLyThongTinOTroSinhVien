@@ -754,7 +754,11 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnTim))
 		{
+			NhaTro_Dao dao = new NhaTro_Dao();
+//			System.out.println("\n______________________________________________-"+dao.timNhaTro("NT_0005"));
+			dao.layTroTheoMa("NT_0005");
 			tableModel.setRowCount(0);
+			addDatabase();
 		}
 		else if(ob.equals(btnTro))
 		{
@@ -776,6 +780,8 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			txtTim.setText("");
 			txtUser.setText("");
 			txtTim.setText("");
+			tableModel.setRowCount(0);
+			addDatabase();
 		}
 		
 	}

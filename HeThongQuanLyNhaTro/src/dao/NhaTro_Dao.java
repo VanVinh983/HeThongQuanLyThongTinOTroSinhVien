@@ -41,8 +41,6 @@ public class NhaTro_Dao {
 			
 			while(rs.next())
 			{
-				
-	
 				String maTro = rs.getString(1);
 				String tenChutro = rs.getString(2);
 				String SDT = rs.getString(3);
@@ -211,6 +209,67 @@ public class NhaTro_Dao {
 			e.printStackTrace();
 		}
 		return n>0;
+	}
+	
+//	public NhaTro timNhaTro(String maTro) {
+//		
+//			ConnectDB.getInstance();
+//			Connection con = ConnectDB.getConnecction();
+//			PreparedStatement stmt = null;
+//			try {
+//				System.out.println("\n++++++++++++++++++++++++++ ");
+//				stmt = con.prepareStatement("select * from [QLThongTinOTroSinhVien].[dbo].[NhaTro] as nt  join [QLThongTinOTroSinhVien].[dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where nt.maNhaTro =  'NT_0005'");
+//				//stmt.setString(1, maTro);
+//				ResultSet rs = stmt.executeQuery();
+//				System.out.println("\n++++++++++++++++++++++++++ " + rs.getString(1));
+//				String maTroSV = rs.getString(1);
+//				String tenChutro = rs.getString(2);
+//				String SDT = rs.getString(3);
+//				String soNha= rs.getString(6);
+//				String tenPhuong = rs.getString(7);
+//				String tenQuan = rs.getString(8);
+//				String tenDuong = rs.getString(9);
+//				NhaTro nhaTro = new NhaTro(maTroSV, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+//				System.out.println("\n++++++++++++++++++++++++++ " + nhaTro.toString());
+//				return nhaTro;
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			} finally {
+//				try {
+//					stmt.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			return null;
+//		
+//	}
+	public NhaTro layTroTheoMa(String ma)
+	{
+		
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where maNhaTro = "+"'"+ma+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenPhuong = rs.getString(7);
+				String tenQuan = rs.getString(8);
+				String tenDuong = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				System.out.println(nhaTro.toString());
+				return nhaTro;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return null;
 	}
 }
 
