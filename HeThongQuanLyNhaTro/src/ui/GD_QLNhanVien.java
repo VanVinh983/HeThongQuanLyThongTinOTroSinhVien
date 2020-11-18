@@ -6,9 +6,15 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -25,9 +31,28 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class GD_QLNhanVien extends JPanel implements ActionListener{
+import connectDB.ConnectDB;
+import dao.TamLuuMaNhanVien_Dao;
+import entity.DanhSachNhanVien;
+
+public class GD_QLNhanVien extends JPanel implements ActionListener, MouseListener{
 	
-	//nhanVien
+	//thông tin tk nhan vien
+	private JLabel lblthongTinNV;
+	private JLabel lblTKMaNV;
+	private JLabel lblTKTenNV;
+	private JLabel lblTKNgaySinh;
+	private JLabel lblTKLoaiNV;
+	private JLabel lblTKKhoa;
+	private JLabel lblTKMaNV_data;
+	private JLabel lblTKTenNV_data;
+	private JLabel lblTKNgaySinh_data;
+	private JLabel lblTKLoaiNV_data;
+	private JLabel lblTKKhoa_data;
+	
+	
+	
+	//texfield nhanvien
 	private JLabel lblMaNV;
 	private JLabel lblTenNV;
 	private JLabel lblNgaySinh;
@@ -38,8 +63,10 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 	private JTextField txtNgaySinh;
 	private JTextField txtLoaiNV;
 	private JTextField txtKhoa;
+	private int row;
 	
-	//GDchung
+	
+
 	private JTextField txtUser;
 	private JTextField txtTim;
 	private JLabel lblTim;
@@ -48,24 +75,31 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 	private JButton btnXoa;
 	private JButton btnSua;
 	private JButton btnXoaTrang;
+	private JButton btnQuanLy;
 	private JLabel lblUser;
 	private JLabel lblcen1;
 	private DefaultTableModel tableModel;
 	private JTable table;
 	private JLabel lblThongTin;
-	private JButton btnTro;
-	private JButton btnSinhVien;
 	private JButton btnThongKe;
-	private JButton btnThueTro;
-	private JButton btnNhanVien;
-	private JButton btnHuongDanSD;
+	private JButton btnCapNhatTK;
 	private JButton btnThoat;
+	private JComboBox<String> cbKhoa;
+	private JComboBox<String> cbCapBac;
 	private JComboBox<String> cmp;
-
+	private JButton btnDSNV;
+	
+	private DanhSachNhanVien dsnv;
+	
+	public void setDataFont(JLabel lbl) {
+		lbl.setForeground(Color.BLUE);
+		lbl.setFont(new Font("Monospaced", Font.BOLD, 15)); 
+	}
+	
 	public GD_QLNhanVien() {
 		// TODO Auto-generated constructor stub
 		this.setLayout(new BorderLayout());
-		this.setPreferredSize(new Dimension(1200, 600));
+		this.setPreferredSize(new Dimension(1200, 750));
 		
 		JPanel pnl = new JPanel();
 		pnl.setLayout(new BorderLayout());
@@ -74,15 +108,18 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		box.add(b1 = Box.createHorizontalBox());
 		
 			JPanel pnluser1 = new JPanel();
-				pnluser1.setBackground(Color.GREEN);
+				pnluser1.setBackground(Color.CYAN);
 				Box buser = Box.createVerticalBox();
 					Box buser1, buser2, buser3;
 					buser.add(buser1 = Box.createHorizontalBox());
 						buser1.add(lblUser = new JLabel("User: "));
 						lblUser.setFont(new Font("Arial", Font.BOLD, 35));
-						buser1.add(txtUser = new JTextField(20));
+						buser1.add(lblTKMaNV_data = new JLabel());
+						lblTKMaNV_data.setFont(new Font("Monospace", Font.BOLD, 35));
+						lblTKMaNV_data.setText("ÀEQEEV");
+						lblTKMaNV_data.setForeground(Color.BLUE);
 						buser1.add(Box.createVerticalStrut(20));
-						txtUser.setEnabled(false);
+						
 					buser.add(buser2 = Box.createVerticalBox());
 	
 					//Hinh Anh
@@ -106,21 +143,62 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		JPanel pnluser2 = new JPanel();
 		pnluser2.setLayout(new BorderLayout());
 			JPanel pnluser22 = new JPanel();
-			pnluser22.setBackground(Color.MAGENTA);
+			pnluser22.setBackground(Color.CYAN);
+			pnl.add(pnluser2);
 			pnluser2.add(pnluser22, BorderLayout.CENTER);
 			pnluser22.setLayout(new BoxLayout(pnluser22, BoxLayout.Y_AXIS));
 				box.add(pnluser2);
 				
+				//thong tin TK nhan vien
+				pnluser22.add(Box.createVerticalStrut(20));
+				pnluser22.add(lblthongTinNV= new JLabel("Thông Tin Nhân Viên"));
+				lblthongTinNV.setForeground(Color.RED);
 				
 				pnluser22.add(Box.createVerticalStrut(20));
-				pnluser22.add(btnTro = new JButton("Quản Lý Trọ"));
+				Box boxTKTenNV = Box.createHorizontalBox();
+				pnluser22.add(boxTKTenNV);
+				boxTKTenNV.add(lblTKTenNV = new JLabel("Họ tên   :   "));
+				boxTKTenNV.add(lblTKTenNV_data = new JLabel());
+				setDataFont(lblTKTenNV_data);
+				lblTKTenNV_data.setText("Nguyễn Văn A");
 				
-				btnTro.add(Box.createHorizontalStrut(30));
-				btnTro.add(Box.createVerticalStrut(20));
+				
+				pnluser22.add(Box.createVerticalStrut(20));
+				Box boxTKNgaySinh = Box.createHorizontalBox();
+				pnluser22.add(boxTKNgaySinh);
+				boxTKNgaySinh.add(lblTKNgaySinh = new JLabel("Ngày sinh   :   "));
+				boxTKNgaySinh.add(lblTKNgaySinh_data = new JLabel());
+				setDataFont(lblTKNgaySinh_data);
+				lblTKNgaySinh_data.setText("11-10-1998");
+				
+				
+				pnluser22.add(Box.createVerticalStrut(20));
+				Box boxTKKhoa = Box.createHorizontalBox();
+				pnluser22.add(boxTKKhoa);
+				boxTKKhoa.add(lblTKKhoa = new JLabel("Khoa   :   "));
+				boxTKKhoa.add(lblTKKhoa_data = new JLabel());
+				setDataFont(lblTKKhoa_data);
+				lblTKKhoa_data.setText("CNTT");
+				
+				pnluser22.add(Box.createVerticalStrut(20));
+				Box boxTKCapBac = Box.createHorizontalBox();
+				pnluser22.add(boxTKCapBac);
+				boxTKCapBac.add(lblTKLoaiNV = new JLabel("Chức vụ   :   "));
+				boxTKCapBac.add(lblTKLoaiNV_data = new JLabel());
+				setDataFont(lblTKLoaiNV_data);
+				lblTKLoaiNV_data.setText("Người quản lý");
+				
+				//lblTKTenNV.setPreferredSize(lblTKNgaySinh.getPreferredSize());
+				//lblTKKhoa.setPreferredSize(lblTKNgaySinh.getPreferredSize());
+				//lblTKLoaiNV.setPreferredSize(lblTKNgaySinh.getPreferredSize());
+
+				
+				/*lblTKTenNV.add(Box.createHorizontalStrut(30));
+				lblTKTenNV.add(Box.createVerticalStrut(20));
 				pnluser22.add(Box.createVerticalStrut(10));
-				pnluser22.add(btnSinhVien = new JButton("Quản Lý Sinh Viên"));
+				pnluser22.add(lblTKTenNV= new JLabel("Tên Nhân Viên:"));
 				
-				btnSinhVien.add(Box.createHorizontalStrut(30));
+				/*btnSinhVien.add(Box.createHorizontalStrut(30));
 				btnSinhVien.add(Box.createVerticalStrut(20));
 				pnluser22.add(Box.createVerticalStrut(10));
 				pnluser22.add(btnNhanVien = new JButton("Quản Lý Nhân Viên"));
@@ -142,10 +220,35 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 				
 				btnHuongDanSD.add(Box.createHorizontalStrut(30));
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
+				*/
+				
+				pnluser22.add(Box.createVerticalStrut(50));
+				
+				pnluser22.add(btnQuanLy = new JButton("Quản Lý Sinh Viên"));
+				btnQuanLy.setBackground(Color.ORANGE);
+				btnQuanLy.add(Box.createHorizontalStrut(50));
+				btnQuanLy.add(Box.createVerticalStrut(20));
+				pnluser22.add(Box.createVerticalStrut(10));
+
+				
+				pnluser22.add(btnThongKe = new JButton("Thống kê"));
+				btnThongKe.setBackground(Color.ORANGE);
+				btnThongKe.add(Box.createHorizontalStrut(50));
+				btnThongKe.add(Box.createVerticalStrut(20));
+				
+				pnluser22.add(Box.createVerticalStrut(10));
+				pnluser22.add(btnCapNhatTK = new JButton("Cập Nhật Thông Tin"));
+				btnCapNhatTK.setBackground(Color.ORANGE);
+				btnCapNhatTK.add(Box.createHorizontalStrut(30));
+				btnCapNhatTK.add(Box.createVerticalStrut(20));
+				
 				pnluser22.add(Box.createVerticalStrut(10));
 				pnluser22.add(btnThoat = new JButton("Thoát"));
+				btnThoat.setBackground(Color.RED);
+				btnThoat.setForeground(Color.WHITE);
 				btnThoat.add(Box.createHorizontalStrut(30));
 				btnThoat.add(Box.createVerticalStrut(20));
+
 		
 		//Center
 		JPanel pnlCen = new JPanel();
@@ -157,9 +260,9 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		JPanel pnlQuanLyTro = new JPanel();
 		pnlQuanLyTro.add(lblcen1 = new JLabel("QUẢN LÝ NHÂN VIÊN"));
 		bcen1.add(pnlQuanLyTro);
-		pnlQuanLyTro.setBackground(Color.blue);
+		pnlQuanLyTro.setBackground(Color.BLUE);
 		lblcen1.setFont(new Font("Arial", Font.BOLD, 40));
-		lblcen1.setForeground(Color.YELLOW);
+		lblcen1.setForeground(Color.PINK);
 	//Table
 		boxCen.add(bcen2 = Box.createHorizontalBox());
 		
@@ -230,13 +333,19 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		pnlForm.add(Box.createVerticalStrut(10));
 		Box boxKhoa = Box.createHorizontalBox();
 		boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
-		boxKhoa.add(txtKhoa=new JTextField());
+		boxKhoa.add(cbKhoa=new JComboBox<>());
+		String []khoa = "CNTT;QTKD;TMDT".split(";");
+		for(String k : khoa) {
+			cbKhoa.addItem(k);
+		}
 		pnlForm.add(boxKhoa);
 		
 		pnlForm.add(Box.createVerticalStrut(10));
 		Box boxLoaiNV = Box.createHorizontalBox();
-		boxLoaiNV.add(lblLoaiNV=new JLabel("Cấp bậc: "));
-		boxLoaiNV.add(txtLoaiNV=new JTextField());
+		boxLoaiNV.add(lblLoaiNV=new JLabel("Chức Vụ: "));
+		boxLoaiNV.add(cbCapBac = new JComboBox<>());
+		cbCapBac.addItem("GVK");
+		cbCapBac.addItem("NQL");
 		pnlForm.add(boxLoaiNV);
 		
 		lblMaNV.setPreferredSize(lblTenNV.getPreferredSize());
@@ -275,7 +384,7 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		 
 		 pnlSouthRight.add(Box.createVerticalStrut(30));
 		 Box boxcmpTim = Box.createHorizontalBox();
-		 String[] s = "ma;Ten;diachi,sdt".split(";");
+		 String[] s = "Mã;Tên Nhân Viên;Khoa".split(";");
 		 boxcmpTim.add(cmp = new JComboBox<String>(s));
 		 pnlSouthRight.add(boxcmpTim);
 		 
@@ -292,18 +401,19 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		 
 		
 	
-		btnHuongDanSD.addActionListener(this);
-		btnNhanVien.addActionListener(this);
-		btnSinhVien.addActionListener(this);
+		//btnHuongDanSD.addActionListener(this);
+		//btnNhanVien.addActionListener(this);
+		//btnSinhVien.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnThem.addActionListener(this);
 		btnThoat.addActionListener(this);
-		btnThongKe.addActionListener(this);
-		btnThueTro.addActionListener(this);
+		//btnThongKe.addActionListener(this);
+		//btnThueTro.addActionListener(this);
 		btnTim.addActionListener(this);
-		btnTro.addActionListener(this);
+		//btnTro.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
+		table.addMouseListener(this);
 		
 		
 		
@@ -311,7 +421,7 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 				/////////////////////////////////////////////////
 		
 		//pnlcen3.add(Box.createHorizontalStrut(400), BorderLayout.EAST);
-
+		loadNhanVienTuDatabase();
 		setVisible(true);
 	}
 	
@@ -336,15 +446,7 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
 		
-		if(ob.equals(btnHuongDanSD))
-		{
-			
-		}
-		else if(ob.equals(btnNhanVien))
-		{
-			
-		}
-		else if(ob.equals(btnSinhVien))
+		if(ob.equals(btnCapNhatTK))
 		{
 			
 		}
@@ -354,7 +456,31 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		}
 		else if(ob.equals(btnThem))
 		{
+			//lấy dl từ textfield
+			String maNV = txtMaNV.getText();
+			String tenNV = txtTenNV.getText();
+			String ngaySinh = txtNgaySinh.getText();
+			String khoa = cbKhoa.getSelectedItem().toString();
+			String loaiNV = cbCapBac.getSelectedItem().toString();
 			
+		
+			
+			//sql connecting
+			if
+			try {
+				ConnectDB.getInstance().connect();
+				Connection con = ConnectDB.getConnecction();
+				Statement st = con.createStatement();
+				st.executeUpdate("INSERT INTO NhanVien(maNhanVien, loaiNhanVien, matKhau, tenNhanVien, ngaySinh, tenKhoa) "
+						+ "VALUES ('"+maNV+"', '"+loaiNV+"', '12345','"+tenNV+"', '"+ngaySinh+"', '"+khoa+"')"); 
+				con.close();
+				Object o[] = {maNV, tenNV, ngaySinh, khoa, loaiNV};
+				tableModel.insertRow(row, o);
+			} catch (SQLException ex) {
+				// TODO: handle exception
+				ex.printStackTrace();
+
+			}
 		}
 		else if(ob.equals(btnThoat))
 		{
@@ -364,15 +490,34 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		{
 			
 		}
-		else if(ob.equals(btnThueTro))
-		{
-			
-		}
 		else if(ob.equals(btnTim))
 		{
 			
+			//lay maNV
+			String maNhanVienCanTim = txtTim.getText();
+			
+			try {
+				ConnectDB.getInstance().connect();
+				Connection con = ConnectDB.getConnecction();
+				Statement st = con.createStatement();
+				ResultSet rs = st.executeQuery("SELECT * FROM NhanVien WHERE maNhanVien='"+maNhanVienCanTim+"'");
+				int row = 0;
+				while(rs.next()) {
+					
+					Object o[] = {rs.getString("maNhanVien"), rs.getString("tenNhanVien"),
+							rs.getString("ngaySinh"),rs.getString("tenKhoa"), rs.getString("loaiNhanVien")};
+					tableModel.setRowCount(0);
+					tableModel.addRow(o);
+					row++;
+				}
+				con.close();
+			} catch (SQLException e3) {
+				// TODO: handle exception
+				e3.printStackTrace();
+
+			}
 		}
-		else if(ob.equals(btnTro))
+		else if(ob.equals(btnQuanLy))
 		{
 			
 		}
@@ -382,8 +527,92 @@ public class GD_QLNhanVien extends JPanel implements ActionListener{
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
-			
+			txtMaNV.setText("");
+			txtTenNV.setText("");
+			txtNgaySinh.setText("");
+			cbKhoa.setSelectedIndex(0);
+			cbCapBac.setSelectedIndex(0);
+			txtTim.setText("");
+			cmp.setSelectedIndex(0);
 		}
 	
 	}
+
+	private void themVaoBang() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void loadNhanVienTuDatabase() {
+		//mở kết nối sql
+		try {
+			ConnectDB.getInstance().connect();
+			Connection con = ConnectDB.getConnecction();
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM NhanVien");
+			int row = 0;
+			tableModel.setRowCount(0);
+			while(rs.next()) {
+				
+				Object o[] = {rs.getString("maNhanVien"), rs.getString("tenNhanVien"),
+						rs.getString("ngaySinh"),rs.getString("tenKhoa"), rs.getString("loaiNhanVien")};
+				
+				tableModel.addRow(o);
+				String namSinh_arr[] = rs.getString("ngaySinh").split("-");
+				
+			}
+			con.close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		int row = table.getSelectedRow();
+		txtMaNV.setText(table.getValueAt(row, 0).toString());
+		txtTenNV.setText(table.getValueAt(row, 1).toString());
+		txtNgaySinh.setText(table.getValueAt(row, 2).toString());
+		cbKhoa.setSelectedItem(table.getValueAt(row, 3).toString());
+		cbCapBac.setSelectedItem(table.getValueAt(row, 4).toString());
+		
+		//uneditable
+		txtMaNV.setEditable(false);
+		txtTenNV.setEditable(false);
+		txtNgaySinh.setEditable(false);
+		cbKhoa.setEnabled(false);
+		cbCapBac.setEnabled(false);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+	
+	
 }
