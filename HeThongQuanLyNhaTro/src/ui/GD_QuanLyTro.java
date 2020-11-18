@@ -445,7 +445,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		ArrayList<String> arrTenQuan = new ArrayList<String>();
 		listNhaTro.forEach(v -> {
-		
 			if(!arrTenQuan.contains(v.getDiaChiTro().getTenQuan()))
 			{
 				JcmpTimQuan.addItem(v.getDiaChiTro().getTenQuan());

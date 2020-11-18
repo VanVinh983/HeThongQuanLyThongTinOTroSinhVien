@@ -466,7 +466,6 @@ public class GD_QLNhanVien extends JPanel implements ActionListener, MouseListen
 		
 			
 			//sql connecting
-			if
 			try {
 				ConnectDB.getInstance().connect();
 				Connection con = ConnectDB.getConnecction();

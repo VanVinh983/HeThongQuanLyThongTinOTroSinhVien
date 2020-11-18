@@ -9,7 +9,7 @@ public class GD_Chinh {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(new GD_QuanLySinhVien());
 		frame.pack();
-		frame.setResizable(false);
+		//frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setLocationRelativeTo(null);
 	}
