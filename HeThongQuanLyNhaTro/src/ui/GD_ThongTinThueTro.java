@@ -73,21 +73,21 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 	 */
 	public GD_ThongTinThueTro() {
 		
-		nv_Dao = new NhanVien_Dao(); 
-		tamluu_dao = new TamLuuMaNhanVien_Dao();
-		try {
-			ConnectDB.getInstance().connect();
-		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+//		nv_Dao = new NhanVien_Dao(); 
+//		tamluu_dao = new TamLuuMaNhanVien_Dao();
+//		try {
+//			ConnectDB.getInstance().connect();
+//		} catch (SQLException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
 		
 		setAutoscrolls(true);
 		setBorder(null);
 		this.setPreferredSize(new Dimension(1600, 600));
 		setLayout(new BorderLayout(0, 0));
-		String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-		String khoa = tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa();
+//		String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+//		String khoa = tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa();
 		
 		ImageIcon imgUser = new ImageIcon(new ImageIcon("HinhAnh/User.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
 		ImageIcon imgSV = new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
@@ -118,10 +118,10 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 		JLabel lblChucVu = new JLabel("Quản Lý\r\n");
 		lblChucVu.setFont(new Font("Arial", Font.BOLD, 27));
 		
-		if(loaiNV.equals("NV")) {
-			lblChucVu.setText("    Giáo Vụ Khoa: "+ khoa);
-			lblChucVu.setFont(new Font("Arial", 1, 15));
-		}
+//		if(loaiNV.equals("NV")) {
+//			lblChucVu.setText("    Giáo Vụ Khoa: "+ khoa);
+//			lblChucVu.setFont(new Font("Arial", 1, 15));
+//		}
 		
 		pnlChucVu.add(lblChucVu);
 		
@@ -161,9 +161,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 		pnlNhanVien.setPreferredSize(new Dimension(200, 50));
 		
 		
-		if(loaiNV.equals("QL")) {
-			pnlTacVu.add(pnlNhanVien);
-		}
+//		if(loaiNV.equals("QL")) {
+//			pnlTacVu.add(pnlNhanVien);
+//		}
 		JButton btnNhanVien = new JButton("Nhân Viên\r\n");
 		btnNhanVien.setBorder(null);
 		btnNhanVien.setBackground(Color.CYAN);
