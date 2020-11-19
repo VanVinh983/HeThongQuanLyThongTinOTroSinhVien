@@ -8,6 +8,8 @@ public class NhanVien {
 	private String matKhau;
 	private Date ngaySinh;
 	private String tenKhoa;
+	
+	
 	public String getMaNV() {
 		return maNV;
 	}

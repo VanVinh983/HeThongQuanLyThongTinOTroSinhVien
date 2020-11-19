@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,11 +42,18 @@ import javax.swing.table.DefaultTableModel;
 
 import connectDB.ConnectDB;
 import dao.NhaTro_Dao;
+import dao.NhanVien_Dao;
+import dao.SinhVien_Dao;
+import dao.TamLuuMaNhanVien_Dao;
 import entity.DiaChi;
 import entity.NhaTro;
+import entity.NhanVien;
+import entity.SinhVien;
 
 public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListener{
 
+	private NhanVien_Dao nv_Dao;
+	private TamLuuMaNhanVien_Dao tamluu_dao;
 	//attribute Form thông tin phần txt
 	private JTextField txtMaNhatro;
 	private JTextField txtChuNha;
@@ -80,7 +88,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	private JComboBox<String> JcmpTimDuong;
 	
 	//Phần tên user
-	private JTextField txtUser;
+	private JLabel lblNameUser;
 	private JLabel lblUser;
 	
 	//Tiêu đề Quản lý Trọ
@@ -102,6 +110,9 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	//Compobox Lua cong tim kiếm
 	private JComboBox<String> cmp;
 	public GD_QuanLyTro(){
+		nv_Dao = new NhanVien_Dao(); 
+		tamluu_dao = new TamLuuMaNhanVien_Dao();
+		
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
 		
@@ -116,13 +127,10 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				Box buser = Box.createVerticalBox();
 					Box bUser, buserImg;
 					buser.add(bUser = Box.createHorizontalBox());
-						bUser.add(lblUser = new JLabel("User: "));
-						lblUser.setFont(new Font("Arial", Font.BOLD, 35));
-						bUser.add(txtUser = new JTextField(20));
-						bUser.add(Box.createVerticalStrut(20));
-						txtUser.setEnabled(false);
+					NhaTro_Dao dao = new NhaTro_Dao();
+					
+					bUser.add(lblNameUser = new JLabel(dao.layTenNhanVien()));
 					buser.add(buserImg = Box.createVerticalBox());
-	
 					//Hinh Anh user
 					JPanel pnlImg=new JPanel();
 		     		JLabel lblBanner = new JLabel();
@@ -382,6 +390,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		
 		
+		
 				/////////////////////////////////////////////////
 	
 		setVisible(true);
@@ -395,7 +404,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			e.printStackTrace();
 		}
 	}
-	
+
 	//Phương thức thêm toàn bộ dử liệu nhà trọ vào bảng
 	public void addDatabase() {
 		
@@ -712,18 +721,46 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		if(ob.equals(btnHuongDanSD))
 		{
+			removeAll();
+			add(new GD_HDSD());
+			repaint();
+			revalidate();
 			}
 		else if(ob.equals(btnNhanVien))
 		{
-			
+			removeAll();
+			add(new GD_QLNhanVien());
+			repaint();
+			revalidate();
 		}
 		else if(ob.equals(btnSinhVien))
 		{
-			
+			removeAll();
+			add(new GD_QuanLySinhVien());
+			repaint();
+			revalidate();
 		}
 		else if(ob.equals(btnSua))
 		{
+			NhaTro_Dao daoNhaTro= new NhaTro_Dao();
+			String maTro = txtMaNhatro.getText();
+			String tenChutro = txtChuNha.getText();
+			String SDT = txtSDT.getText();
+			String tenQuan = JcmpQuan.getSelectedItem().toString();
+			String tenPhuong = JcmpPhuong.getSelectedItem().toString();
+			String soNha = JcmpSoNha.getSelectedItem().toString();
+			String tenDuong = JcmpDuong.getSelectedItem().toString();
+			NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
 			
+			if(daoNhaTro.UpdateNhaTroSinhVien(nhaTro)==true)
+			{
+				JOptionPane.showMessageDialog(this, "Sửa thành công!!");
+				tableModel.setRowCount(0);
+				addDatabase();
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Sửa thất bại!!");
+			}
 		}
 		else if(ob.equals(btnThem))
 		{
@@ -742,24 +779,33 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnThoat))
 		{
-			
+			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+			if(loaiNV.equals("QL")) {
+				removeAll();
+				add(new GD_Admin());
+				repaint();
+				revalidate();
+			}
+			else if (loaiNV.equals("NV")) {
+				removeAll();
+				add(new GD_TrangChuNhanVienGVK());
+				repaint();
+				revalidate();
+			}
 		}
 		else if(ob.equals(btnThongKe))
 		{
 			
+			
 		}
 		else if(ob.equals(btnThueTro))
 		{
-			
+			removeAll();
+			add(new GD_ThongTinThueTro());
+			repaint();
+			revalidate();
 		}
-		else if(ob.equals(btnTim))
-		{
-			NhaTro_Dao dao = new NhaTro_Dao();
-//			System.out.println("\n______________________________________________-"+dao.timNhaTro("NT_0005"));
-			dao.layTroTheoMa("NT_0005");
-			tableModel.setRowCount(0);
-			addDatabase();
-		}
+	
 		else if(ob.equals(btnTro))
 		{
 			
@@ -778,10 +824,81 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			txtMaNhatro.setText("");
 			txtSDT.setText("");
 			txtTim.setText("");
-			txtUser.setText("");
+			
 			txtTim.setText("");
 			tableModel.setRowCount(0);
 			addDatabase();
+		}
+		
+		else if(cmp.getSelectedItem().equals("Mã"))
+		{
+			if(ob.equals(btnTim))
+			{
+				NhaTro_Dao dao = new NhaTro_Dao();
+				String ma = txtTim.getText();
+				if(dao.layTroTheoMa(ma)!=null)
+				{
+					
+					NhaTro v = dao.layTroTheoMa(ma);
+					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
+					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
+					
+					tableModel.setRowCount(0);
+					tableModel.addRow(row);
+				}
+				else {
+					txtTim.setText("");
+					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+				}
+			}	
+			
+		}
+		
+		else if(cmp.getSelectedItem().equals("Tên"))
+		{
+			if(ob.equals(btnTim))
+			{
+				NhaTro_Dao dao = new NhaTro_Dao();
+				String ma = txtTim.getText();
+				if(dao.layTroTheoMa(ma)!=null)
+				{
+					
+					NhaTro v = dao.layTroTheoMa(ma);
+					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
+					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
+					
+					tableModel.setRowCount(0);
+					tableModel.addRow(row);
+				}
+				else {
+					txtTim.setText("");
+					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+				}
+			}	
+			
+		}
+		else if(cmp.getSelectedItem().equals("Địa chỉ"))
+		{
+			if(ob.equals(btnTim))
+			{
+				NhaTro_Dao dao = new NhaTro_Dao();
+				String ma = txtTim.getText();
+				if(dao.layTroTheoMa(ma)!=null)
+				{
+					
+					NhaTro v = dao.layTroTheoMa(ma);
+					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
+					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
+					
+					tableModel.setRowCount(0);
+					tableModel.addRow(row);
+				}
+				else {
+					txtTim.setText("");
+					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+				}
+			}	
+			
 		}
 		
 	}
@@ -825,104 +942,3 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	}
 }
 
-//	// Phương thức đọc hình ảnh từ file
-//	public  void setPicture(  JLabel label ,String filename ){
-//        try {
-//          BufferedImage image = ImageIO.read(new File(filename));
-//          int x =label.getSize().width;
-//          int y =label.getSize().height;
-//          int ix =image.getWidth();
-//          int iy =image.getHeight();
-//
-//          int dx=x;
-//          int dy=y;
-//         
-//
-//          ImageIcon icon = new ImageIcon(image.getScaledInstance(dx, dy, BufferedImage.SCALE_SMOOTH));
-//          label.setIcon(icon);
-//      } catch (IOException ex) {
-//    	  JOptionPane.showMessageDialog(null, "Loi hinh anh");
-//      }
-//  }
-//	@Override
-//	public void actionPerformed(ActionEvent e) {
-//		Object ob = e.getSource();
-//		
-//		if(ob.equals(btnHuongDanSD))
-//		{
-//			removeAll();
-//			add(new GD_HDSD());
-//			repaint();
-//			revalidate();
-//		}
-//		else if(ob.equals(btnNhanVien))
-//		{
-//			removeAll();
-//			add(new GD_QLNhanVien());
-//			repaint();
-//			revalidate();
-//		}
-//		else if(ob.equals(btnSinhVien))
-//		{
-//			removeAll();
-//			add(new GD_QuanLySinhVien());
-//			repaint();
-//			revalidate();
-//		}
-//		else if(ob.equals(btnSua))
-//		{
-//			
-//		}
-//		else if(ob.equals(btnThem))
-//		{
-//			
-//		}
-//		else if(ob.equals(btnThoat))
-//		{
-//			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-//			if(loaiNV.equals("QL")) {
-//				removeAll();
-//				add(new GD_Admin());
-//				repaint();
-//				revalidate();
-//			}
-//			else if (loaiNV.equals("NV")) {
-//				removeAll();
-//				add(new GD_TrangChuNhanVienGVK());
-//				repaint();
-//				revalidate();
-//			}
-//		}
-//		else if(ob.equals(btnThongKe))
-//		{
-//			
-//		}
-//		else if(ob.equals(btnThueTro))
-//		{
-//			
-//		}
-//		else if(ob.equals(btnTim))
-//		{
-//			
-//		}
-//		else if(ob.equals(btnTro))
-//		{
-//			
-//		}
-//		else if(ob.equals(btnXoa))
-//		{
-//			
-//		}
-//		else if(ob.equals(btnXoaTrang))
-//		{
-//			txtChuNha.setText("");
-//			txtMaNhatro.setText("");
-//			txtSDT.setText("");
-//			txtTim.setText("");
-//			txtUser.setText("");
-//			txtTim.setText("");
-//		}
-//	}
-//	
-//
-//}

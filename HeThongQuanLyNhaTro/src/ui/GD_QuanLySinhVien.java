@@ -39,6 +39,7 @@ import dao.NhanVien_Dao;
 import dao.SinhVien_Dao;
 import dao.TamLuuMaNhanVien_Dao;
 import entity.NhaTro;
+import entity.NhanVien;
 import entity.SinhVien;
 
 public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseListener{
@@ -76,7 +77,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	private JButton btnXoaTrang;
 	
 	//Phần tên user
-	private JTextField txtUser;
+	private JLabel lblNameUser;
 	private JLabel lblUser;
 	
 	//Tiêu đề Quản lý Trọ
@@ -121,13 +122,11 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 					
 					//box user1 
 					buser.add(bUser = Box.createHorizontalBox());
-						bUser.add(lblUser = new JLabel("User: "));
-						lblUser.setFont(new Font("Arial", Font.BOLD, 35));
-						bUser.add(txtUser = new JTextField(20));
-						bUser.add(Box.createVerticalStrut(20));
-						txtUser.setEnabled(false);
+					
+					NhaTro_Dao dao = new NhaTro_Dao();
+					
+					bUser.add(lblNameUser = new JLabel(dao.layTenNhanVien()));
 					buser.add(buserImg = Box.createVerticalBox());
-	
 					//box user2 Hinh Anh user
 					JPanel pnlcontent=new JPanel();
 		     		JLabel lblBanner = new JLabel();
@@ -406,8 +405,7 @@ public void addDatabase() {
 		listSV.forEach(v -> {
 			DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
 			String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue() + "/" +v.getNgaySinh().getYear();
-			//System.out.println("\nNgay Sinh ____ :" );
-			String[] row = {v.getMaSV(), v.getTenSV(),ngaySinh, v.getQueQuanSV(), v.getMaLop(), v.getMaNV(), v.getGioiTinh(), v.getChuyenNghanh()};
+			String[] row = {v.getMaSV(), v.getTenSV(),ngaySinh, v.getQueQuanSV(), v.getMaLop(), v.getMaNV().getMaNV(), v.getGioiTinh(), v.getChuyenNghanh()};
 			tableModel.addRow(row);
 		});
 }
@@ -466,7 +464,7 @@ public void addDatabase() {
 			String gioiTinh = txtGioiTinh.getText();
 			String chuyenNghanh = txtChuyenNghanh.getText();
 			
-			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, maNV, gioiTinh, chuyenNghanh);
+			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
 			if(daosv.UpdateSinhVien(sv)==true)
 			{
 				JOptionPane.showMessageDialog(this, "Sửa thành công!!");
@@ -490,7 +488,7 @@ public void addDatabase() {
 			String gioiTinh = txtGioiTinh.getText();
 			String chuyenNghanh = txtChuyenNghanh.getText();
 			
-			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, maNV, gioiTinh, chuyenNghanh);
+			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
 			if(daosv.themSV(sv)==true)
 			{
 				JOptionPane.showMessageDialog(this, "Thêm thành công!!");
@@ -518,6 +516,8 @@ public void addDatabase() {
 				revalidate();
 			}
 		}
+		
+		
 		else if(ob.equals(btnThongKe))
 		{
 			
@@ -526,10 +526,7 @@ public void addDatabase() {
 		{
 			
 		}
-		else if(ob.equals(btnTim))
-		{
-			
-		}
+		
 		else if(ob.equals(btnTro))
 		{
 			removeAll();
@@ -558,11 +555,39 @@ public void addDatabase() {
 			txtNgaySinh.setText("");
 			txtQueQuan.setText("");
 			txtMaLop.setText("");
-			txtUser.setText("");
 			txtTim.setText("");
 			txtMaNV.setText("");
 			txtGioiTinh.setText("");
 			txtChuyenNghanh.setText("");
+			
+			txtTim.setText("");
+			tableModel.setRowCount(0);
+			addDatabase();
+		}
+		else if(cmp.getSelectedItem().equals("Mã"))
+		{
+			if(ob.equals(btnTim))
+			{
+				SinhVien_Dao dao = new SinhVien_Dao();
+				
+				String ma = txtTim.getText();
+				if(dao.laySinhVienTheoMa(ma)!=null)
+				{
+					
+					SinhVien v = dao.laySinhVienTheoMa(ma);
+					DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+					String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue() + "/" +v.getNgaySinh().getYear();
+					String[] row = {v.getMaSV(), v.getTenSV(),ngaySinh, v.getQueQuanSV(), v.getMaLop(), v.getMaNV().getMaNV(), v.getGioiTinh(), v.getChuyenNghanh()};
+					
+					tableModel.setRowCount(0);
+					tableModel.addRow(row);
+				}
+				else if(dao.laySinhVienTheoMa(ma)==null){
+					txtTim.setText("");
+					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+				}
+			}	
+			
 		}
 		
 	}

@@ -10,14 +10,14 @@ public class SinhVien {
 	private LocalDate ngaySinh;
 	private String queQuanSV;
 	private String maLop;
-	private String maNV;
+	private NhanVien maNV;
 	private String gioiTinh;
 	private String chuyenNghanh;
 	public SinhVien() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public SinhVien(String maSV, String tenSV, LocalDate ngaySinh, String queQuanSV, String maLop, String maNV,
+	public SinhVien(String maSV, String tenSV, LocalDate ngaySinh, String queQuanSV, String maLop, NhanVien maNV,
 			String gioiTinh, String chuyenNghanh) {
 		super();
 		this.maSV = maSV;
@@ -59,10 +59,10 @@ public class SinhVien {
 	public void setMaLop(String maLop) {
 		this.maLop = maLop;
 	}
-	public String getMaNV() {
+	public NhanVien getMaNV() {
 		return maNV;
 	}
-	public void setMaNV(String maNV) {
+	public void setMaNV(NhanVien maNV) {
 		this.maNV = maNV;
 	}
 	public String getGioiTinh() {
@@ -78,36 +78,10 @@ public class SinhVien {
 		this.chuyenNghanh = chuyenNghanh;
 	}
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((maSV == null) ? 0 : maSV.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SinhVien other = (SinhVien) obj;
-		if (maSV == null) {
-			if (other.maSV != null)
-				return false;
-		} else if (!maSV.equals(other.maSV))
-			return false;
-		return true;
-	}
-	@Override
 	public String toString() {
 		return "SinhVien [maSV=" + maSV + ", tenSV=" + tenSV + ", ngaySinh=" + ngaySinh + ", queQuanSV=" + queQuanSV
 				+ ", maLop=" + maLop + ", maNV=" + maNV + ", gioiTinh=" + gioiTinh + ", chuyenNghanh=" + chuyenNghanh
 				+ "]";
 	}
-	
-	
-	
 	
 }
