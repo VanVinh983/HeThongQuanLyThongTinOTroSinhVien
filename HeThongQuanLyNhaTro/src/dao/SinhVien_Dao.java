@@ -259,4 +259,41 @@ public class SinhVien_Dao {
 		}
 	return null;
 	}
+	public SinhVien laySinhVien(String maSV) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnecction();
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement("select * from SinhVien where maSinhVien =?");
+			stmt.setString(1, maSV);
+			ResultSet rs = stmt.executeQuery();
+			String tenSV = rs.getString(2);
+			LocalDate ngaySinh = LocalDate.of(rs.getDate(3).toLocalDate().getYear(), rs.getDate(3).toLocalDate().getMonthValue(), rs.getDate(3).toLocalDate().getDayOfMonth());
+			String quequan = rs.getString(4);
+			String lop = rs.getString(5);
+			NhanVien nv = new NhanVien(rs.getString(6));
+			String gioiTinh = "";
+			if(rs.getByte(7)==1)
+			{
+				gioiTinh = "Nữ";
+			}
+			else {
+				gioiTinh = "Nam";
+			}
+			String chuyenNganh = rs.getString(8);
+			
+			return new SinhVien(maSV, tenSV, ngaySinh, quequan, lop, nv, gioiTinh, chuyenNganh);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
 }

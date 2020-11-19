@@ -17,6 +17,10 @@ public class SinhVien {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public SinhVien(String maSV) {
+		super();
+		this.maSV = maSV;
+	}
 	public SinhVien(String maSV, String tenSV, LocalDate ngaySinh, String queQuanSV, String maLop, NhanVien maNV,
 			String gioiTinh, String chuyenNghanh) {
 		super();

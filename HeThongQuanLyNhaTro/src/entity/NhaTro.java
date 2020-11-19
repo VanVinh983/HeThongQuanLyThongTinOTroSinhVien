@@ -16,6 +16,10 @@ public class NhaTro {
 		SDT = sDT;
 		this.diaChiTro = diaChiTro;
 	}
+	public NhaTro(String maTro) {
+		super();
+		this.maTro = maTro;
+	}
 	public String getMaTro() {
 		return maTro;
 	}

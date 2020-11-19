@@ -12,8 +12,14 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import connectDB.ConnectDB;
+import dao.NhaTro_Dao;
 import dao.NhanVien_Dao;
+import dao.SinhVien_Dao;
 import dao.TamLuuMaNhanVien_Dao;
+import dao.ThongTinThueTro_Dao;
+import entity.NhaTro;
+import entity.SinhVien;
+import entity.ThongTinThueTro;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
@@ -64,6 +70,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 	private JButton btnTim;
 	private NhanVien_Dao nv_Dao;
 	private TamLuuMaNhanVien_Dao tamluu_dao;
+	private SinhVien_Dao sinhvien_dao;
+	private NhaTro_Dao NhaTro_Dao;
+	private ThongTinThueTro_Dao thongtinthuetro_dao;
 
 	/**
 	 * Launch the application.
@@ -75,6 +84,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 		
 		nv_Dao = new NhanVien_Dao(); 
 		tamluu_dao = new TamLuuMaNhanVien_Dao();
+		sinhvien_dao = new SinhVien_Dao();
+		NhaTro_Dao = new NhaTro_Dao();
+		thongtinthuetro_dao = new ThongTinThueTro_Dao();
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
@@ -751,6 +763,8 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 		txtTPTenChuNhaTro.setEnabled(false);
 		txtNgayCapNhat.setText(dt.format(LocalDate.now()));
 		
+		themDuLieuCoSan(tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV(), loaiNV);
+		
 	}
 
 	@Override
@@ -777,6 +791,28 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener{
 		}
 		
 	}
+	
+	public void themDuLieuCoSan(String maNV, String loaiNV) {
+		ArrayList<ThongTinThueTro> t = null;
+		if(loaiNV.equals("QL")) {
+			t = thongtinthuetro_dao.layTatCaDsThongTinThueTro();
+		}
+		else if (loaiNV.equals("NV")) {
+			t = thongtinthuetro_dao.layTatCaDsThongTinThueTroTheoMaNhanVien(maNV);
+		}
+		for (ThongTinThueTro thongTinThueTro : t) {
+			themDongVaoBangThongTin(thongTinThueTro, tableModelBTT);
+		}
+	}
+	
+	public void themDongVaoBangThongTin(ThongTinThueTro t, DefaultTableModel model) {
+		SinhVien sv = sinhvien_dao.laySinhVienTheoMa(t.getSinhVien().getMaSV());
+		NhaTro nt = NhaTro_Dao.layTroTheoMa(t.getNhaTro().getMaTro());
+		String diachi = nt.getDiaChiTro().getSoNha()+", "+nt.getDiaChiTro().getTenDuong()+", "+nt.getDiaChiTro().getTenPhuong()+", "+nt.getDiaChiTro().getTenQuan();
+		DateTimeFormatter dt  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		model.addRow(new Object[] {t.getSinhVien().getMaSV(), sv.getTenSV(), t.getNhaTro().getMaTro(), nt.getTenChutro(), diachi, dt.format(t.getNgayBatDau()), dt.format(t.getNgayKetThuc()), t.getGiaThue(),dt.format(t.getNgayCapNhat())});
+	}
+	
 	
 
 }
