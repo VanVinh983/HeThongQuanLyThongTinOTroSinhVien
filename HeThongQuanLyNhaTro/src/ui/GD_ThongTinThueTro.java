@@ -24,6 +24,8 @@ import entity.ThongTinThueTro;
 import java.awt.Color;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.BoxLayout;
@@ -75,6 +77,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	private SinhVien_Dao sinhvien_dao;
 	private NhaTro_Dao NhaTro_Dao;
 	private ThongTinThueTro_Dao thongtinthuetro_dao;
+	private JButton btnThemTroMoi;
 
 	/**
 	 * Launch the application.
@@ -792,7 +795,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		JPanel pnlThemTroMoi = new JPanel();
 		pnlTacVuTimKiem.add(pnlThemTroMoi);
 
-		JButton btnThemTroMoi = new JButton("Thêm Trọ Mới");
+		btnThemTroMoi = new JButton("Thêm Trọ Mới");
 		btnThemTroMoi.setPreferredSize(new Dimension(150, 40));
 		btnThemTroMoi.setFont(new Font("Arial", Font.BOLD, 15));
 		pnlThemTroMoi.add(btnThemTroMoi);
@@ -809,6 +812,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		btnSua.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
 		btnTim.addActionListener(this);
+		btnThemTroMoi.addActionListener(this);
 		cboDuong.addActionListener(this);
 		cboLuaChon.addActionListener(this);
 		cboPhuong.addActionListener(this);
@@ -828,15 +832,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		// đổ dữ liệu vào combobox
 
 		List<NhaTro> listNhaTro = NhaTro_Dao.layTatCaBang();
-//		for (NhaTro nhaTro : listNhaTro) {
-//			
-//			if(!cboQuan.) {
-//				cboQuan.addItem(nhaTro.getDiaChiTro().getTenQuan());
-//			}
-//			cboPhuong.addItem(nhaTro.getDiaChiTro().getTenPhuong());
-//			cboDuong.addItem(nhaTro.getDiaChiTro().getTenDuong());
-//			cboSoNha.addItem(nhaTro.getDiaChiTro().getSoNha());
-//		}
+		
 		ArrayList<String> arrTenQuan = new ArrayList<String>();
 		listNhaTro.forEach(v -> {
 			if (!arrTenQuan.contains(v.getDiaChiTro().getTenQuan().trim())) {
@@ -892,6 +888,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			cboPhuong.setSelectedIndex(0);
 			cboSoNha.setSelectedIndex(0);
 			txtGiaThue.isFocusable();
+		}
+		else if (o.equals(btnThemTroMoi)) {
+			JOptionPane.showInputDialog(new GD_ThemTroMoi());
 		}
 	}
 

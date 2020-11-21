@@ -45,9 +45,9 @@ public class NhaTro_Dao {
 				String tenChutro = rs.getString(2);
 				String SDT = rs.getString(3);
 				String soNha= rs.getString(6);
-				String tenPhuong = rs.getString(7);
-				String tenQuan = rs.getString(8);
-				String tenDuong = rs.getString(9);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
 				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
 				listNhaTro.add(nhaTro);
 			}
@@ -226,9 +226,9 @@ public class NhaTro_Dao {
 				String tenChutro = rs.getString(2);
 				String SDT = rs.getString(3);
 				String soNha= rs.getString(6);
-				String tenPhuong = rs.getString(7);
-				String tenQuan = rs.getString(8);
-				String tenDuong = rs.getString(9);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
 				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
 				return nhaTro;
 			}
@@ -316,8 +316,8 @@ public class NhaTro_Dao {
 			
 			while(rs.next())
 			{
-				String phuong = rs.getString(3);
-				String duong = rs.getString(5);
+				String phuong = rs.getString(4);
+				String duong = rs.getString(3);
 				String sonha = rs.getString(2);
 				
 				DiaChi diachi = new DiaChi(quan, phuong, sonha, duong);
@@ -339,7 +339,7 @@ public class NhaTro_Dao {
 			
 			while(rs.next())
 			{
-				String duong = rs.getString(5);
+				String duong = rs.getString(3);
 				String sonha = rs.getString(2);
 				
 				DiaChi diachi = new DiaChi(quan, phuong, sonha, duong);
@@ -355,10 +355,9 @@ public class NhaTro_Dao {
 		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from DiaChi where quan ='"+ quan +"' and phuong = '"+phuong+"' and soDuong = '"+duong+"'";
+			String sql = "select * from DiaChi where quan ='"+ quan +"' and phuong = '"+phuong+"' and tenDuong = '"+duong+"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
-			
 			while(rs.next())
 			{
 				String sonha = rs.getString(2);
