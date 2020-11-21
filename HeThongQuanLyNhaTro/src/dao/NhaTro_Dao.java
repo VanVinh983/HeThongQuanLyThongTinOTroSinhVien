@@ -306,5 +306,69 @@ public class NhaTro_Dao {
 		}
 	return null;
 	}
+	public ArrayList<DiaChi> layDiaChiTheoQuan(String quan) {
+		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from DiaChi where quan ="+"'"+quan+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String phuong = rs.getString(3);
+				String duong = rs.getString(5);
+				String sonha = rs.getString(2);
+				
+				DiaChi diachi = new DiaChi(quan, phuong, sonha, duong);
+				dsDiaChi.add(diachi);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsDiaChi;
+	}
+	
+	public ArrayList<DiaChi> layDiaChiTheoPhuongVaQuan(String phuong, String quan) {
+		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from DiaChi where quan =" + "'" +quan+ "'" +"and"+ " phuong ="+ "'" + phuong+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String duong = rs.getString(5);
+				String sonha = rs.getString(2);
+				
+				DiaChi diachi = new DiaChi(quan, phuong, sonha, duong);
+				dsDiaChi.add(diachi);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsDiaChi;
+	}
+	
+	public ArrayList<DiaChi> layDiaChiTheoQuanPhuongDuong(String phuong, String quan, String duong) {
+		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from DiaChi where quan ='"+ quan +"' and phuong = '"+phuong+"' and soDuong = '"+duong+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String sonha = rs.getString(2);
+				DiaChi diachi = new DiaChi(quan, phuong, sonha, duong);
+				dsDiaChi.add(diachi);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsDiaChi;
+	}
 }
 

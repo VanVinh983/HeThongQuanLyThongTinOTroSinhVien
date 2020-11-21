@@ -430,7 +430,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		});
 		
 		ArrayList<String> arrTenDuong = new ArrayList<String>();
-		listNhaTro.forEach(v -> {
+		listNhaTro.forEach(v -> {	
 		
 			if(!arrTenDuong.contains(v.getDiaChiTro().getTenDuong()))
 			{
