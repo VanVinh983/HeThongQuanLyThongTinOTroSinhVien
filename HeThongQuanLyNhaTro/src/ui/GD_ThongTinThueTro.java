@@ -36,8 +36,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.CharArrayReader;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -78,6 +80,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	private NhaTro_Dao NhaTro_Dao;
 	private ThongTinThueTro_Dao thongtinthuetro_dao;
 	private JButton btnThemTroMoi;
+	private DefaultTableModel tableModelSinhVien;
+	private String khoa;
+	private DefaultTableModel tableModelNhaTro;
 
 	/**
 	 * Launch the application.
@@ -102,7 +107,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		this.setPreferredSize(new Dimension(1600, 600));
 		setLayout(new BorderLayout(0, 0));
 		String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-		String khoa = tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa();
+		khoa = tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa();
 
 		ImageIcon imgUser = new ImageIcon(
 				new ImageIcon("HinhAnh/User.png").getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
@@ -459,7 +464,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		cboQuan = new JComboBox<String>();
 		cboQuan.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<DiaChi> diachi = NhaTro_Dao.layDiaChiTheoQuan(cboQuan.getSelectedItem().toString().trim());
@@ -488,18 +493,20 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		cboPhuong = new JComboBox<String>();
 		try {
 			cboPhuong.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					if(cboPhuong.getSelectedItem() != null) {
-						ArrayList<DiaChi> diachi = NhaTro_Dao.layDiaChiTheoPhuongVaQuan(cboPhuong.getSelectedItem().toString().trim(), cboQuan.getSelectedItem().toString().trim());
+					if (cboPhuong.getSelectedItem() != null) {
+						ArrayList<DiaChi> diachi = NhaTro_Dao.layDiaChiTheoPhuongVaQuan(
+								cboPhuong.getSelectedItem().toString().trim(),
+								cboQuan.getSelectedItem().toString().trim());
 						cboDuong.removeAllItems();
 						cboSoNha.removeAllItems();
 						ArrayList<String> arrTenDuong = new ArrayList<String>();
 						for (DiaChi dc : diachi) {
-							
-							if(!arrTenDuong.contains(dc.getTenDuong())) {
+
+							if (!arrTenDuong.contains(dc.getTenDuong())) {
 								cboDuong.addItem(dc.getTenDuong());
 								arrTenDuong.add(dc.getTenDuong());
 							}
@@ -523,16 +530,18 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		cboDuong = new JComboBox<String>();
 		cboDuong.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(cboDuong.getSelectedItem() != null && cboPhuong.getSelectedItem()!=null) {
-					ArrayList<DiaChi> diachi = NhaTro_Dao.layDiaChiTheoQuanPhuongDuong(cboPhuong.getSelectedItem().toString().trim(), cboQuan.getSelectedItem().toString().trim(),cboDuong.getSelectedItem().toString().trim());
+				if (cboDuong.getSelectedItem() != null && cboPhuong.getSelectedItem() != null) {
+					ArrayList<DiaChi> diachi = NhaTro_Dao.layDiaChiTheoQuanPhuongDuong(
+							cboPhuong.getSelectedItem().toString().trim(), cboQuan.getSelectedItem().toString().trim(),
+							cboDuong.getSelectedItem().toString().trim());
 					cboSoNha.removeAllItems();
 					ArrayList<String> arrSoNha = new ArrayList<String>();
 					for (DiaChi dc : diachi) {
-						if(!arrSoNha.contains(dc.getSoNha().trim())){
+						if (!arrSoNha.contains(dc.getSoNha().trim())) {
 							cboSoNha.addItem(dc.getSoNha().toString().trim());
 							arrSoNha.add(dc.getSoNha().toString().trim());
 						}
@@ -733,8 +742,8 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		cboLuaChon = new JComboBox<String>();
 
-		String[] luaChon = { "Theo Địa Chỉ", "Theo Mã Sinh Viên", "Theo Mã Nhà Trọ ", "Theo Quận", "Theo Phường",
-				"Theo Đường", "Theo Số Nhà", "Theo Số Điện Thoại", "Theo Tên Chủ Trọ", "Theo Mã Nhân Viên" };
+		String[] luaChon = { "Theo Địa Chỉ", "Theo Mã Sinh Viên", "Theo Mã Nhà Trọ", "Theo Số Điện Thoại",
+				"Theo Tên Chủ Trọ", "Theo Tên Sinh Viên" };
 
 		for (String luachon : luaChon) {
 			cboLuaChon.addItem(luachon);
@@ -822,17 +831,17 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-		txtTPMaSinhVien.setEnabled(false);
-		txtTPTenSinhVien.setEnabled(false);
-		txtTPMaNhaTro.setEnabled(false);
-		txtTPTenChuNhaTro.setEnabled(false);
+		txtTPMaSinhVien.setEditable(false);
+		txtTPTenSinhVien.setEditable(false);
+		txtTPMaNhaTro.setEditable(false);
+		txtTPTenChuNhaTro.setEditable(false);
 		txtNgayCapNhat.setText(dt.format(LocalDate.now()));
 
 		themDuLieuCoSan(tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV(), loaiNV);
 		// đổ dữ liệu vào combobox
 
 		List<NhaTro> listNhaTro = NhaTro_Dao.layTatCaBang();
-		
+
 		ArrayList<String> arrTenQuan = new ArrayList<String>();
 		listNhaTro.forEach(v -> {
 			if (!arrTenQuan.contains(v.getDiaChiTro().getTenQuan().trim())) {
@@ -887,11 +896,125 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			cboQuan.setSelectedIndex(0);
 			cboPhuong.setSelectedIndex(0);
 			cboSoNha.setSelectedIndex(0);
-			txtGiaThue.isFocusable();
+			txtGiaThue.requestFocus();
+			tableBTT.setModel(tableModelBTT);
+		} else if (o.equals(btnThemTroMoi)) {
+			JOptionPane.showInputDialog("sdfsdfsdf");
+		} else if (o.equals(btnTim)) {
+			if (cboLuaChon.getSelectedItem().equals("Theo Mã Sinh Viên")) {
+				if (txtTuKhoa.getText().toString().trim() != null) {
+					String[] headerSinhVien = "Mã sinh viên;Tên sinh viên;Ngày sinh;Quê quán;Mã lớp;Khoa;Giới tính;Chuyên nghành"
+							.split(";");
+					tableModelSinhVien = new DefaultTableModel(headerSinhVien, 0);
+					tableBTT.setModel(tableModelSinhVien);
+					SinhVien sv = sinhvien_dao.laySinhVienTheoMa(txtTuKhoa.getText().toString().trim());
+					if (sv != null) {
+						tableModelSinhVien.addRow(new Object[] { sv.getMaSV(), sv.getTenSV(), sv.getNgaySinh(),
+								sv.getQueQuanSV(), sv.getMaLop(), khoa, sv.getGioiTinh(), sv.getChuyenNghanh() });
+					} else {
+						JOptionPane.showMessageDialog(this, "không tìm thấy");
+					}
+				} else {
+					JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là mã số sinh viên");
+				}
+			}
+			if (cboLuaChon.getSelectedItem().equals("Theo Tên Sinh Viên")) {
+				if (txtTuKhoa.getText().toString().trim() != null) {
+					String[] headerSinhVien = "Mã sinh viên;Tên sinh viên;Ngày sinh;Quê quán;Mã lớp;Khoa;Giới tính;Chuyên nghành"
+							.split(";");
+					tableModelSinhVien = new DefaultTableModel(headerSinhVien, 0);
+					tableBTT.setModel(tableModelSinhVien);
+					List<SinhVien> dsSinhVien = sinhvien_dao.laySinhVienBangTen(txtTuKhoa.getText().toString().trim());
+					if (dsSinhVien.size() > 0) {
+						dsSinhVien.forEach(v -> {
+							String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue()
+									+ "/" + v.getNgaySinh().getYear();
+							String[] row = { v.getMaSV(), v.getTenSV(), ngaySinh, v.getQueQuanSV(), v.getMaLop(), khoa,
+									v.getGioiTinh(), v.getChuyenNghanh() };
+							tableModelSinhVien.addRow(row);
+						});
+					} else {
+						JOptionPane.showMessageDialog(this, "Không tìm thấy sinh viên");
+					}
+				} else {
+					JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là tên sinh viên");
+				}
+			}
+			if (cboLuaChon.getSelectedItem().equals("Theo Địa Chỉ")) {
+				if (txtTuKhoa.getText().toString().trim() != null) {
+					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
+					tableModelNhaTro = new DefaultTableModel(header, 0);
+					tableBTT.setModel(tableModelNhaTro);
+					NhaTro v = NhaTro_Dao.layNhaTroTheoDia(cboPhuong.getSelectedItem().toString().trim(),
+							cboQuan.getSelectedItem().toString().trim(), cboDuong.getSelectedItem().toString().trim(),
+							cboSoNha.getSelectedItem().toString().trim());
+					String diaChi = v.getDiaChiTro().getSoNha() + " - " + v.getDiaChiTro().getTenDuong() + " - "
+							+ v.getDiaChiTro().getTenPhuong() + " - " + v.getDiaChiTro().getTenQuan();
+					String[] row = { v.getMaTro(), v.getTenChutro(), diaChi, v.getSDT() };
+					tableModelNhaTro.addRow(row);
+				}
+			}
+			if (cboLuaChon.getSelectedItem().equals("Theo Mã Nhà Trọ")) {
+				if (txtTuKhoa.getText().toString().trim() != null) {
+					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
+					tableModelNhaTro = new DefaultTableModel(header, 0);
+					tableBTT.setModel(tableModelNhaTro);
+					NhaTro v = NhaTro_Dao.layTroTheoMa(txtTuKhoa.getText().toString().trim());
+					String diaChi = v.getDiaChiTro().getSoNha() + " - " + v.getDiaChiTro().getTenDuong() + " - "
+							+ v.getDiaChiTro().getTenPhuong() + " - " + v.getDiaChiTro().getTenQuan();
+					String[] row = { v.getMaTro(), v.getTenChutro(), diaChi, v.getSDT() };
+					tableModelNhaTro.addRow(row);
+				} else {
+					JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là mã nhà trọ");
+				}
+			}
+			if (cboLuaChon.getSelectedItem().equals("Theo Số Điện Thoại")) {
+				if (txtTuKhoa.getText().toString().trim() != null) {
+					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
+					tableModelNhaTro = new DefaultTableModel(header, 0);
+					tableBTT.setModel(tableModelNhaTro);
+					ArrayList<NhaTro> listNhaTro = NhaTro_Dao.layNhaTroTheoSDT(txtTuKhoa.getText().toString().trim());
+					listNhaTro.forEach(v -> {
+						String diaChi = v.getDiaChiTro().getSoNha() + " - " + v.getDiaChiTro().getTenDuong() + " - "
+								+ v.getDiaChiTro().getTenPhuong() + " - " + v.getDiaChiTro().getTenQuan();
+						String[] row = { v.getMaTro(), v.getTenChutro(), diaChi, v.getSDT() };
+						tableModelNhaTro.addRow(row);
+					});
+				} else {
+					JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là số điện thoại");
+				}
+			}
+			if (cboLuaChon.getSelectedItem().equals("Theo Tên Chủ Trọ")) {
+				if (txtTuKhoa.getText().toString().trim() != null) {
+					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
+					tableModelNhaTro = new DefaultTableModel(header, 0);
+					tableBTT.setModel(tableModelNhaTro);
+					ArrayList<NhaTro> listNhaTro = NhaTro_Dao
+							.layNhaTroTheoTenChuTro(txtTuKhoa.getText().toString().trim());
+					listNhaTro.forEach(v -> {
+						String diaChi = v.getDiaChiTro().getSoNha() + " - " + v.getDiaChiTro().getTenDuong() + " - "
+								+ v.getDiaChiTro().getTenPhuong() + " - " + v.getDiaChiTro().getTenQuan();
+						String[] row = { v.getMaTro(), v.getTenChutro(), diaChi, v.getSDT() };
+						tableModelNhaTro.addRow(row);
+					});
+				} else {
+					JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là tên chủ trọ");
+				}
+			}
+
+		} else if (o.equals(btnThem)) {
+			if (rangBuocDuLieuVao()) {
+				ThongTinThueTro t = revertThuocFromTextFields();
+				if (thongtinthuetro_dao.themThongTinThueTro(t)) {
+					JOptionPane.showMessageDialog(this, "Cập nhật quá thuê trọ mới thành công");
+					themDongVaoBangThongTin(t, tableModelBTT);
+					tableBTT.setModel(tableModelBTT);
+				} else {
+					JOptionPane.showMessageDialog(this, "Cập nhật quá thuê trọ mới không thành công");
+				}
+			}
 		}
-		else if (o.equals(btnThemTroMoi)) {
-			JOptionPane.showInputDialog(new GD_ThemTroMoi());
-		}
+
 	}
 
 	public void themDuLieuCoSan(String maNV, String loaiNV) {
@@ -912,28 +1035,79 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		String diachi = nt.getDiaChiTro().getSoNha() + ", " + nt.getDiaChiTro().getTenDuong() + ", "
 				+ nt.getDiaChiTro().getTenPhuong() + ", " + nt.getDiaChiTro().getTenQuan();
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DecimalFormat df = new DecimalFormat("###,###.0");
 		model.addRow(new Object[] { t.getSinhVien().getMaSV(), sv.getTenSV(), t.getNhaTro().getMaTro(),
-				nt.getTenChutro(), diachi, dt.format(t.getNgayBatDau()), dt.format(t.getNgayKetThuc()), t.getGiaThue(),
+				nt.getTenChutro(), diachi, dt.format(t.getNgayBatDau()), dt.format(t.getNgayKetThuc()), df.format(t.getGiaThue()),
 				dt.format(t.getNgayCapNhat()) });
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		int row = tableBTT.getSelectedRow();
-		txtTPMaSinhVien.setText(tableBTT.getValueAt(row, 0).toString());
-		txtTPTenSinhVien.setText(tableBTT.getValueAt(row, 1).toString());
-		txtTPMaNhaTro.setText(tableBTT.getValueAt(row, 2).toString());
-		txtTPTenChuNhaTro.setText(tableBTT.getValueAt(row, 3).toString());
-		NhaTro nt = NhaTro_Dao.layTroTheoMa(tableBTT.getValueAt(row, 2).toString());
-		cboQuan.setSelectedItem(nt.getDiaChiTro().getTenQuan());
-		cboPhuong.setSelectedItem(nt.getDiaChiTro().getTenPhuong());
-		cboDuong.setSelectedItem(nt.getDiaChiTro().getTenDuong());
-		cboSoNha.setSelectedItem(nt.getDiaChiTro().getSoNha());
-		txtGiaThue.setText(tableBTT.getValueAt(row, 5).toString());
-		txtNgayBatDau.setText(tableBTT.getValueAt(row, 6).toString());
-		txtNgayKetThuc.setText(tableBTT.getValueAt(row, 7).toString());
-		txtNgayCapNhat.setText(tableBTT.getValueAt(row, 8).toString());
+		if (tableBTT.getModel() == tableModelBTT) {
+			int row = tableBTT.getSelectedRow();
+			txtTPMaSinhVien.setText(tableBTT.getValueAt(row, 0).toString());
+			txtTPTenSinhVien.setText(tableBTT.getValueAt(row, 1).toString());
+			txtTPMaNhaTro.setText(tableBTT.getValueAt(row, 2).toString());
+			txtTPTenChuNhaTro.setText(tableBTT.getValueAt(row, 3).toString());
+			NhaTro nt = NhaTro_Dao.layTroTheoMa(tableBTT.getValueAt(row, 2).toString());
+			cboQuan.setSelectedItem(nt.getDiaChiTro().getTenQuan());
+			cboPhuong.setSelectedItem(nt.getDiaChiTro().getTenPhuong());
+			cboDuong.setSelectedItem(nt.getDiaChiTro().getTenDuong());
+			cboSoNha.setSelectedItem(nt.getDiaChiTro().getSoNha());
+			txtGiaThue.setText(tableBTT.getValueAt(row, 7).toString());
+			txtNgayBatDau.setText(tableBTT.getValueAt(row, 5).toString());
+			txtNgayKetThuc.setText(tableBTT.getValueAt(row, 6).toString());
+			txtNgayCapNhat.setText(tableBTT.getValueAt(row, 8).toString());
+		} else if (tableBTT.getModel() == tableModelSinhVien) {
+			int row = tableBTT.getSelectedRow();
+			txtTPMaSinhVien.setText(tableBTT.getValueAt(row, 0).toString());
+			txtTPTenSinhVien.setText(tableBTT.getValueAt(row, 1).toString());
+		} else if (tableBTT.getModel() == tableModelNhaTro) {
+			int row = tableBTT.getSelectedRow();
+			txtTPMaNhaTro.setText(tableBTT.getValueAt(row, 0).toString());
+			txtTPTenChuNhaTro.setText(tableBTT.getValueAt(row, 1).toString());
+		}
+	}
+
+	public boolean rangBuocDuLieuVao() {
+		String giaThue = txtGiaThue.getText().trim();
+		String ngayBD = txtNgayBatDau.getText().trim();
+		String ngayKT = txtNgayKetThuc.getText().trim();
+		String ngayCN = txtNgayCapNhat.getText().trim();
+
+		if (giaThue.length() <= 0) {
+			try {
+				double gia = Double.parseDouble(giaThue);
+				if (gia < 0) {
+					JOptionPane.showMessageDialog(this, "Giá thuê phải lớn hơn không");
+					txtGiaThue.requestFocus();
+					return false;
+				}
+			} catch (NumberFormatException e) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(this, "Error: đơn giá phải nhập số");
+				txtGiaThue.requestFocus();
+				return false;
+			}
+		} else if (ngayBD.length() <= 0||ngayCN.length() <= 0||ngayCN.length() <= 0) {
+			try {
+				DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				LocalDate ngayBatDau = LocalDate.parse(ngayBD, dt);
+				LocalDate ngayKetThuc = LocalDate.parse(ngayKT, dt);
+				@SuppressWarnings("unused")
+				LocalDate ngayCapNhat = LocalDate.parse(ngayCN, dt);
+				if (ngayBatDau.isBefore(ngayKetThuc)) {
+					JOptionPane.showMessageDialog(this, "Error: Ngày bắt đầu phải trước ngày kết thúc");
+					return false;
+				}
+			} catch (DateTimeParseException e) {
+				// TODO: handle exception
+				JOptionPane.showMessageDialog(this, "Error: Thời gian phải theo dạng: ngày/tháng/năm");
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -960,4 +1134,33 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 	}
 
+	public ThongTinThueTro revertThuocFromTextFields() {
+		DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		double giaThue = Double.parseDouble(txtGiaThue.getText().trim());
+		LocalDate ngayBatDau = null;
+		try {
+			ngayBatDau = LocalDate.parse(txtNgayBatDau.getText().trim(), dt);
+		} catch (DateTimeParseException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		LocalDate ngayKetThuc = null;
+		try {
+			ngayKetThuc = LocalDate.parse(txtNgayKetThuc.getText().trim(), dt);
+		} catch (DateTimeParseException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		LocalDate ngayCapNhat = null;
+		try {
+			ngayCapNhat = LocalDate.parse(txtNgayCapNhat.getText().trim(), dt);
+		} catch (DateTimeParseException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		NhaTro nt = new NhaTro(txtTPMaNhaTro.getText().toString().trim());
+		SinhVien sv = new SinhVien(txtTPMaSinhVien.getText().toString().trim());
+		String trangthai = "Đang Thuê";
+		return new ThongTinThueTro(giaThue, ngayBatDau, ngayKetThuc, ngayCapNhat, trangthai, nt, sv);
+	}
 }

@@ -296,4 +296,48 @@ public class SinhVien_Dao {
 		return null;
 	}
 	
+	public ArrayList<SinhVien> laySinhVienBangTen(String tenSV)
+	{
+		ArrayList<SinhVien> dssv = new ArrayList<SinhVien>();
+		Statement statement = null;
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[SinhVien] where tenSinhVien like ('"+tenSV+"%')";
+			statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);	
+			
+			while(rs.next())
+			{
+				
+				String maSV= rs.getString(1);
+				String ten = rs.getString(2);
+				DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+				
+				LocalDate ngaySinh = LocalDate.of(rs.getDate(3).toLocalDate().getYear(), rs.getDate(3).toLocalDate().getMonthValue(), rs.getDate(3).toLocalDate().getDayOfMonth());
+				String queQuanSV= rs.getString(4);
+				String maLop = rs.getString(5);
+				String maNV = rs.getString(6);
+				String gioiTinh = "";
+				if(rs.getByte(7)==1)
+				{
+					gioiTinh = "Nữ";
+				}
+				else {
+					gioiTinh = "Nam";
+				}
+				String chuyenNghanh = rs.getString(8);
+				SinhVien sv = new SinhVien(maSV, ten, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
+				dssv.add(sv);
+		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	return dssv;
+	}
 }

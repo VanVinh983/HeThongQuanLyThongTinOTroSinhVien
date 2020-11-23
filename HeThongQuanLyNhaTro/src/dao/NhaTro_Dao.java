@@ -369,5 +369,103 @@ public class NhaTro_Dao {
 		}
 	return dsDiaChi;
 	}
+	
+	public NhaTro layNhaTroTheoDia(String phuong, String quan, String duong,String sonha) {
+		Statement statement=null;
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from NhaTro	n join DiaChi d on n.maNhaTro = d.maDiaChi where soNha ='"+ sonha +"' and tenDuong = '"+duong+"' and phuong = '"+phuong+"' and quan = '"+quan+"'";
+			statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				return nhaTro;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				statement.close();
+			} catch (SQLException e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+		}
+		
+	return null;
+	}
+	public ArrayList<NhaTro> layNhaTroTheoSDT(String soDienThoai) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		Statement statement = null;
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from NhaTro n join DiaChi d on n.maNhaTro = d.maDiaChi where soDienThoai like ('"+soDienThoai+"%')";
+			statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				statement.close();
+			} catch (SQLException e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+		}
+	return dsNhaTro;
+	}
+	public ArrayList<NhaTro> layNhaTroTheoTenChuTro(String tenChuTro) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		Statement statement = null;
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from NhaTro n join DiaChi d on n.maNhaTro = d.maDiaChi where tenChuNha like ('%"+tenChuTro+"%')";
+			statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				statement.close();
+			} catch (SQLException e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+		}
+	return dsNhaTro;
+	}
 }
 
