@@ -135,5 +135,62 @@ public class ThongTinThueTro_Dao {
 		}
 		return n > 0;
 	}
+	public boolean xoaThong(String maSinhVien, String maNhaTro) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnecction();
+		PreparedStatement statement = null;
+		int n = 0;
+		try {
+			statement = con.prepareStatement("delete from ThongTinThueTro where maNhaTro = ? and maSinhVien = ?");
+			statement.setString(1, maNhaTro);
+			statement.setString(2, maSinhVien);
+			n = statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return n > 0;
+	}
+	
+	public boolean suaThongTinThueTro(String maNhaTro, String maSV, ThongTinThueTro t) {
+		if (!maNhaTro.equals(t.getNhaTro().getMaTro())||!maSV.equals(t.getSinhVien().getMaSV()))
+			return false;
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnecction();
+		PreparedStatement statement = null;
+		int n = 0;
+		try {
+			statement = con.prepareStatement(
+					"update ThongTinThueTro set ngayBatDau= ?,ngayKetThuc=?,ngayCapNhat=?,giaTien=?,trangthai=? where maNhaTro = ? and maSinhVien = ?");
+			statement.setDouble(4, t.getGiaThue());
+			statement.setDate(1, Date.valueOf(t.getNgayBatDau()));
+			statement.setDate(2, Date.valueOf(t.getNgayKetThuc()));
+			statement.setDate(3, Date.valueOf(t.getNgayCapNhat()));
+			byte trangthai = 0;
+			if (t.getTrangThai().equals("Đang Thuê")) {
+				trangthai = 1;
+			}
+			statement.setByte(5, trangthai);
+			statement.setString(6, maNhaTro);
+			statement.setString(7, maSV);
+			n = statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return n > 0;
+	}
 
 }

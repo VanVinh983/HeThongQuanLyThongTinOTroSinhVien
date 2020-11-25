@@ -801,7 +801,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		else if(ob.equals(btnThueTro))
 		{
 			removeAll();
-//			add(new GD_ThongTinThueTro());
+			add(new GD_ThongTinThueTro());
 			repaint();
 			revalidate();
 		}

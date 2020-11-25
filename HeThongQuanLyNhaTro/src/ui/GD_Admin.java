@@ -187,7 +187,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		}
 		else if (o.equals(btnBangThongTin)) {
 			removeAll();
-//			add(new GD_ThongTinThueTro());
+			add(new GD_ThongTinThueTro());
 			repaint();
 			revalidate();
 		}
