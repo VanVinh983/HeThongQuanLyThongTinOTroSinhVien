@@ -154,7 +154,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		JPanel pnlMenu = new JPanel();
 		pnlMenu.setLayout(new BorderLayout());
 			JPanel pnlMenubtn = new JPanel();
-			pnlMenubtn.setBackground(Color.cyan);
+			pnlMenubtn.setBackground(Color.MAGENTA);
 			pnlMenu.add(pnlMenubtn, BorderLayout.CENTER);
 			pnlMenubtn.setLayout(new BoxLayout(pnlMenubtn, BoxLayout.Y_AXIS));
 				box.add(pnlMenu);
@@ -412,7 +412,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		List<NhaTro> listNhaTro = dao.layTatCaBang();
 		//Đưa thông tin vào bảng
 		listNhaTro.forEach(v -> {
-			String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
+			String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
 			String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
 			tableModel.addRow(row);
 		});
@@ -773,7 +773,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			String tenDuong = JcmpDuong.getSelectedItem().toString();
 			NhaTro_Dao dao = new NhaTro_Dao();
 			dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
-			System.out.println(" ma - " +maTro+ " ten - "+tenChutro+ "sdt - "+sDT+ " tenQuan - " +tenQuan+  " soNha- " +soNha+ " tenDuong - " +tenDuong);
+			
 			tableModel.setRowCount(0);
 			addDatabase();
 		}
@@ -820,6 +820,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
+			txtMaNhatro.setEditable(true);
 			txtChuNha.setText("");
 			txtMaNhatro.setText("");
 			txtSDT.setText("");
@@ -859,11 +860,11 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			if(ob.equals(btnTim))
 			{
 				NhaTro_Dao dao = new NhaTro_Dao();
-				String ma = txtTim.getText();
-				if(dao.layTroTheoMa(ma)!=null)
+				String ten = txtTim.getText();
+				if(dao.layTroTheoTen(ten)!=null)
 				{
 					
-					NhaTro v = dao.layTroTheoMa(ma);
+					NhaTro v = dao.layTroTheoTen(ten);
 					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
 					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
 					
@@ -879,14 +880,18 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(cmp.getSelectedItem().equals("Địa chỉ"))
 		{
+			txtTim.setEnabled(false);
 			if(ob.equals(btnTim))
 			{
 				NhaTro_Dao dao = new NhaTro_Dao();
-				String ma = txtTim.getText();
-				if(dao.layTroTheoMa(ma)!=null)
+				String soN = JcmpTimSoNha.getSelectedItem().toString();
+				String tenD = JcmpTimDuong.getSelectedItem().toString();
+				String tenP = JcmpTimPhuong.getSelectedItem().toString();
+				String tenQ = JcmpTimQuan.getSelectedItem().toString();
+				if(dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ)!=null)
 				{
 					
-					NhaTro v = dao.layTroTheoMa(ma);
+					NhaTro v = dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ);
 					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
 					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
 					
@@ -909,11 +914,14 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		txtMaNhatro.setText(table.getValueAt(row,0).toString());
 		txtChuNha.setText(table.getValueAt(row, 1).toString());
 		String[] s = table.getValueAt(row, 2).toString().split(" - ");
-		JcmpQuan.setSelectedItem(s[0]);
-		JcmpPhuong.addItem(s[1]);
-		JcmpSoNha.setSelectedItem(s[2]);
-		JcmpDuong.setSelectedItem(s[3]);
+		
+		
+		JcmpSoNha.setSelectedItem(s[0]);
+		JcmpDuong.setSelectedItem(s[1]);
+		JcmpPhuong.addItem(s[2]);
+		JcmpQuan.setSelectedItem(s[3]);
 		txtSDT.setText(table.getValueAt(row, 3).toString());
+		txtMaNhatro.setEditable(false);
 		
 	}
 

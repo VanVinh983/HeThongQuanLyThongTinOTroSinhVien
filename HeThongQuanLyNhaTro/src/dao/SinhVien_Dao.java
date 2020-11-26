@@ -34,19 +34,36 @@ public class SinhVien_Dao {
 		}
 	}
 	
-	public List<SinhVien> layTatCaBang()
+	public String layMaNVTamLuu()
 	{
-		
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[SinhVien]";
+			String sql = "SELECT [maNhanVien] FROM [QLThongTinOTroSinhVien].[dbo].[TamLuuMaNhanVien]";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
 			while(rs.next())
 			{
-				
-				//System.out.println("Ngay sinh : " + rs.getDate(3).toLocalDate());
+				String maSV = rs.getString(1);
+				return maSV;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return null;
+	}
+	
+	public List<SinhVien> layTatCaBang()
+	{
+		
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[SinhVien] where [maNhanVien] = '" + layMaNVTamLuu() + "'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
 				String maSV= rs.getString(1);
 				String tenSV = rs.getString(2);
 				
@@ -79,7 +96,7 @@ public class SinhVien_Dao {
 			Connection con = ConnectDB.getInstance().getConnecction();
 			PreparedStatement stmt = null;
 			int n =0;
-			 System.out.println("Que____ " + sv.getQueQuanSV());
+			 
 			try {
 				stmt = con.prepareStatement("insert SinhVien values(?,?,?,?,?,?,?,?)");
 				stmt.setString(1, sv.getMaSV());
@@ -218,24 +235,7 @@ public class SinhVien_Dao {
 	}
 	
 	
-	private String layMaNVTamLuu()
-	{
-		try {
-			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "SELECT [maNhanVien] FROM [QLThongTinOTroSinhVien].[dbo].[TamLuuMaNhanVien]";
-			Statement statement = con.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
-			
-			while(rs.next())
-			{
-				String maSV = rs.getString(1);
-				return maSV;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	return null;
-	}
+	
 	
 	public String layTenNhanVien()
 	{
@@ -296,13 +296,56 @@ public class SinhVien_Dao {
 		return null;
 	}
 	
+	public List<SinhVien> laySinhVienTheoTen(String ten)
+	{
+		List<SinhVien> list = new ArrayList<SinhVien>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from SinhVien where tenSinhVien = N'" + ten + "'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				
+				//System.out.println("Ngay sinh : " + rs.getDate(3).toLocalDate());
+				String maSV= rs.getString(1);
+				String tenSV = rs.getString(2);
+				
+				DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+				
+				LocalDate ngaySinh = LocalDate.of(rs.getDate(3).toLocalDate().getYear(), rs.getDate(3).toLocalDate().getMonthValue(), rs.getDate(3).toLocalDate().getDayOfMonth());
+				String queQuanSV= rs.getString(4);
+				String maLop = rs.getString(5);
+				String maNV = rs.getString(6);
+				String gioiTinh = "";
+				if(rs.getByte(7)==1)
+				{
+					gioiTinh = "Nữ";
+				}
+				else {
+					gioiTinh = "Nam";
+				}
+				String chuyenNghanh = rs.getString(8);
+				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
+				list.add(sv);
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println(list);
+	return list;
+	}
+	
+
+	
 	public ArrayList<SinhVien> laySinhVienBangTen(String tenSV)
 	{
 		ArrayList<SinhVien> dssv = new ArrayList<SinhVien>();
 		Statement statement = null;
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[SinhVien] where tenSinhVien like ('"+tenSV+"%')";
+			String sql = "select * from [dbo].[SinhVien] where tenSinhVien like (N'"+tenSV+"%')";
 			statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);	
 			
@@ -340,4 +383,5 @@ public class SinhVien_Dao {
 		}
 	return dssv;
 	}
+
 }
