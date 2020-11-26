@@ -286,11 +286,13 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		pnlFormtxtSV.add(Box.createVerticalStrut(10));
 		Box boxTenSV = Box.createHorizontalBox();
 		boxTenSV.add(lblTenSV=new JLabel("Tên sinh viên: "));
-		boxTenSV.add(txtTenSV=new JTextField());
+		boxTenSV.add(txtTenSV=new JTextField(4));
 		boxTenSV.add(lblMaNV=new JLabel("Mã nhân viên: "));
 	    boxTenSV.add(txtMaNV=new JTextField());
-		//txtMaNV.setEditable(false);
 		pnlFormtxtSV.add(boxTenSV);
+		SinhVien_Dao daoSV = new SinhVien_Dao();
+		txtMaNV.setText(daoSV.layMaNVTamLuu().trim().toString());
+		txtMaNV.setEditable(false);
 		
 		pnlFormtxtSV.add(Box.createVerticalStrut(10));
 		Box boxNgaySinh = Box.createHorizontalBox();
@@ -323,8 +325,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		pnlFormtxtSV.add(Box.createVerticalStrut(20));
 		pnlFormtxtSV.setBorder(BorderFactory.createRaisedBevelBorder());
 		
-		 
-		 
+
+		
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		 //Form tìm
 		 JPanel pnlTim = new JPanel();
@@ -359,14 +361,14 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		 pnlTim.add(boxbtnTim);
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		 //điêu chỉnh kích thướt theo lblSDT
-		lblMaSV.setPreferredSize(lblTenSV.getPreferredSize());
-		lblGioiTinh.setPreferredSize(lblTenSV.getPreferredSize());
-		lblNgaySinh.setPreferredSize(lblTenSV.getPreferredSize());
-		lblMaLop.setPreferredSize(lblTenSV.getPreferredSize());
-		lblMaNV.setPreferredSize(lblTenSV.getPreferredSize());
-		lblChuyenNghanh.setPreferredSize(lblTenSV.getPreferredSize());
-		lblQueQuan.setPreferredSize(lblTenSV.getPreferredSize());
-		//lblTim.setPreferredSize(lblTenSV.getPreferredSize());
+		lblMaSV.setPreferredSize(lblMaNV.getPreferredSize());
+		lblGioiTinh.setPreferredSize(lblMaNV.getPreferredSize());
+		lblNgaySinh.setPreferredSize(lblMaNV.getPreferredSize());
+		lblMaLop.setPreferredSize(lblMaNV.getPreferredSize());
+		lblTenSV.setPreferredSize(lblMaNV.getPreferredSize());
+		lblChuyenNghanh.setPreferredSize(lblMaNV.getPreferredSize());
+		lblQueQuan.setPreferredSize(lblMaNV.getPreferredSize());
+		
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// phần add với action 
 		btnHuongDanSD.addActionListener(this);
@@ -399,6 +401,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	
 public void addDatabase() {
 		
+	
+	
 		SinhVien_Dao dao = new SinhVien_Dao();
 		List<SinhVien> listSV = dao.layTatCaBang();
 		//Đưa thông tin vào bảng
@@ -520,11 +524,14 @@ public void addDatabase() {
 		
 		else if(ob.equals(btnThongKe))
 		{
-			
+		
 		}
 		else if(ob.equals(btnThueTro))
 		{
-			
+			removeAll();
+			add(new GD_ThongTinThueTro());
+			repaint();
+			revalidate();
 		}
 		
 		else if(ob.equals(btnTro))
@@ -563,6 +570,8 @@ public void addDatabase() {
 			txtTim.setText("");
 			tableModel.setRowCount(0);
 			addDatabase();
+			txtMaNV.setEditable(false);
+			txtMaSV.setEditable(true);
 		}
 		else if(cmp.getSelectedItem().equals("Mã"))
 		{
@@ -589,6 +598,31 @@ public void addDatabase() {
 			}	
 			
 		}
+		else if(cmp.getSelectedItem().equals("Tên"))
+		{
+			
+			if(ob.equals(btnTim))
+			{
+				SinhVien_Dao dao = new SinhVien_Dao();
+				String ten = txtTim.getText();
+				if(dao.laySinhVienTheoTen(ten)!=null)
+				{
+					tableModel.setRowCount(0);
+					dao.laySinhVienTheoTen(ten).forEach(v ->{
+						DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+						String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue() + "/" +v.getNgaySinh().getYear();
+						String[] row = {v.getMaSV(), v.getTenSV(),ngaySinh, v.getQueQuanSV(), v.getMaLop(), v.getMaNV().getMaNV(), v.getGioiTinh(), v.getChuyenNghanh()};
+						tableModel.addRow(row);
+					});
+					
+				}
+				else if(dao.laySinhVienTheoTen(ten)==null){
+					txtTim.setText("");
+					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+				}
+			}	
+			
+		}
 		
 	}
 
@@ -603,6 +637,8 @@ public void addDatabase() {
 		txtGioiTinh.setText(table.getValueAt(row, 6).toString());
 		txtMaNV.setText(table.getValueAt(row, 5).toString());
 		txtChuyenNghanh.setText(table.getValueAt(row, 7).toString());
+		txtMaNV.setEditable(false);
+		txtMaSV.setEditable(false);
 	}
 
 	@Override
@@ -627,6 +663,10 @@ public void addDatabase() {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean reangBuocDuLieu() {
+		return true;
 	}
 }
 

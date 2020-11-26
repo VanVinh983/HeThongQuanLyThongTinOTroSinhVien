@@ -45,9 +45,9 @@ public class NhaTro_Dao {
 				String tenChutro = rs.getString(2);
 				String SDT = rs.getString(3);
 				String soNha= rs.getString(6);
-				String tenDuong = rs.getString(7);
-				String tenPhuong = rs.getString(8);
-				String tenQuan = rs.getString(9);
+				String  tenDuong= rs.getString(7);
+				String tenPhuong= rs.getString(8);
+				String  tenQuan = rs.getString(9);
 				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
 				listNhaTro.add(nhaTro);
 			}
@@ -105,9 +105,9 @@ public class NhaTro_Dao {
 				stmt = con.prepareStatement("insert DiaChi values(?,?,?,?,?)");
 				stmt.setString(1, nhaTro.getMaTro());
 				stmt.setString(2, nhaTro.getDiaChiTro().getSoNha());
-				stmt.setString(3, nhaTro.getDiaChiTro().getTenPhuong());
-				stmt.setString(4,nhaTro.getDiaChiTro().getTenQuan());
-				stmt.setString(5,nhaTro.getDiaChiTro().getTenDuong());
+				stmt.setString(3, nhaTro.getDiaChiTro().getTenDuong());
+				stmt.setString(4, nhaTro.getDiaChiTro().getTenPhuong());
+				stmt.setString(5, nhaTro.getDiaChiTro().getTenQuan());
 				n = stmt.executeUpdate();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -226,9 +226,9 @@ public class NhaTro_Dao {
 				String tenChutro = rs.getString(2);
 				String SDT = rs.getString(3);
 				String soNha= rs.getString(6);
-				String tenDuong = rs.getString(7);
-				String tenPhuong = rs.getString(8);
-				String tenQuan = rs.getString(9);
+				String  tenDuong= rs.getString(7);
+				String tenPhuong= rs.getString(8);
+				String  tenQuan = rs.getString(9);
 				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
 				return nhaTro;
 			}
@@ -243,7 +243,7 @@ public class NhaTro_Dao {
 		
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where tenChuNha = "+"'"+ten+"'";
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where tenChuNha = "+"N'"+ten+"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -253,10 +253,38 @@ public class NhaTro_Dao {
 				String tenChutro = rs.getString(2);
 				String SDT = rs.getString(3);
 				String soNha= rs.getString(6);
-				String tenPhuong = rs.getString(7);
-				String tenQuan = rs.getString(8);
-				String tenDuong = rs.getString(9);
+				String  tenDuong= rs.getString(7);
+				String tenPhuong= rs.getString(8);
+				String  tenQuan = rs.getString(9);
 				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				return nhaTro;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return null;
+	}
+	
+	public NhaTro layTroTheoDiaChi(String tenD, String soN, String tenP, String tenQ)
+	{
+		
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "    select * from [QLThongTinOTroSinhVien].[dbo].[NhaTro] as nt  join [QLThongTinOTroSinhVien].[dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [soNha] = "+"'"+soN+"'"+" and [tenDuong] = "+ "N'"+tenD+"'"+" and [phuong] = N'"+tenP+"' and [quan] = N'"+tenQ+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String  tenDuong= rs.getString(7);
+				String tenPhuong= rs.getString(8);
+				String  tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				
 				return nhaTro;
 			}
 		} catch (Exception e) {
@@ -310,7 +338,7 @@ public class NhaTro_Dao {
 		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from DiaChi where quan ="+"'"+quan+"'";
+			String sql = "select * from DiaChi where quan ="+"N'"+quan+"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -333,7 +361,7 @@ public class NhaTro_Dao {
 		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from DiaChi where quan =" + "'" +quan+ "'" +"and"+ " phuong ="+ "'" + phuong+"'";
+			String sql = "select * from DiaChi where quan =" + "N'" +quan+ "'" +"and"+ " phuong ="+ "N'" + phuong+"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -355,7 +383,7 @@ public class NhaTro_Dao {
 		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from DiaChi where quan ='"+ quan +"' and phuong = '"+phuong+"' and tenDuong = '"+duong+"'";
+			String sql = "select * from DiaChi where quan =N'"+ quan +"' and phuong = N'"+phuong+"' and tenDuong = N'"+duong+"'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next())
@@ -374,7 +402,7 @@ public class NhaTro_Dao {
 		Statement statement=null;
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from NhaTro	n join DiaChi d on n.maNhaTro = d.maDiaChi where soNha ='"+ sonha +"' and tenDuong = '"+duong+"' and phuong = '"+phuong+"' and quan = '"+quan+"'";
+			String sql = "select * from NhaTro	n join DiaChi d on n.maNhaTro = d.maDiaChi where soNha =N'"+ sonha +"' and tenDuong = N'"+duong+"' and phuong = N'"+phuong+"' and quan = N'"+quan+"'";
 			statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -440,7 +468,7 @@ public class NhaTro_Dao {
 		Statement statement = null;
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from NhaTro n join DiaChi d on n.maNhaTro = d.maDiaChi where tenChuNha like ('%"+tenChuTro+"%')";
+			String sql = "select * from NhaTro n join DiaChi d on n.maNhaTro = d.maDiaChi where tenChuNha like (N'%"+tenChuTro+"%')";
 			statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next())
@@ -467,5 +495,6 @@ public class NhaTro_Dao {
 		}
 	return dsNhaTro;
 	}
+	
 }
 
