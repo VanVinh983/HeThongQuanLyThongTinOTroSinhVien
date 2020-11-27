@@ -129,7 +129,17 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 					buser.add(bUser = Box.createHorizontalBox());
 					NhaTro_Dao dao = new NhaTro_Dao();
 					
-					bUser.add(lblNameUser = new JLabel(dao.layTenNhanVien()));
+					String tenKhoaNV = dao.layTenNhanVien().trim().toString();
+					if(dao.layTenNhanVien().trim().toString().equals("NV"))
+					{
+						bUser.add(lblNameUser = new JLabel("Giáo vụ khoa: " + tenKhoaNV));
+					}
+					else if(dao.layTenNhanVien().trim().toString().equals("QL")){
+						bUser.add(lblNameUser = new JLabel("Người quản lý: " + tenKhoaNV));
+					}
+					
+					
+					//bUser.add(lblNameUser = new JLabel(dao.layTenNhanVien()));
 					buser.add(buserImg = Box.createVerticalBox());
 					//Hinh Anh user
 					JPanel pnlImg=new JPanel();
@@ -162,34 +172,38 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				//Thanh điều hướng 
 				pnlMenubtn.add(Box.createVerticalStrut(20));
 				pnlMenubtn.add(btnTro = new JButton("Quản lý trọ"));
-				
 				btnTro.add(Box.createHorizontalStrut(30));
 				btnTro.add(Box.createVerticalStrut(20));
+				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnSinhVien = new JButton("Quản lý sinh viên"));
-				
 				btnSinhVien.add(Box.createHorizontalStrut(30));
 				btnSinhVien.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnNhanVien = new JButton("Quản lý nhân viên"));
 				
-				btnNhanVien.add(Box.createHorizontalStrut(30));
-				btnNhanVien.add(Box.createVerticalStrut(20));
+				if(dao.layTenNhanVien().equals("QL"))
+				{
+					pnlMenubtn.add(Box.createVerticalStrut(10));
+					pnlMenubtn.add(btnNhanVien = new JButton("Quản lý nhân viên"));
+					btnNhanVien.add(Box.createHorizontalStrut(30));
+					btnNhanVien.add(Box.createVerticalStrut(20));
+					btnNhanVien.addActionListener(this);
+				}
+				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnThueTro = new JButton("Quản lý thuê trọ"));
-				
 				btnThueTro.add(Box.createHorizontalStrut(30));
 				btnThueTro.add(Box.createVerticalStrut(20));
+				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnThongKe = new JButton("Thống kê"));
-				
 				btnThongKe.add(Box.createHorizontalStrut(30));
 				btnThongKe.add(Box.createVerticalStrut(20));
+				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnHuongDanSD = new JButton("Hương dẫn sử dụng"));
-				
 				btnHuongDanSD.add(Box.createHorizontalStrut(30));
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
+				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
 				btnThoat.add(Box.createHorizontalStrut(30));
@@ -374,7 +388,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// phần add với action 
 		btnHuongDanSD.addActionListener(this);
-		btnNhanVien.addActionListener(this);
 		btnSinhVien.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnThem.addActionListener(this);
@@ -742,40 +755,47 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnSua))
 		{
-			NhaTro_Dao daoNhaTro= new NhaTro_Dao();
-			String maTro = txtMaNhatro.getText();
-			String tenChutro = txtChuNha.getText();
-			String SDT = txtSDT.getText();
-			String tenQuan = JcmpQuan.getSelectedItem().toString();
-			String tenPhuong = JcmpPhuong.getSelectedItem().toString();
-			String soNha = JcmpSoNha.getSelectedItem().toString();
-			String tenDuong = JcmpDuong.getSelectedItem().toString();
-			NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
-			
-			if(daoNhaTro.UpdateNhaTroSinhVien(nhaTro)==true)
+			if(validData()==true)
 			{
-				JOptionPane.showMessageDialog(this, "Sửa thành công!!");
-				tableModel.setRowCount(0);
-				addDatabase();
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "Sửa thất bại!!");
+				NhaTro_Dao daoNhaTro= new NhaTro_Dao();
+				String maTro = txtMaNhatro.getText();
+				String tenChutro = txtChuNha.getText();
+				String SDT = txtSDT.getText();
+				String tenQuan = JcmpQuan.getSelectedItem().toString();
+				String tenPhuong = JcmpPhuong.getSelectedItem().toString();
+				String soNha = JcmpSoNha.getSelectedItem().toString();
+				String tenDuong = JcmpDuong.getSelectedItem().toString();
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				
+				if(daoNhaTro.UpdateNhaTroSinhVien(nhaTro)==true)
+				{
+					JOptionPane.showMessageDialog(this, "Sửa thành công!!");
+					tableModel.setRowCount(0);
+					addDatabase();
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Sửa thất bại!!");
+				}
 			}
 		}
 		else if(ob.equals(btnThem))
 		{
-			String maTro = txtMaNhatro.getText();
-			String tenChutro = txtChuNha.getText();
-			String sDT = txtSDT.getText();
-			String tenQuan = JcmpQuan.getSelectedItem().toString();
-			String tenPhuong = JcmpPhuong.getSelectedItem().toString();
-			String soNha = JcmpSoNha.getSelectedItem().toString();
-			String tenDuong = JcmpDuong.getSelectedItem().toString();
-			NhaTro_Dao dao = new NhaTro_Dao();
-			dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
+			if(validData()==true)
+			{
+				String maTro = txtMaNhatro.getText();
+				String tenChutro = txtChuNha.getText();
+				String sDT = txtSDT.getText();
+				String tenQuan = JcmpQuan.getSelectedItem().toString();
+				String tenPhuong = JcmpPhuong.getSelectedItem().toString();
+				String soNha = JcmpSoNha.getSelectedItem().toString();
+				String tenDuong = JcmpDuong.getSelectedItem().toString();
+				NhaTro_Dao dao = new NhaTro_Dao();
+				dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
+				
+				tableModel.setRowCount(0);
+				addDatabase();
+			}
 			
-			tableModel.setRowCount(0);
-			addDatabase();
 		}
 		else if(ob.equals(btnThoat))
 		{
@@ -948,5 +968,47 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		// TODO Auto-generated method stub
 		
 	}
+	private boolean validData() {
+		String maNT = txtMaNhatro.getText().trim();
+		String tenChuNha = txtChuNha.getText().trim();
+		String dienThoai = txtSDT.getText().trim();
+		
+
+		if(maNT.length()==0) {
+			JOptionPane.showMessageDialog(this, "Mã nhà trọ không được bỏ trống");
+			txtMaNhatro.requestFocus();
+			return false;
+		}
+		//JOptionPane.showMessageDialog(this, maNT + maNT.matches("NT_[0-9]{5}"));
+		if(!(maNT.matches("NT_[0-9]{5}"))) {
+			JOptionPane.showMessageDialog(this, "Mã nhà nhập sai cấu trúc NT_00000");
+			txtMaNhatro.requestFocus();
+			return false;
+		}
+		if(!(tenChuNha.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Tên chủ nhà không được bỏ trống");
+			txtChuNha.requestFocus();
+			return false;
+		}
+		if(!(tenChuNha.matches("[A-Z][a-z]*( [A-Z].[a-z]*)*"))) {
+			JOptionPane.showMessageDialog(this, "Họ tên nhâp sai");
+			txtChuNha.requestFocus();
+			return false;
+		}
+		
+		if(!(dienThoai.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Điện thoại nhân viên không được bỏ trống");
+			txtSDT.requestFocus();
+			return false;
+		}
+		if(!(dienThoai.matches("(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})"))) {
+			JOptionPane.showMessageDialog(this, "Nhập số điện thoại sai");
+			txtSDT.requestFocus();
+			return false;
+		}
+		
+		return true;
+	}
+	
 }
 

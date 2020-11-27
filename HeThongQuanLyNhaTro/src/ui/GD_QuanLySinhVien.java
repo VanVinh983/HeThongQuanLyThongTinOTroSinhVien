@@ -123,9 +123,19 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 					//box user1 
 					buser.add(bUser = Box.createHorizontalBox());
 					
-					NhaTro_Dao dao = new NhaTro_Dao();
+					//NhaTro_Dao dao = new NhaTro_Dao();
+					SinhVien_Dao daoSV = new SinhVien_Dao();
 					
-					bUser.add(lblNameUser = new JLabel(dao.layTenNhanVien()));
+					String tenKhoaNV = daoSV.layTenKhoaNhanVien().trim().toString();
+					if(daoSV.layLoaiNV().trim().toString().equals("NV"))
+					{
+						bUser.add(lblNameUser = new JLabel("Giáo vụ khoa: " + tenKhoaNV));
+					}
+					else if(daoSV.layLoaiNV().trim().toString().equals("QL")){
+						bUser.add(lblNameUser = new JLabel("Người quản lý: " + tenKhoaNV));
+					}
+					
+					
 					buser.add(buserImg = Box.createVerticalBox());
 					//box user2 Hinh Anh user
 					JPanel pnlcontent=new JPanel();
@@ -160,35 +170,41 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 				//Thanh điều hướng 
 				pnlMenubtn.add(Box.createVerticalStrut(20));
 				pnlMenubtn.add(btnTro = new JButton("Quản lý trọ"));
-				
 				btnTro.add(Box.createHorizontalStrut(30));
 				btnTro.add(Box.createVerticalStrut(20));
+				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnSinhVien = new JButton("Quản lý sinh viên"));
-				
 				btnSinhVien.add(Box.createHorizontalStrut(30));
 				btnSinhVien.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnNhanVien = new JButton("Quản lý nhân viên"));
 				
-				btnNhanVien.add(Box.createHorizontalStrut(30));
-				btnNhanVien.add(Box.createVerticalStrut(20));
+				if(daoSV.layLoaiNV().equals("QL"))
+				{
+					pnlMenubtn.add(Box.createVerticalStrut(10));
+					pnlMenubtn.add(btnNhanVien = new JButton("Quản lý nhân viên"));
+					btnNhanVien.add(Box.createHorizontalStrut(30));
+					btnNhanVien.add(Box.createVerticalStrut(20));
+					btnNhanVien.addActionListener(this);
+				}
+				
+				
+				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnThueTro = new JButton("Quản lý thuê trọ"));
-				
 				btnThueTro.add(Box.createHorizontalStrut(30));
 				btnThueTro.add(Box.createVerticalStrut(20));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnThongKe = new JButton("Thống kê"));
 				
+				pnlMenubtn.add(btnThongKe = new JButton("Thống kê"));
 				btnThongKe.add(Box.createHorizontalStrut(30));
 				btnThongKe.add(Box.createVerticalStrut(20));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnHuongDanSD = new JButton("Hương dẫn sử dụng"));
 				
+				pnlMenubtn.add(btnHuongDanSD = new JButton("Hương dẫn sử dụng"));
 				btnHuongDanSD.add(Box.createHorizontalStrut(30));
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
+
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
 				btnThoat.add(Box.createHorizontalStrut(30));
 				btnThoat.add(Box.createVerticalStrut(20));
@@ -286,11 +302,11 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		pnlFormtxtSV.add(Box.createVerticalStrut(10));
 		Box boxTenSV = Box.createHorizontalBox();
 		boxTenSV.add(lblTenSV=new JLabel("Tên sinh viên: "));
-		boxTenSV.add(txtTenSV=new JTextField(4));
+		boxTenSV.add(txtTenSV=new JTextField(5));
 		boxTenSV.add(lblMaNV=new JLabel("Mã nhân viên: "));
 	    boxTenSV.add(txtMaNV=new JTextField());
 		pnlFormtxtSV.add(boxTenSV);
-		SinhVien_Dao daoSV = new SinhVien_Dao();
+		
 		txtMaNV.setText(daoSV.layMaNVTamLuu().trim().toString());
 		txtMaNV.setEditable(false);
 		
@@ -308,6 +324,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		boxQueQuan.add(txtQueQuan=new JTextField());
 		boxQueQuan.add(lblChuyenNghanh=new JLabel("Nghành: "));
 		boxQueQuan.add(txtChuyenNghanh=new JTextField());
+		
 		pnlFormtxtSV.add(boxQueQuan);
 		
 		// các nút chức năng thêm xóa sửa xóa trắng
@@ -372,7 +389,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// phần add với action 
 		btnHuongDanSD.addActionListener(this);
-		btnNhanVien.addActionListener(this);
+		
+		
 		btnSinhVien.addActionListener(this);
 		btnSua.addActionListener(this);
 		btnThem.addActionListener(this);
@@ -456,52 +474,66 @@ public void addDatabase() {
 		}
 		else if(ob.equals(btnSua))
 		{
-			
-			SinhVien_Dao daosv = new SinhVien_Dao();
-			String maSV = txtMaSV.getText();
-			String tenSV = txtTenSV.getText();
-			String[] ns = txtNgaySinh.getText().split("/");
-			LocalDate ngaySinh = LocalDate.of(Integer.parseInt(ns[2]), Integer.parseInt(ns[1]), Integer.parseInt(ns[0]));
-			String queQuanSV = txtQueQuan.getText();
-			String maLop = txtMaLop.getText();
-			String maNV = txtMaNV.getText();
-			String gioiTinh = txtGioiTinh.getText();
-			String chuyenNghanh = txtChuyenNghanh.getText();
-			
-			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
-			if(daosv.UpdateSinhVien(sv)==true)
+			if(validData()==true)
 			{
-				JOptionPane.showMessageDialog(this, "Sửa thành công!!");
-				tableModel.setRowCount(0);
-				addDatabase();
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "Sửa thất bại!!");
+				SinhVien_Dao daosv = new SinhVien_Dao();
+				String maSV = txtMaSV.getText();
+				String tenSV = txtTenSV.getText();
+				String[] ns = txtNgaySinh.getText().split("/");
+				LocalDate ngaySinh = LocalDate.of(Integer.parseInt(ns[2]), Integer.parseInt(ns[1]), Integer.parseInt(ns[0]));
+				String queQuanSV = txtQueQuan.getText();
+				String maLop = txtMaLop.getText();
+				String maNV = txtMaNV.getText();
+				String gioiTinh = txtGioiTinh.getText();
+				String chuyenNghanh = txtChuyenNghanh.getText();
+				
+				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
+				if(daosv.UpdateSinhVien(sv)==true)
+				{
+					JOptionPane.showMessageDialog(this, "Sửa thành công!!");
+					tableModel.setRowCount(0);
+					addDatabase();
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Sửa thất bại!!");
+				}
 			}
 		}
 		else if(ob.equals(btnThem))
 		{
-			SinhVien_Dao daosv = new SinhVien_Dao();
-			String maSV = txtMaSV.getText();
-			String tenSV = txtTenSV.getText();
-			String[] ns = txtNgaySinh.getText().split("/");
-			LocalDate ngaySinh = LocalDate.of(Integer.parseInt(ns[2]), Integer.parseInt(ns[1]), Integer.parseInt(ns[0]));
-			String queQuanSV = txtQueQuan.getText();
-			String maLop = txtMaLop.getText();
-			String maNV = txtMaNV.getText();
-			String gioiTinh = txtGioiTinh.getText();
-			String chuyenNghanh = txtChuyenNghanh.getText();
-			
-			SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
-			if(daosv.themSV(sv)==true)
+			if(validData()==true)
 			{
-				JOptionPane.showMessageDialog(this, "Thêm thành công!!");
-				tableModel.setRowCount(0);
-				addDatabase();
+				SinhVien_Dao daosv = new SinhVien_Dao();
+				
+				String maSV = txtMaSV.getText();
+				String tenSV = txtTenSV.getText();
+				String[] ns = txtNgaySinh.getText().split("/");
+				LocalDate ngaySinh = LocalDate.of(Integer.parseInt(ns[2]), Integer.parseInt(ns[1]), Integer.parseInt(ns[0]));
+				String queQuanSV = txtQueQuan.getText();
+				String maLop = txtMaLop.getText();
+				String maNV = txtMaNV.getText();
+				String gioiTinh = txtGioiTinh.getText();
+				String chuyenNghanh = txtChuyenNghanh.getText();
+				
+				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
+				if(!(daosv.layTatCaBang().contains(sv)))
+				{
+					if(daosv.themSV(sv)==true)
+					{
+						JOptionPane.showMessageDialog(this, "Thêm thành công!!");
+						tableModel.setRowCount(0);
+						addDatabase();
+					}
+					else {
+						JOptionPane.showMessageDialog(this, "Thêm thất bại!!");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Mã sinh viên trùng!!!!");
+				}
+				
 			}
-			else {
-				JOptionPane.showMessageDialog(this, "Thêm thất bại!!");
-			}
+			
 			
 		}
 		else if(ob.equals(btnThoat))
@@ -543,6 +575,7 @@ public void addDatabase() {
 		}
 		else if(ob.equals(btnXoa))
 		{
+			
 			SinhVien_Dao dao = new SinhVien_Dao();
 			String id = txtMaSV.getText();
 			if(dao.DeleteSinhVien(id)==true)
@@ -563,10 +596,10 @@ public void addDatabase() {
 			txtQueQuan.setText("");
 			txtMaLop.setText("");
 			txtTim.setText("");
-			txtMaNV.setText("");
-			txtGioiTinh.setText("");
-			txtChuyenNghanh.setText("");
 			
+			txtGioiTinh.setText("");
+			SinhVien_Dao daoSV = new SinhVien_Dao();
+			txtChuyenNghanh.setText(daoSV.layTenKhoaNhanVien());
 			txtTim.setText("");
 			tableModel.setRowCount(0);
 			addDatabase();
@@ -666,6 +699,64 @@ public void addDatabase() {
 	}
 	
 	public boolean reangBuocDuLieu() {
+		return true;
+	}
+	
+	private boolean validData() {
+		String maSV = txtMaSV.getText().trim();
+		String maLop = txtMaLop.getText().trim();
+		String tenSV = txtTenSV.getText().trim();
+		String ngaySinh= txtNgaySinh.getText().trim();
+		String queQuan = txtQueQuan.getText().trim();
+		String gioiTinh = txtGioiTinh.getText().trim();
+		String nghanh = txtChuyenNghanh.getText().trim();
+		
+		
+
+		if(maSV.length()==0) {
+			JOptionPane.showMessageDialog(this, "Mã sinh viên không được bỏ trống");
+			txtMaSV.requestFocus();
+			return false;
+		}
+	
+		if(!(maSV.matches("SV_[0-9]{5}"))) {
+			JOptionPane.showMessageDialog(this, "Mã nhà nhập sai cấu trúc SV_00000");
+			txtMaSV.requestFocus();
+			return false;
+		}
+		if(maLop.length()==0) {
+			JOptionPane.showMessageDialog(this, "Mã lớp không được bỏ trống");
+			txtMaSV.requestFocus();
+			return false;
+		}
+		
+		if(!(maLop.matches("[A-Z]{4,}[0-9]{2}"))) {
+			JOptionPane.showMessageDialog(this, "Mã lớp nhập sai cấu trúc");
+			txtMaSV.requestFocus();
+			return false;
+		}
+		if(!(ngaySinh.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Ngày sinh không được bỏ trống");
+			txtNgaySinh.requestFocus();
+			return false;
+		}
+		if(!(ngaySinh.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+			JOptionPane.showMessageDialog(this, "Ngày sinh nhâp sai");
+			txtNgaySinh.requestFocus();
+			return false;
+		}
+		
+//		if(!(dienThoai.length()>0)) {
+//			JOptionPane.showMessageDialog(this, "Điện thoại nhân viên không được bỏ trống");
+//			txtSDT.requestFocus();
+//			return false;
+//		}
+//		if(!(dienThoai.matches("(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})"))) {
+//			JOptionPane.showMessageDialog(this, "Nhập số điện thoại sai");
+//			txtSDT.requestFocus();
+//			return false;
+//		}
+//		
 		return true;
 	}
 }

@@ -234,10 +234,27 @@ public class SinhVien_Dao {
 	return null;
 	}
 	
+	public String layLoaiNV()
+	{
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = " SELECT [loaiNhanVien] FROM [QLThongTinOTroSinhVien].[dbo].[NhanVien] where [maNhanVien] = " + "'" + layMaNVTamLuu() + "'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String loaiNV = rs.getString(1);
+				return loaiNV;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return null;
+	}
 	
 	
-	
-	public String layTenNhanVien()
+	public String layTenKhoaNhanVien()
 	{
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
@@ -247,12 +264,14 @@ public class SinhVien_Dao {
 			
 			while(rs.next())
 			{
-				String tenNV = rs.getString(1);
-				if(rs.getString(2).equals("NV"))
-					return "Giáo vụ khoa: " + tenNV;
-				else if(rs.getString(2).equals("QL")){
-					return "Người quản lý: " + tenNV;
-				}
+				String tenKhoaNV = rs.getString(1);
+				return tenKhoaNV;
+				
+//				if(rs.getString(2).equals("NV"))
+//					return "Giáo vụ khoa: " + tenNV;
+//				else if(rs.getString(2).equals("QL")){
+//					return "Người quản lý: " + tenNV;
+//				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -323,11 +323,8 @@ public class NhaTro_Dao {
 			while(rs.next())
 			{
 				String tenNV = rs.getString(1);
-				if(rs.getString(2).equals("NV"))
-					return "Giáo vụ khoa: " + tenNV;
-				else if(rs.getString(2).equals("QL")){
-					return "Người quản lý: " + tenNV;
-				}
+				return tenNV;
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
