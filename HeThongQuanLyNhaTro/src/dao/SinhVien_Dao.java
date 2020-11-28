@@ -358,13 +358,19 @@ public class SinhVien_Dao {
 	
 
 	
-	public ArrayList<SinhVien> laySinhVienBangTen(String tenSV)
+	public ArrayList<SinhVien> laySinhVienBangTen(String tenSV, String maNV, String loaiNV)
 	{
 		ArrayList<SinhVien> dssv = new ArrayList<SinhVien>();
 		Statement statement = null;
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[SinhVien] where tenSinhVien like (N'"+tenSV+"%')";
+			String sql = null;
+			if(loaiNV.equals("QL")) {
+				sql = "select * from [dbo].[SinhVien] where tenSinhVien like (N'"+tenSV+"%')";
+			}
+			else {
+				sql = "select * from [dbo].[SinhVien] where tenSinhVien like (N'"+tenSV+"%') and maNhanVien = '"+maNV+"'";	
+			}
 			statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);	
 			
@@ -378,7 +384,7 @@ public class SinhVien_Dao {
 				LocalDate ngaySinh = LocalDate.of(rs.getDate(3).toLocalDate().getYear(), rs.getDate(3).toLocalDate().getMonthValue(), rs.getDate(3).toLocalDate().getDayOfMonth());
 				String queQuanSV= rs.getString(4);
 				String maLop = rs.getString(5);
-				String maNV = rs.getString(6);
+				String maNhanVien = rs.getString(6);
 				String gioiTinh = "";
 				if(rs.getByte(7)==1)
 				{
@@ -388,7 +394,7 @@ public class SinhVien_Dao {
 					gioiTinh = "Nam";
 				}
 				String chuyenNghanh = rs.getString(8);
-				SinhVien sv = new SinhVien(maSV, ten, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
+				SinhVien sv = new SinhVien(maSV, ten, ngaySinh, queQuanSV, maLop, new NhanVien(maNhanVien), gioiTinh, chuyenNghanh);
 				dssv.add(sv);
 		}
 		} catch (SQLException e) {

@@ -966,7 +966,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 							.split(";");
 					tableModelSinhVien = new DefaultTableModel(headerSinhVien, 0);
 					tableBTT.setModel(tableModelSinhVien);
-					List<SinhVien> dsSinhVien = sinhvien_dao.laySinhVienBangTen(txtTuKhoa.getText().toString().trim());
+					List<SinhVien> dsSinhVien = sinhvien_dao.laySinhVienBangTen(txtTuKhoa.getText().toString().trim(), tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV(),tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV());
 					if (dsSinhVien.size() > 0) {
 						dsSinhVien.forEach(v -> {
 							String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue()
