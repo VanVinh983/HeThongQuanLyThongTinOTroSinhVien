@@ -153,41 +153,11 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 			pnlMenubtn.setLayout(new BoxLayout(pnlMenubtn, BoxLayout.Y_AXIS));
 				box.add(pnlMenu);
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-				//Thanh điều hướng 
-				pnlMenubtn.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(btnTro = new JButton("Quản lý trọ"));
+				//Thanh điều hướng
 				
-				btnTro.add(Box.createHorizontalStrut(30));
-				btnTro.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnSinhVien = new JButton("Quản lý sinh viên"));
-				
-				btnSinhVien.add(Box.createHorizontalStrut(30));
-				btnSinhVien.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnNhanVien = new JButton("Quản lý nhân viên"));
-				
-				btnNhanVien.add(Box.createHorizontalStrut(30));
-				btnNhanVien.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnThueTro = new JButton("Quản lý thuê trọ"));
-				
-				btnThueTro.add(Box.createHorizontalStrut(30));
-				btnThueTro.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnThongKe = new JButton("Thống kê"));
-				
-				btnThongKe.add(Box.createHorizontalStrut(30));
-				btnThongKe.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnHuongDanSD = new JButton("Hương dẫn sử dụng"));
-				
-				btnHuongDanSD.add(Box.createHorizontalStrut(30));
-				btnHuongDanSD.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
-				btnThoat.add(Box.createHorizontalStrut(30));
-				btnThoat.add(Box.createVerticalStrut(20));
+				btnThoat.add(Box.createHorizontalStrut(10));
+				btnThoat.add(Box.createVerticalStrut(10));
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -308,14 +278,10 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 		lblDiaChi.setPreferredSize(lblSDT.getPreferredSize());
 		
 	
-		btnHuongDanSD.addActionListener(this);
-		btnNhanVien.addActionListener(this);
-		btnSinhVien.addActionListener(this);
+	
 		btnThem.addActionListener(this);
 		btnThoat.addActionListener(this);
-		btnThongKe.addActionListener(this);
-		btnThueTro.addActionListener(this);
-		btnTro.addActionListener(this);
+
 		btnXoaTrang.addActionListener(this);
 		table.addMouseListener(this);
 		
@@ -649,27 +615,6 @@ public void addDatabase() {
 				}
 			}
 		}
-		if(ob.equals(btnHuongDanSD))
-		{
-			removeAll();
-			add(new GD_HDSD());
-			repaint();
-			revalidate();
-			}
-		else if(ob.equals(btnNhanVien))
-		{
-			removeAll();
-			add(new GD_QLNhanVien());
-			repaint();
-			revalidate();
-		}
-		else if(ob.equals(btnSinhVien))
-		{
-			removeAll();
-			add(new GD_QuanLySinhVien());
-			repaint();
-			revalidate();
-		}
 		else if(ob.equals(btnThem))
 		{
 			String maTro = txtMaNhatro.getText();
@@ -688,37 +633,12 @@ public void addDatabase() {
 		else if(ob.equals(btnThoat))
 		{
 			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-			if(loaiNV.equals("QL")) {
+			if (loaiNV.equals("NV")) {
 				removeAll();
-				add(new GD_Admin());
+				add(new GD_ThongTinThueTro());
 				repaint();
 				revalidate();
 			}
-			else if (loaiNV.equals("NV")) {
-				removeAll();
-				add(new GD_TrangChuNhanVienGVK());
-				repaint();
-				revalidate();
-			}
-		}
-		else if(ob.equals(btnThongKe))
-		{
-			
-			
-		}
-		else if(ob.equals(btnThueTro))
-		{
-			removeAll();
-//			add(new GD_ThongTinThueTro());
-			repaint();
-			revalidate();
-		}
-		else if(ob.equals(btnTro))
-		{
-			removeAll();
-			add(new GD_QuanLyTro());
-			repaint();
-			revalidate();
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
