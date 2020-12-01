@@ -172,6 +172,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		btnSinhVien.addActionListener(this);
 		btnThongKe.addActionListener(this);
 		btnTro.addActionListener(this);
+		btnHDSD.addActionListener(this);
 	}
 
 	@Override
@@ -209,7 +210,13 @@ public class GD_Admin extends JPanel implements ActionListener{
 			repaint();
 			revalidate();
 		}
+		else if (o.equals(btnHDSD)) {
+			removeAll();
+			add(new GD_HDSD());
+			repaint();
+			revalidate();
 	}
 	
 	
+	}
 }

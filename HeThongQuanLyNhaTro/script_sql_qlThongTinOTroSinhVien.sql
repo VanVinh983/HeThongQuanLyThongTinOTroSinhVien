@@ -4,13 +4,13 @@ GO
 CREATE DATABASE QLThongTinOTroSinhVien
 ON
 ( NAME = QLThongTinOTroSinhVien_dat,
-FILENAME = 'E:\hocki5\phat trien ung dung\server\qlthongtinotrosinhvien_dat.mdf',
+FILENAME = 'D:\Learn\Phat Trien Ung Dung\qlthongtinotrosinhvien_dat.mdf',
 SIZE = 25MB,
 MAXSIZE = 50MB,
 FILEGROWTH = 10MB)
 LOG ON
 ( NAME = QLThongTinOTroSinhVien_log,
-FILENAME = 'E:\hocki5\phat trien ung dung\server\qlthongtinotrosinhvien_log.ldf',
+FILENAME = 'D:\Learn\Phat Trien Ung Dung\qlthongtinotrosinhvien_log.ldf',
 SIZE = 5MB,
 MAXSIZE = 25MB,
 FILEGROWTH = 5)

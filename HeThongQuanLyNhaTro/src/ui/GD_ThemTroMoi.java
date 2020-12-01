@@ -383,6 +383,7 @@ public void addDatabase() {
 	}
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
+
 		if(ob.equals(JcmpQuan) )
 		{
 			
@@ -617,18 +618,22 @@ public void addDatabase() {
 		}
 		else if(ob.equals(btnThem))
 		{
-			String maTro = txtMaNhatro.getText();
-			String tenChutro = txtChuNha.getText();
-			String sDT = txtSDT.getText();
-			String tenQuan = JcmpQuan.getSelectedItem().toString();
-			String tenPhuong = JcmpPhuong.getSelectedItem().toString();
-			String soNha = JcmpSoNha.getSelectedItem().toString();
-			String tenDuong = JcmpDuong.getSelectedItem().toString();
-			NhaTro_Dao dao = new NhaTro_Dao();
-			dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
-			System.out.println(" ma - " +maTro+ " ten - "+tenChutro+ "sdt - "+sDT+ " tenQuan - " +tenQuan+  " soNha- " +soNha+ " tenDuong - " +tenDuong);
-			tableModel.setRowCount(0);
-			addDatabase();
+			if(validData()==true)
+			{
+				String maTro = txtMaNhatro.getText();
+				String tenChutro = txtChuNha.getText();
+				String sDT = txtSDT.getText();
+				String tenQuan = JcmpQuan.getSelectedItem().toString();
+				String tenPhuong = JcmpPhuong.getSelectedItem().toString();
+				String soNha = JcmpSoNha.getSelectedItem().toString();
+				String tenDuong = JcmpDuong.getSelectedItem().toString();
+				NhaTro_Dao dao = new NhaTro_Dao();
+				dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
+				
+				tableModel.setRowCount(0);
+				addDatabase();
+			}
+			
 		}
 		else if(ob.equals(btnThoat))
 		{
@@ -645,14 +650,53 @@ public void addDatabase() {
 			txtChuNha.setText("");
 			txtMaNhatro.setText("");
 			txtSDT.setText("");
-			txtTim.setText("");
-			
-			txtTim.setText("");
 			tableModel.setRowCount(0);
+		
 			addDatabase();
 		}
 	}
 	
+	private boolean validData() {
+		String maNT = txtMaNhatro.getText().trim();
+		String tenChuNha = txtChuNha.getText().trim();
+		String dienThoai = txtSDT.getText().trim();
+		
+
+		if(maNT.length()==0) {
+			JOptionPane.showMessageDialog(this, "Mã nhà trọ không được bỏ trống");
+			txtMaNhatro.requestFocus();
+			return false;
+		}
+		//JOptionPane.showMessageDialog(this, maNT + maNT.matches("NT_[0-9]{5}"));
+		if(!(maNT.matches("NT_[0-9]{5}"))) {
+			JOptionPane.showMessageDialog(this, "Mã nhà nhập sai cấu trúc NT_00000");
+			txtMaNhatro.requestFocus();
+			return false;
+		}
+		if(!(tenChuNha.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Tên chủ nhà không được bỏ trống");
+			txtChuNha.requestFocus();
+			return false;
+		}
+		if(!(tenChuNha.matches("[A-Z][a-z]*( [A-Z].[a-z]*)*"))) {
+			JOptionPane.showMessageDialog(this, "Họ tên nhâp sai");
+			txtChuNha.requestFocus();
+			return false;
+		}
+		
+		if(!(dienThoai.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Điện thoại nhân viên không được bỏ trống");
+			txtSDT.requestFocus();
+			return false;
+		}
+		if(!(dienThoai.matches("(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})"))) {
+			JOptionPane.showMessageDialog(this, "Nhập số điện thoại sai");
+			txtSDT.requestFocus();
+			return false;
+		}
+		
+		return true;
+	}
 	
 	
 	
