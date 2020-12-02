@@ -41,6 +41,8 @@ public class NhanVien {
 		this.ngaySinh = ngaySinh;
 	}
 	public String getTenKhoa() {
+		if(loaiNV.equals("QL"))
+			return "";
 		return tenKhoa;
 	}
 	public void setTenKhoa(String tenKhoa) {
