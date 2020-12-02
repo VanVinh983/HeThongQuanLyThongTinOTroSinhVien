@@ -2,12 +2,15 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
@@ -211,10 +214,15 @@ public class GD_Admin extends JPanel implements ActionListener{
 			revalidate();
 		}
 		else if (o.equals(btnHDSD)) {
-			removeAll();
-			add(new GD_HDSD());
-			repaint();
-			revalidate();
+			File file =  new File("File\\File Help.chm");
+			Desktop dsDesktop = Desktop.getDesktop();
+			if(file.exists()) {
+				try {
+					dsDesktop.open(file);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 	}
 	
 	

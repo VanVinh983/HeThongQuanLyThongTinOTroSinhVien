@@ -21,22 +21,22 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class GD_HDSD extends JPanel {
-	/**
-		 * 
-		 */
+public class GD_HDSD extends JPanel{
+/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
-	public GD_HDSD() {
-		File file = new File("File\\File Help.chm");
+public GD_HDSD() {
+		File file =  new File("File\\File Help.chm");
 		Desktop dsDesktop = Desktop.getDesktop();
-		if (file.exists()) {
+		if(file.exists()) {
 			try {
 				dsDesktop.open(file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-
-	}
+	
+}		
 }

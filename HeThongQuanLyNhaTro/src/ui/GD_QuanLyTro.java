@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -734,11 +735,16 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		if(ob.equals(btnHuongDanSD))
 		{
-			removeAll();
-			add(new GD_HDSD());
-			repaint();
-			revalidate();
+			File file =  new File("File\\File Help.chm");
+			Desktop dsDesktop = Desktop.getDesktop();
+			if(file.exists()) {
+				try {
+					dsDesktop.open(file);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
+		}
 		else if(ob.equals(btnNhanVien))
 		{
 			removeAll();

@@ -2,11 +2,14 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -134,7 +137,16 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			btnHDSD.add(lblHDSD,BorderLayout.NORTH);
 			btnHDSD.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				}
+					File file =  new File("File\\File Help.chm");
+					Desktop dsDesktop = Desktop.getDesktop();
+					if(file.exists()) {
+						try {
+							dsDesktop.open(file);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}	
 			});
 			btnHDSD.setPreferredSize(new Dimension(230, 400));
 			pnlCenter.add(btnHDSD);

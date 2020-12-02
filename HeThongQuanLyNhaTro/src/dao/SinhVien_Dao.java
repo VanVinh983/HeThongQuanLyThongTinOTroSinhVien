@@ -198,11 +198,17 @@ public class SinhVien_Dao {
 	}
 	
 	
-	public SinhVien laySinhVienTheoMa(String ma)
+	public SinhVien laySinhVienTheoMa(String ma, String manv, String loaiNV)
 	{
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [QLThongTinOTroSinhVien].[dbo].[SinhVien] where maSinhVien= " + "'" + ma + "'";
+			String sql = null;
+			if (loaiNV.equals("QL")) {
+				sql = "select * from [QLThongTinOTroSinhVien].[dbo].[SinhVien] where maSinhVien= " + "'" + ma + "'";
+					
+			}else {
+				sql = "select * from SinhVien where maSinhVien = '"+ma+"' and maNhanVien = '"+manv+"'";
+			}
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next())

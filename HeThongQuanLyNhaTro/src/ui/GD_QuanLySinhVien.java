@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -38,6 +39,7 @@ import dao.NhaTro_Dao;
 import dao.NhanVien_Dao;
 import dao.SinhVien_Dao;
 import dao.TamLuuMaNhanVien_Dao;
+import dao.ThongTinThueTro_Dao;
 import entity.NhaTro;
 import entity.NhanVien;
 import entity.SinhVien;
@@ -100,9 +102,12 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	private JTextField txtTim;
 	private JLabel lblTim;
 	private JComboBox<String> cmp;
+	private NhanVien nhanVienTamLuu;
 	public GD_QuanLySinhVien() {
 		nv_Dao = new NhanVien_Dao(); 
 		tamluu_dao = new TamLuuMaNhanVien_Dao();
+		
+		nhanVienTamLuu = tamluu_dao.layNhanVienTrongBangTamLuu();
 		
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
@@ -456,10 +461,15 @@ public void addDatabase() {
 		
 		if(ob.equals(btnHuongDanSD))
 		{
-			removeAll();
-			add(new GD_HDSD());
-			repaint();
-			revalidate();
+			File file =  new File("File\\File Help.chm");
+			Desktop dsDesktop = Desktop.getDesktop();
+			if(file.exists()) {
+				try {
+					dsDesktop.open(file);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
 		}
 		else if(ob.equals(btnNhanVien))
 		{
@@ -504,7 +514,6 @@ public void addDatabase() {
 			if(validData()==true)
 			{
 				SinhVien_Dao daosv = new SinhVien_Dao();
-				
 				String maSV = txtMaSV.getText();
 				String tenSV = txtTenSV.getText();
 				String[] ns = txtNgaySinh.getText().split("/");
@@ -613,10 +622,10 @@ public void addDatabase() {
 				SinhVien_Dao dao = new SinhVien_Dao();
 				
 				String ma = txtTim.getText();
-				if(dao.laySinhVienTheoMa(ma)!=null)
+				if(dao.laySinhVienTheoMa(ma, nhanVienTamLuu.getMaNV(),nhanVienTamLuu.getLoaiNV())!=null)
 				{
 					
-					SinhVien v = dao.laySinhVienTheoMa(ma);
+					SinhVien v = dao.laySinhVienTheoMa(ma,nhanVienTamLuu.getMaNV(),nhanVienTamLuu.getLoaiNV());
 					DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
 					String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue() + "/" +v.getNgaySinh().getYear();
 					String[] row = {v.getMaSV(), v.getTenSV(),ngaySinh, v.getQueQuanSV(), v.getMaLop(), v.getMaNV().getMaNV(), v.getGioiTinh(), v.getChuyenNghanh()};
@@ -624,7 +633,7 @@ public void addDatabase() {
 					tableModel.setRowCount(0);
 					tableModel.addRow(row);
 				}
-				else if(dao.laySinhVienTheoMa(ma)==null){
+				else if(dao.laySinhVienTheoMa(ma,nhanVienTamLuu.getMaNV(),nhanVienTamLuu.getLoaiNV())==null){
 					txtTim.setText("");
 					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
 				}

@@ -35,6 +35,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.CharArrayReader;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -45,6 +47,8 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import java.awt.Component;
+import java.awt.Desktop;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -86,6 +90,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	private JTextField txtGiaThue;
 	private JComboBox cboTrangThai;
 	private DefaultTableModel tableModelBTT2;
+	private String loaiNV;
 
 	/**
 	 * Launch the application.
@@ -109,7 +114,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		setBorder(null);
 		this.setPreferredSize(new Dimension(1600, 600));
 		setLayout(new BorderLayout(0, 0));
-		String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+		loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
 		khoa = tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa();
 
 		ImageIcon imgUser = new ImageIcon(
@@ -273,10 +278,15 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		btnHDSD.setPreferredSize(new Dimension(170, 45));
 		btnHDSD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				removeAll();
-				add(new GD_HDSD());
-				repaint();
-				revalidate();
+				File file =  new File("File\\File Help.chm");
+				Desktop dsDesktop = Desktop.getDesktop();
+				if(file.exists()) {
+					try {
+						dsDesktop.open(file);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
 			}
 		});
 		btnHDSD.setFont(new Font("Arial", Font.BOLD, 16));
@@ -463,15 +473,12 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		Component horizontalStrut_7 = Box.createHorizontalStrut(20);
 		pnlTPDiaChiTro.add(horizontalStrut_7);
 
-		JLabel lblTPDiaChiTro = new JLabel("Địa Chỉ: ");
-		lblTPDiaChiTro.setFont(new Font("Arial", Font.PLAIN, 15));
-		pnlTPDiaChiTro.add(lblTPDiaChiTro);
-
 		JLabel lblQuan = new JLabel("Quận:\r\n \r\n");
 		lblQuan.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(lblQuan);
 
 		cboQuan = new JComboBox<String>();
+		cboQuan.setMinimumSize(new Dimension(20, 22));
 		cboQuan.addActionListener(new ActionListener() {
 
 			@Override
@@ -500,6 +507,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlTPDiaChiTro.add(lblNewLabel);
 
 		cboPhuong = new JComboBox<String>();
+		cboPhuong.setMinimumSize(new Dimension(20, 22));
 		try {
 			cboPhuong.addActionListener(new ActionListener() {
 
@@ -538,6 +546,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlTPDiaChiTro.add(lblDuong);
 
 		cboDuong = new JComboBox<String>();
+		cboDuong.setMinimumSize(new Dimension(20, 22));
 		cboDuong.addActionListener(new ActionListener() {
 
 			@Override
@@ -569,6 +578,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlTPDiaChiTro.add(lblSoNha);
 
 		cboSoNha = new JComboBox<String>();
+		cboSoNha.setMinimumSize(new Dimension(20, 22));
 		cboSoNha.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPDiaChiTro.add(cboSoNha);
 
@@ -759,7 +769,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		cboLuaChon = new JComboBox<String>();
 
 		String[] luaChon = { "Tìm nhà trọ theo địa chỉ", "Tìm sinh viên theo mã", "Tìm nhà trọ theo mã", "Tìm nhà trọ theo số điện thoại",
-				"Tìm nhà trọ theo tên chủ trọ", "Tìm sinh viên theo tên", "Xem lịch sử thay đổi trọ theo mã sinh viên","Tìm thông tin thuê theo đia chỉ", "Tìm thông tin thuê trọ theo"};
+				"Tìm nhà trọ theo tên chủ trọ", "Tìm sinh viên theo tên", "Xem lịch sử thay đổi trọ theo mã sinh viên","Tìm thông tin thuê theo đia chỉ"};
 
 		for (String luachon : luaChon) {
 			cboLuaChon.addItem(luachon);
@@ -950,7 +960,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 							.split(";");
 					tableModelSinhVien = new DefaultTableModel(headerSinhVien, 0);
 					tableBTT.setModel(tableModelSinhVien);
-					SinhVien sv = sinhvien_dao.laySinhVienTheoMa(txtTuKhoa.getText().toString().trim());
+					SinhVien sv = sinhvien_dao.laySinhVienTheoMa(txtTuKhoa.getText().toString().trim(),tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV().trim().toString(), loaiNV);
 					if (sv != null) {
 						tableModelSinhVien.addRow(new Object[] { sv.getMaSV(), sv.getTenSV(), sv.getNgaySinh(),
 								sv.getQueQuanSV(), sv.getMaLop(), khoa, sv.getGioiTinh(), sv.getChuyenNghanh() });
@@ -1068,10 +1078,18 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		} else if (o.equals(btnThem)) {
 			if (rangBuocDuLieuVao()) {
 				ThongTinThueTro t = revertThuocFromTextFields();
+				if (t.getTrangThai().equals("Đang Thuê")) {
+					thongtinthuetro_dao.suaTrangThaiThueTro(t.getSinhVien().getMaSV());
+				}
 				if (thongtinthuetro_dao.themThongTinThueTro(t)) {
 					JOptionPane.showMessageDialog(this, "Cập nhật quá thuê trọ mới thành công");
-					themDongVaoBangThongTin(t, tableModelBTT);
 					tableBTT.setModel(tableModelBTT);
+					int rowCount = tableModelBTT.getRowCount(); 
+					//Remove rows one by one from the end of the table 
+					for (int i = rowCount - 1; i >= 0; i--) { 
+					    tableModelBTT.removeRow(i); 
+					} 
+					themDuLieuCoSan(tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV().toString(), loaiNV);
 				} else {
 					JOptionPane.showMessageDialog(this, "Cập nhật quá thuê trọ mới không thành công");
 				}
@@ -1103,23 +1121,19 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				String maNT = tableModelBTT.getValueAt(row, 2).toString();
 				
 				ThongTinThueTro t = revertThuocFromTextFields();
+				if (t.getTrangThai().equals("Đang Thuê")) {
+					thongtinthuetro_dao.suaTrangThaiThueTro(t.getSinhVien().getMaSV());
+				}
 				NhaTro nt = NhaTro_Dao.layTroTheoMa(t.getNhaTro().getMaTro());
-				SinhVien sv = sinhvien_dao.laySinhVienTheoMa(t.getSinhVien().getMaSV());
+				SinhVien sv = sinhvien_dao.laySinhVienTheoMa(t.getSinhVien().getMaSV(),tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV(),loaiNV);
 				if (t != null && thongtinthuetro_dao.suaThongTinThueTro(maNT, maSV, t)) {
-					tableModelBTT.setValueAt(t.getSinhVien().getMaSV(), row, 0);
-					tableModelBTT.setValueAt(sv.getTenSV(), row, 1);
-					tableModelBTT.setValueAt(t.getNhaTro().getMaTro(), row, 2);
-					tableModelBTT.setValueAt(nt.getTenChutro(), row, 3);
-					String diachi = nt.getDiaChiTro().getSoNha() + ", " + nt.getDiaChiTro().getTenDuong() + ", "
-							+ nt.getDiaChiTro().getTenPhuong() + ", " + nt.getDiaChiTro().getTenQuan();
-					tableModelBTT.setValueAt(diachi, row, 4);
-					DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-					DecimalFormat df = new DecimalFormat("###.0");
-					tableModelBTT.setValueAt(dt.format(t.getNgayBatDau()), row, 5);
-					tableModelBTT.setValueAt(dt.format(t.getNgayKetThuc()), row, 6);
-					tableModelBTT.setValueAt(df.format(t.getGiaThue()), row, 7);
-					tableModelBTT.setValueAt(dt.format(t.getNgayCapNhat()), row, 8);
-					tableModelBTT.setValueAt(t.getTrangThai(), row, 9);
+					tableBTT.setModel(tableModelBTT);
+					int rowCount = tableModelBTT.getRowCount(); 
+					//Remove rows one by one from the end of the table 
+					for (int i = rowCount - 1; i >= 0; i--) { 
+					    tableModelBTT.removeRow(i); 
+					} 
+					themDuLieuCoSan(tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV().toString(), loaiNV);
 					JOptionPane.showMessageDialog(this, "Đã sửa thành công");
 				} else
 					JOptionPane.showMessageDialog(this, "Sửa không thành công");
@@ -1141,7 +1155,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	}
 
 	public void themDongVaoBangThongTin(ThongTinThueTro t, DefaultTableModel model) {
-		SinhVien sv = sinhvien_dao.laySinhVienTheoMa(t.getSinhVien().getMaSV());
+		SinhVien sv = sinhvien_dao.laySinhVienTheoMa(t.getSinhVien().getMaSV(),tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV(),loaiNV);
 		NhaTro nt = NhaTro_Dao.layTroTheoMa(t.getNhaTro().getMaTro());
 		String diachi = nt.getDiaChiTro().getSoNha() + ", " + nt.getDiaChiTro().getTenDuong() + ", "
 				+ nt.getDiaChiTro().getTenPhuong() + ", " + nt.getDiaChiTro().getTenQuan();

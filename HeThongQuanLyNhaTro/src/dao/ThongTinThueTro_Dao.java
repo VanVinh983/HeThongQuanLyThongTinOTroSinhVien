@@ -242,4 +242,23 @@ public class ThongTinThueTro_Dao {
 		}
 		return listTT;
 	}
+	public void suaTrangThaiThueTro(String maSV) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnecction();
+		PreparedStatement statement = null;
+		int n = 0;
+		try {
+			statement = con.prepareStatement("update ThongTinThueTro set trangthai = 0 where maSinhVien='"+maSV+"'");
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
