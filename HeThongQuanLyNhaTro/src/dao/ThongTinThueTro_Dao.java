@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import connectDB.ConnectDB;
 import entity.NhaTro;
@@ -192,5 +193,53 @@ public class ThongTinThueTro_Dao {
 		}
 		return n > 0;
 	}
-
+	public List<ThongTinThueTro> xemLichSuTheoMaSinhVien(String masv, String loaiNV, String maNV){
+		List<ThongTinThueTro> listTT= new ArrayList<ThongTinThueTro>();
+		Statement statement = null;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnecction();
+			String sql =null;
+			
+			if (loaiNV.equals("QL")) {
+				sql = "select t.giaTien, t.ngayBatDau,t.ngayKetThuc,t.ngayCapNhat,t.trangthai, t.maNhaTro, t.maSinhVien from ThongTinThueTro t where maSinhVien = '"+masv+"'";
+			}
+			else {
+				sql = "select t.giaTien, t.ngayBatDau,t.ngayKetThuc,t.ngayCapNhat,t.trangthai, t.maNhaTro, t.maSinhVien from ThongTinThueTro t join SinhVien sv on t.maSinhVien = sv.maSinhVien where maNhanVien = '"+maNV+"' and t.maSinhVien = '"+masv+"'";
+			}
+			
+			statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while (rs.next()) {
+				double gia = rs.getDouble(1);
+				LocalDate ngaybatdau = LocalDate.of(rs.getDate(2).toLocalDate().getYear(),
+						rs.getDate(2).toLocalDate().getMonthValue(), rs.getDate(2).toLocalDate().getDayOfMonth());
+				LocalDate ngayketthuc = LocalDate.of(rs.getDate(3).toLocalDate().getYear(),
+						rs.getDate(3).toLocalDate().getMonthValue(), rs.getDate(3).toLocalDate().getDayOfMonth());
+				LocalDate ngaycapnhat = LocalDate.of(rs.getDate(4).toLocalDate().getYear(),
+						rs.getDate(4).toLocalDate().getMonthValue(), rs.getDate(4).toLocalDate().getDayOfMonth());
+				String trangThai = "";
+				if (rs.getByte(5) == 1) {
+					trangThai = "Đang Thuê";
+				} else {
+					trangThai = "Không Còn Thuê";
+				}
+				NhaTro nhatro = new NhaTro(rs.getString(6));
+				SinhVien sinhvien = new SinhVien(rs.getString(7));
+				ThongTinThueTro t = new ThongTinThueTro(gia, ngaybatdau, ngayketthuc, ngaycapnhat, trangThai, nhatro,
+						sinhvien);
+				listTT.add(t);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				statement.close();
+			} catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return listTT;
+	}
 }

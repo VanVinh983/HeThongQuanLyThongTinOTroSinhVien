@@ -85,6 +85,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	private DefaultTableModel tableModelNhaTro;
 	private JTextField txtGiaThue;
 	private JComboBox cboTrangThai;
+	private DefaultTableModel tableModelBTT2;
 
 	/**
 	 * Launch the application.
@@ -944,7 +945,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			JOptionPane.showMessageDialog(this, new GD_ThemTroMoi());
 		} else if (o.equals(btnTim)) {
 			if (cboLuaChon.getSelectedItem().equals("Tìm sinh viên theo mã")) {
-				if (txtTuKhoa.getText().toString().trim() != null) {
+				if (txtTuKhoa.getText().toString().trim() != null||!txtTuKhoa.getText().toString().trim().equals("mời nhập vào đây")) {
 					String[] headerSinhVien = "Mã sinh viên;Tên sinh viên;Ngày sinh;Quê quán;Mã lớp;Khoa;Giới tính;Chuyên nghành"
 							.split(";");
 					tableModelSinhVien = new DefaultTableModel(headerSinhVien, 0);
@@ -961,7 +962,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				}
 			}
 			if (cboLuaChon.getSelectedItem().equals("Tìm sinh viên theo tên")) {
-				if (txtTuKhoa.getText().toString().trim() != null) {
+				if (txtTuKhoa.getText().toString().trim() != null||!txtTuKhoa.getText().toString().trim().equals("mời nhập vào đây")) {
 					String[] headerSinhVien = "Mã sinh viên;Tên sinh viên;Ngày sinh;Quê quán;Mã lớp;Khoa;Giới tính;Chuyên nghành"
 							.split(";");
 					tableModelSinhVien = new DefaultTableModel(headerSinhVien, 0);
@@ -983,7 +984,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				}
 			}
 			if (cboLuaChon.getSelectedItem().equals("Tìm nhà trọ theo địa chỉ")) {
-				if (txtTuKhoa.getText().toString().trim() != null) {
+				if (txtTuKhoa.getText().toString().trim() != null||!txtTuKhoa.getText().toString().trim().equals("mời nhập vào đây")) {
 					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 					tableModelNhaTro = new DefaultTableModel(header, 0);
 					tableBTT.setModel(tableModelNhaTro);
@@ -997,7 +998,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				}
 			}
 			if (cboLuaChon.getSelectedItem().equals("Tìm nhà trọ theo mã")) {
-				if (txtTuKhoa.getText().toString().trim() != null) {
+				if (txtTuKhoa.getText().toString().trim() != null||txtTuKhoa.getText().toString().trim().equals("mời nhập vào đây")==false) {
 					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 					tableModelNhaTro = new DefaultTableModel(header, 0);
 					tableBTT.setModel(tableModelNhaTro);
@@ -1011,7 +1012,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				}
 			}
 			if (cboLuaChon.getSelectedItem().equals("Tìm nhà trọ theo số điện thoại")) {
-				if (txtTuKhoa.getText().toString().trim() != null) {
+				if (txtTuKhoa.getText().toString().trim() != null||!txtTuKhoa.getText().toString().trim().equals("mời nhập vào đây")) {
 					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 					tableModelNhaTro = new DefaultTableModel(header, 0);
 					tableBTT.setModel(tableModelNhaTro);
@@ -1027,7 +1028,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				}
 			}
 			if (cboLuaChon.getSelectedItem().equals("Tìm nhà trọ theo tên chủ trọ")) {
-				if (txtTuKhoa.getText().toString().trim() != null) {
+				if (txtTuKhoa.getText().toString().trim() != null||!txtTuKhoa.getText().toString().trim().equals("mời nhập vào đây")) {
 					String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 					tableModelNhaTro = new DefaultTableModel(header, 0);
 					tableBTT.setModel(tableModelNhaTro);
@@ -1041,6 +1042,26 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 					});
 				} else {
 					JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là tên chủ trọ");
+				}
+			}
+			if (cboLuaChon.getSelectedItem().equals("Xem lịch sử thay đổi trọ theo mã sinh viên")) {
+				if (txtTuKhoa.getText().toString().trim() != null||!txtTuKhoa.getText().toString().trim().equals("mời nhập vào đây")) {
+					String[] header = { "Mã Sinh Viên", "Tên Sinh Viên", "Mã Nhà Trọ", "Tên Nhà Trọ", "Địa Chỉ",
+							"Ngày Bắt Đầu Thuê", "Ngày Kết Thúc Thuê", "Giá", "Ngày Cập Nhật","Trạng thái"};
+					tableModelBTT2 = new DefaultTableModel(header, 0);
+					tableBTT.setModel(tableModelBTT2);
+					List<ThongTinThueTro> tt = thongtinthuetro_dao.xemLichSuTheoMaSinhVien(txtTuKhoa.getText().toString().trim(), tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV(), tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV());
+					if(tt==null) {
+						JOptionPane.showMessageDialog(this, "Không tìm thấy lịch sử vinh viên có mã"+txtTuKhoa.getText().toString().trim());
+					}
+					else {
+						for (ThongTinThueTro thongTinThueTro : tt) {
+							themDongVaoBangThongTin(thongTinThueTro, tableModelBTT2);
+						}
+					}
+				
+				} else {
+					JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là mã sinh viên");
 				}
 			}
 
