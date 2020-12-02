@@ -155,9 +155,7 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//Thanh điều hướng
 				
-				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
-				btnThoat.add(Box.createHorizontalStrut(10));
-				btnThoat.add(Box.createVerticalStrut(10));
+				
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -280,7 +278,6 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 	
 	
 		btnThem.addActionListener(this);
-		btnThoat.addActionListener(this);
 
 		btnXoaTrang.addActionListener(this);
 		table.addMouseListener(this);
@@ -635,23 +632,16 @@ public void addDatabase() {
 			}
 			
 		}
-		else if(ob.equals(btnThoat))
-		{
-			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-			if (loaiNV.equals("NV")) {
-				removeAll();
-				add(new GD_ThongTinThueTro());
-				repaint();
-				revalidate();
-			}
-		}
 		else if(ob.equals(btnXoaTrang))
 		{
 			txtChuNha.setText("");
 			txtMaNhatro.setText("");
 			txtSDT.setText("");
 			tableModel.setRowCount(0);
-		
+			JcmpDuong.setSelectedIndex(0);
+			JcmpPhuong.setSelectedIndex(0);
+			JcmpQuan.setSelectedIndex(0);
+			JcmpSoNha.setSelectedIndex(0);
 			addDatabase();
 		}
 	}
