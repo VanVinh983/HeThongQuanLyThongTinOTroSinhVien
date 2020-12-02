@@ -498,7 +498,7 @@ public void addDatabase() {
 				String chuyenNghanh = txtChuyenNghanh.getText();
 				
 				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
-				if(daosv.UpdateSinhVien(sv)==true)
+				if(daosv.CapNhatSinhVien(sv)==true)
 				{
 					JOptionPane.showMessageDialog(this, "Sửa thành công!!");
 					tableModel.setRowCount(0);
@@ -587,7 +587,7 @@ public void addDatabase() {
 			
 			SinhVien_Dao dao = new SinhVien_Dao();
 			String id = txtMaSV.getText();
-			if(dao.DeleteSinhVien(id)==true)
+			if(dao.XoaSinhVien(id)==true)
 			{
 				JOptionPane.showMessageDialog(this, "Xóa thành công");
 				tableModel.setRowCount(0);
@@ -754,7 +754,7 @@ public void addDatabase() {
 			txtNgaySinh.requestFocus();
 			return false;
 		}
-		
+		//"[\\p{Lu}[A-Z]][\\p{L}[a-z]]*( [\\p{Lu}[A-Z]][\\p{L}[a-z]]*)*"
 //		if(!(dienThoai.length()>0)) {
 //			JOptionPane.showMessageDialog(this, "Điện thoại nhân viên không được bỏ trống");
 //			txtSDT.requestFocus();

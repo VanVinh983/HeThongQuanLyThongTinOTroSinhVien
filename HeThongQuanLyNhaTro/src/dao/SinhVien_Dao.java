@@ -136,15 +136,16 @@ public class SinhVien_Dao {
 	
 	
 	
-	public boolean DeleteSinhVien(String id)
+	public boolean XoaSinhVien(String id)
 	{
 		Connection con = ConnectDB.getInstance().getConnecction();
 		PreparedStatement stmt = null;
 		int n = 0;
 		
 		try {
-			stmt = con.prepareStatement(" Delete from SinhVien where maSinhVien =?");
+			stmt = con.prepareStatement(" Delete from [QLThongTinOTroSinhVien].[dbo].[ThongTinThueTro] where [maSinhVien] = ?" + "\n Delete from [QLThongTinOTroSinhVien].[dbo].[SinhVien] where maSinhVien = ?");
 			stmt.setString(1, id);
+			stmt.setString(2, id);
 			n = stmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -154,7 +155,7 @@ public class SinhVien_Dao {
 	
 
 
-	public boolean UpdateSinhVien(SinhVien sv)
+	public boolean CapNhatSinhVien(SinhVien sv)
 	{
 		Connection con = ConnectDB.getInstance().getConnecction();
 		PreparedStatement stmt  = null;

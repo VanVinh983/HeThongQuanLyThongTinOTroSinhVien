@@ -773,7 +773,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				String tenDuong = JcmpDuong.getSelectedItem().toString();
 				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
 				
-				if(daoNhaTro.UpdateNhaTroSinhVien(nhaTro)==true)
+				if(daoNhaTro.CapNhatNhaTroSinhVien(nhaTro)==true)
 				{
 					JOptionPane.showMessageDialog(this, "Sửa thành công!!");
 					tableModel.setRowCount(0);
@@ -840,7 +840,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		{
 			String maNhaTro = txtMaNhatro.getText().toString();
 			NhaTro_Dao dao = new NhaTro_Dao();
-			dao.DeleteNhaTroSinhVien(maNhaTro);
+			dao.XoaNhaTroSinhVien(maNhaTro);
 			tableModel.setRowCount(0);
 			addDatabase();
 		}
@@ -985,7 +985,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			txtMaNhatro.requestFocus();
 			return false;
 		}
-		//JOptionPane.showMessageDialog(this, maNT + maNT.matches("NT_[0-9]{5}"));
+		
 		if(!(maNT.matches("NT_[0-9]{5}"))) {
 			JOptionPane.showMessageDialog(this, "Mã nhà nhập sai cấu trúc NT_00000");
 			txtMaNhatro.requestFocus();
@@ -996,7 +996,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			txtChuNha.requestFocus();
 			return false;
 		}
-		if(!(tenChuNha.matches("[A-Z][a-z]*( [A-Z].[a-z]*)*"))) {
+		if(!(tenChuNha.matches("[\\p{Lu}[A-Z]][\\p{L}[a-z]]*( [\\p{Lu}[A-Z]][\\p{L}[a-z]]*)*"))) {
 			JOptionPane.showMessageDialog(this, "Họ tên nhâp sai");
 			txtChuNha.requestFocus();
 			return false;

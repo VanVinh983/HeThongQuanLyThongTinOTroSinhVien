@@ -35,7 +35,7 @@ public class NhaTro_Dao {
 		
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi";
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [trangThaiDangThue]=0";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -117,11 +117,11 @@ public class NhaTro_Dao {
 		return n>0;
 	}
 
-	public boolean DeleteNhaTroSinhVien(String maNhaTro)
+	public boolean XoaNhaTroSinhVien(String maNhaTro)
 	{
 		boolean flag1, flag2;
-		flag2 = DeleteDiaChi(maNhaTro);
-		flag1 = DeleteNhaTro(maNhaTro);
+		flag2 = XoaDiaChi(maNhaTro);
+		flag1 = XoaNhaTro(maNhaTro);
 		;
 		if(flag1==true && flag2==true)
 		{
@@ -131,7 +131,7 @@ public class NhaTro_Dao {
 			return false;
 	}
 	
-	private boolean DeleteNhaTro(String maNhaTro)
+	private boolean XoaNhaTro(String maNhaTro)
 	{
 		Connection con = ConnectDB.getInstance().getConnecction();
 		PreparedStatement stmt = null;
@@ -147,7 +147,7 @@ public class NhaTro_Dao {
 		return n>0;
 	}
 	
-	private boolean DeleteDiaChi(String maDiaChi)
+	private boolean XoaDiaChi(String maDiaChi)
 	{
 		Connection con = ConnectDB.getInstance().getConnecction();
 		PreparedStatement stmt = null;
@@ -166,14 +166,14 @@ public class NhaTro_Dao {
 	
 	
 	
-	public boolean UpdateNhaTroSinhVien(NhaTro nhaTro)
+	public boolean CapNhatNhaTroSinhVien(NhaTro nhaTro)
 	{
-		UpdateNhaTro(nhaTro);
-		UpdateDiaChi(nhaTro);
+		CapNhatNhaTro(nhaTro);
+		CapNhatDiaChi(nhaTro);
 		return true;
 	}
 	
-	private boolean UpdateNhaTro(NhaTro nhaTro)
+	private boolean CapNhatNhaTro(NhaTro nhaTro)
 	{
 		Connection con = ConnectDB.getInstance().getConnecction();
 		PreparedStatement stmt  = null;
@@ -191,7 +191,7 @@ public class NhaTro_Dao {
 		return n>0;
 	}
 	
-	public boolean UpdateDiaChi(NhaTro nhaTro)
+	public boolean CapNhatDiaChi(NhaTro nhaTro)
 	{
 		Connection con = ConnectDB.getInstance().getConnecction();
 		PreparedStatement stmt = null;
@@ -322,7 +322,7 @@ public class NhaTro_Dao {
 			
 			while(rs.next())
 			{
-				String tenNV = rs.getString(1);
+				String tenNV = rs.getString(2);
 				return tenNV;
 				
 			}
