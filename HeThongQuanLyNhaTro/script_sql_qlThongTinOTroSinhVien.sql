@@ -42,9 +42,9 @@ create table NhanVien
 	constraint pk_maNhanVien primary key(maNhanVien),
 	loaiNhanVien varchar(3),
 	matKhau varchar(8),
-	tenNhanVien varchar(20),
+	tenNhanVien nvarchar(20),
 	ngaySinh date,
-	tenKhoa varchar(50)
+	tenKhoa nvarchar(50)
 	
 )
 
@@ -79,4 +79,30 @@ create table TamLuuMaNhanVien
 (
 	maNhanVien varchar(8),
 )
+
+go
+
+create trigger suaTrangThaiThueTrolucThem on dbo.ThongTinThueTro
+after insert
+as
+begin
+	begin Transaction
+	if exists (select * from ThongTinThueTro where maNhaTro = (select i.maNhaTro from inserted i))
+	begin
+		update NhaTro set trangThaiDangThue = 1 where maNhaTro = (select i.maNhaTro from inserted i)
+		commit
+	end
+end
+go
+create trigger suaTrangThaiThueTrolucXoa on dbo.ThongTinThueTro
+after delete
+as
+begin
+	begin Transaction
+		if not exists(select * from ThongTinThueTro where maNhaTro = (select d.maNhaTro from deleted d))
+		begin
+			update NhaTro set trangThaiDangThue = 0 where maNhaTro = (select d.maNhaTro from deleted d)
+			commit
+		end
+end
 

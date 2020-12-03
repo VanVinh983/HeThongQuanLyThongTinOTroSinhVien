@@ -769,7 +769,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		cboLuaChon = new JComboBox<String>();
 
 		String[] luaChon = { "Tìm nhà trọ theo địa chỉ", "Tìm sinh viên theo mã", "Tìm nhà trọ theo mã", "Tìm nhà trọ theo số điện thoại",
-				"Tìm nhà trọ theo tên chủ trọ", "Tìm sinh viên theo tên", "Xem lịch sử thay đổi trọ theo mã sinh viên","Tìm thông tin thuê theo đia chỉ"};
+				"Tìm nhà trọ theo tên chủ trọ", "Tìm sinh viên theo tên", "Xem lịch sử thay đổi trọ theo mã sinh viên"};
 
 		for (String luachon : luaChon) {
 			cboLuaChon.addItem(luachon);
