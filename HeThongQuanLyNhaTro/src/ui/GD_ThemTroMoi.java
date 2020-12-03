@@ -638,8 +638,14 @@ public void addDatabase() {
 				String soNha = JcmpSoNha.getSelectedItem().toString();
 				String tenDuong = JcmpDuong.getSelectedItem().toString();
 				NhaTro_Dao dao = new NhaTro_Dao();
-				dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
-				
+				boolean result = dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
+				if(result==false)
+				{
+					JOptionPane.showMessageDialog(this, "Mã trọ bị trùng!!!");
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Thêm thành công!!!");
+				}
 				tableModel.setRowCount(0);
 				addDatabase();
 			}
