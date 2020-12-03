@@ -1203,6 +1203,22 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	}
 
 	public boolean rangBuocDuLieuVao() {
+		String ngayBD = txtNgayBatDau.getText().trim().toString();
+		String ngayKT = txtNgayKetThuc.getText().trim().toString();
+		String ngayCN = txtNgayCapNhat.getText().trim().toString();
+		String gia = txtGiaThue.getText().trim().toString();
+		
+//		if(!(ngaySinh.length()>0)) {
+//			JOptionPane.showMessageDialog(this, "Ngày sinh không được bỏ trống");
+//			txtNgaySinh.requestFocus();
+//			return false;
+//		}
+//		if(!(ngaySinh.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+//			JOptionPane.showMessageDialog(this, "Ngày sinh nhâp sai");
+//			txtNgaySinh.requestFocus();
+//			return false;
+//		}
+		
 		return true;
 	}
 
