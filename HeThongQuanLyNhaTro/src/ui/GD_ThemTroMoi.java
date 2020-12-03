@@ -178,6 +178,18 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 			JScrollPane scroll;
 			String[] header="Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 			tableModel=new DefaultTableModel(header,0);
+			table = new JTable(tableModel) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				// Không cho sửa trên table
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
 			pnlTable.add(scroll=new JScrollPane(table=new JTable(tableModel),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),BorderLayout.SOUTH);
 			scroll.setBorder(BorderFactory.createTitledBorder("Danh Sách"));
 			table.setRowHeight(30);

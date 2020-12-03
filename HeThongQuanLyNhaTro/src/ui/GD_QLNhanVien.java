@@ -215,7 +215,7 @@ JPanel pnl = new JPanel();
 		JPanel pnlcen2 = new JPanel();
 			JScrollPane scroll;
 			String[] header="Mã Nhân Viên;Tên Nhân Viên;Ngày Sinh;Khoa;Cấp Bậc".split(";");
-			tableModel=new DefaultTableModel(header,20);
+			tableModel=new DefaultTableModel(header,0);
 			table = new JTable(tableModel) {
 				/**
 				 * 

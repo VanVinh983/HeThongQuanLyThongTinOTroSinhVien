@@ -1,0 +1,120 @@
+insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00006', N'Nguyễn Văn An', '2000-08-02',N'Trà Vinh', 'DHTH14', 'NV_00001', 0, 'CNTT');
+   insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00007', N'Lê Thị Hoa', '1999-01-02',N'Vĩnh Long', 'DHTH14', 'NV_00001', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00008', N'Trần Văn Thạch', '2001-04-12',N'Cà Mau', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00009', N'Nguyễn Văn Hai', '2002-06-02',N'Hà Nội', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00010', N'Trần Văn Hoa', '2000-10-01',N'Bến Tre', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00011', N'Trịnh Thanh Bình', '2000-07-08',N'An Giang', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00012', N'Hà Gia Anh', '2000-03-04',N'Đông Tháp', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00013', N'Phan Thành Ngân', '2000-08-02',N'Vĩnh Long', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00014', N'Lê Thủy Tiên', '2000-09-01',N'Vĩnh Long', 'DHTH14', 'NV_00001', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00015', N'Nguyễn ĐÌnh Nghiêm', '2000-01-12',N'Bạc Liêu', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00016', N'Trịnh Thị Bảo Ngọc', '2000-08-15',N'TPHCM', 'DHTH14', 'NV_00001', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00017', N'Trần Quốc Bảo', '2000-08-19',N'TPHCM', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00018', N'Huỳnh Châu Phú', '2000-07-20',N'TPHCM', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00019', N'Phạm Thị Thanh Bạch', '2000-12-02',N'Hải Phòng', 'DHTH14', 'NV_00001', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00020', N'Bàn Minh Anh', '2000-06-01',N'Nghệ An', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00021', N'Vương Quốc Nhã', '2000-04-02',N'Hà Giang', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00022', N'Đỗ Đức Việt', '2000-08-06',N'Quảng Nam', 'DHTH14', 'NV_00001', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00023', N'Nguyễn Thị Kiêm Ngoan', '1999-08-02',N'Quảng Bình', 'DHTH14', 'NV_00001', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00024', N'Phạm Thị Phúc Nha', '2000-06-01',N'VĨnh Long', 'DHTH14', 'NV_00001', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00025', N'Lê Dương Bình', '2000-08-19',N'Trà Vinh', 'DHTH14', 'NV_00001', 0, 'CNTT');
+
+
+
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00001', N'Nguyễn Văn An', '2000-08-02',N'Trà Vinh', 'DHTH14', 'NV_00002', 0, 'CNTT');
+   insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00002', N'Lê Thị Hoa', '1999-01-02',N'Vĩnh Long', 'DHTH14', 'NV_00002', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00003', N'Trần Văn Thạch', '2001-04-12',N'Cà Mau', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00004', N'Nguyễn Văn Hai', '2002-06-02',N'Hà Nội', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00005', N'Trần Văn Hoa', '2000-10-01',N'Bến Tre', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00026', N'Nguyễn Thị Huyền Trang', '2000-07-08',N'An Giang', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00027', N'Châu Gia Minh', '2000-03-04',N'Đông Tháp', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00028', N'Nguyễn Văn Đa', '2000-08-02',N'Vĩnh Long', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00029', N'Lê Anh Phước', '2000-09-01',N'Vĩnh Long', 'DHTH14', 'NV_00002', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00030', N'Nguyễn Trung Kiên', '2000-01-12',N'Bạc Liêu', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00031', N'Nguyễn Công Hiếu', '2000-12-02',N'TPHCM', 'DHTH14', 'NV_00002', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00032', N'Trần Quan Vinh', '2002-04-29',N'TPHCM', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00033', N'Nguyễn Thị Nghĩa', '1999-07-20',N'TPHCM', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00034', N'Trần Thị Thảo Hiền', '2000-12-22',N'Hải Phòng', 'DHTH14', 'NV_00002', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00034', N'Nguyễn Thị Thủy', '2000-06-07',N'Nghệ An', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00036', N'Đặng Khắc Huy', '2000-04-02',N'Hà Giang', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00037', N'Nguyễ Ngọc Thủy', '2000-01-06',N'Quảng Nam', 'DHTH14', 'NV_00002', 0, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00038', N'Nguyễn Thị Bích Hạnh', '1999-08-02',N'Quảng Bình', 'DHTH14', 'NV_00002', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00039', N'Lý Chung Lương', '2000-05-04',N'VĨnh Long', 'DHTH14', 'NV_00002', 1, 'CNTT');
+ insert into [QLThongTinOTroSinhVien].[dbo].[SinhVien] values('SV_00040', N'Nguyễn Thị Tuyết', '1998-01-09',N'Trà Vinh', 'DHTH14', 'NV_00002', 0, 'CNTT');
+
+------------------------------------------Nhà Trọ
+
+  insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00001',N'Nguyễn Văn', 0267448309,1)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00002',N'Vũ Xuân Hiệp', 0267448309,1)
+  insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00003',N'Đoàn Đinh Khoa', 0267448309,0)
+  insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00004',N'Nguyễn ĐỨc Thịnh', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00005',N'Mai Đức Anh', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00006',N'Nguyễn Văn Anh', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00007',N'Vũ Minh Trung', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00008',N'Lê Mọn Hiền', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00009',N'Chung Ngoc Thương', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00010',N'Huỳnh Bá Đủ', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00011',N'Nguyễn Thị Bích Thảo', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00012',N'Nguyễn Văn Nam', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00013',N'Nguyễn Văn Bình', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00014',N'Nguyễn Văn Nhát', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00015',N'Nguyễn Văn Hiền', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00016',N'Nguyễn Ngọc Trường', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00017',N'Đoàn Văn Vĩnh', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00018',N'Trần Quốc Đạo', 0267448309,0)
+
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00019',N'Trần Anh Khôi', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00020',N'Lê Thị Là', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00021',N'Nguyễn Văn Nam', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00022',N'Nguyễn Văn Phong', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00023',N'Trần Anh Khôi', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_000024',N'Lê Văn Minh', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00025',N'Hoàng Văn Đỉnh', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00026',N'Nguyễn Anh Tài', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00027',N'Nguyễn Văn Tín', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00028',N'Nguyễn Văn Anh', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00029',N'Nguyễn Văn Bình', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00030',N'Nguyễn Văn Mười', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00031',N'Nguyễn Văn Chín', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00032',N'Nguyễn Văn An', 0267448309,0)
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00033',N'Nguyễn Văn Phước', 0267448309,0)	
+insert into   [QLThongTinOTroSinhVien].[dbo].[NhaTro] values('NT_00034',N'Nguyễn Văn Hùng', 0267448309,0)
+
+
+------------------------------------------Địa Chỉ
+
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00001','12', N'12 ĐỒng Nai',N'Phường 2', N'QuậnTân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00002','269/1', N'1 lầu 1&2 Nguyễn Trãi',N'Phường 2', N'Quận Tân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00003','14', N'Đường Gò Xoài',N'Phường Bình Hưng Hòa', N'Quận Bình Tân,');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00004','9', N'Phú Mỹ Hưng',N'Phường Tân Phong', N'Quận 7');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00005','183F', N'2 Tôn Thất Thuyết',N'Phường 2', N'Tân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00006','34', N'Đường Nội Khu Hưng Phước 3',N'Phường Tân Phong', N' Quận 7');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00007','256/36/11', N'Phan Huy Ích',N'Phường 08', N'Quận 3');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00008',' 27/43B', N'Huỳnh Tịnh Của',N'Phường 2', N'Tân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00009','20', N' Đỗ Ngọc Thạch',N'Phường 14', N'Quận 5');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00010','298/3', N'Điện Biên Phủ',N'Phường 17', N'Quận Bình Thạnh');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00011','248/1', N'Đường 26 tháng 03',N'Phường 2', N'Quận Bình Tân');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00012','109/13', N'Huỳnh Thị Hai',N'Phường Tân Chánh Hiệp', N'Quận 12');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00013','251/49', N'Đường Lê Quang Định',N'Phường 7', N'Quận Bình Thạnh');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00014','354', N'Ung Văn Khiêm',N'Phường 25', N'Quận Bình Thạnh');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00015',' 226', N'Khánh Hội',N'Phường 06', N'Quận 4');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00016','465/29', N'Đường Phan Văn Trị',N'Phường 5', N'Quận Gò Vấp');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00017','12', N'12 ĐỒng Nai',N'Phường 2', N'Quận Tân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00018','269/1', N' lầu 1&2 Nguyễn Trãi',N'Phường Nguyễn Cư Trinh', N'Quận 1');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00019','166', N'Đường Gò Xoài',N'Phường Bình Hưng Hòa', N'Quận Bình Tân');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00020','9', N'Đường Nội khu Mỹ Phước',N'Phường Tân Phong', N'Quận 7');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00021','183F/2', N'Tôn Thất Thuyết',N'Phường 04', N'Quận 4');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00022','125/42/9/8', N'Bùi Đình Túy',N'Phường 24', N'Quận Bình Thạnh');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00023','108', N'Trần Minh Quyền',N'Phường 11', N'Quận 10');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00024','34', N'Bầu Cát 5',N'Phường 14', N'Quận Tân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00025','126', N'Nguyễn Phi Khanh',N'Phường Tân Định', N'Quận 1');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00026','39/17D', N'Gò Cát',N'Phường Phú Hữu', N'Quận 9');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00027','19', N'đường số 7',N'Quận 7', N'Tân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00028','72', N'Lê Thánh Tôn',N'Phường Bến Nghé', N'Quận 1');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00029',' 561A ', N'Điện Biên Phủ',N'Phường 25', N'Quận Bình Thạnh')
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00030','1G', N' Lâm Văn Bền',N'Phường Tân Thuận Tây', N'Quận 7');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00031','5', N'Ba Vì',N'Phường 4', N'Quận Tân Bình');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00032','257A14', N'Nguyễn Văn Lượng',N'Phường 10', N'Quận Gò Vấp');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00033','A1/22A', N'Trương Văn Đa',N'Phường Bến Nghé', N'Quận 1');
+ insert into [QLThongTinOTroSinhVien].[dbo].[DiaChi] values('NT_00034','754/13/22', N'Tân kỳ tân quý',N'Phường Bình Hưng Hòa', N'Quận Bình Tân');
+ 
