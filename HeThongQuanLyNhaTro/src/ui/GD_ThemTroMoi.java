@@ -650,16 +650,21 @@ public void addDatabase() {
 		String maNT = txtMaNhatro.getText().trim();
 		String tenChuNha = txtChuNha.getText().trim();
 		String dienThoai = txtSDT.getText().trim();
-		
+		//JOptionPane.showMessageDialog(this, JcmpQuan.getSelectedItem().toString().length());
 
+		if(JcmpQuan.getSelectedItem().toString().equals(" "))
+		{
+			JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ!!!");
+			return false;
+		}
 		if(maNT.length()==0) {
 			JOptionPane.showMessageDialog(this, "Mã nhà trọ không được bỏ trống");
 			txtMaNhatro.requestFocus();
 			return false;
 		}
-		//JOptionPane.showMessageDialog(this, maNT + maNT.matches("NT_[0-9]{5}"));
+		
 		if(!(maNT.matches("NT_[0-9]{5}"))) {
-			JOptionPane.showMessageDialog(this, "Mã nhà nhập sai cấu trúc NT_00000");
+			JOptionPane.showMessageDialog(this, "Mã nhà nhập sai cấu trúc NT_xxxxx");
 			txtMaNhatro.requestFocus();
 			return false;
 		}
@@ -668,7 +673,7 @@ public void addDatabase() {
 			txtChuNha.requestFocus();
 			return false;
 		}
-		if(!(tenChuNha.matches("[A-Z][a-z]*( [A-Z].[a-z]*)*"))) {
+		if(!(tenChuNha.matches("[\\p{Lu}[A-Z]][\\p{L}[a-z]]*( [\\p{Lu}[A-Z]][\\p{L}[a-z]]*)*"))) {
 			JOptionPane.showMessageDialog(this, "Họ tên nhâp sai");
 			txtChuNha.requestFocus();
 			return false;
@@ -680,14 +685,18 @@ public void addDatabase() {
 			return false;
 		}
 		if(!(dienThoai.matches("(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})"))) {
-			JOptionPane.showMessageDialog(this, "Nhập số điện thoại sai");
+			JOptionPane.showMessageDialog(this, "Nhập số điện thoại sai cấu trúc :" 
+					+ "Viettel: 09, 03\r\n" + 
+					"MobiFone: 09, 07\r\n" + 
+					"VinaPhone: 09, 08\r\n" + 
+					"Vietnamobile và Gmobile: 09, 05"
+					+ "Và Phải có 10 chữ số");
 			txtSDT.requestFocus();
 			return false;
 		}
 		
 		return true;
 	}
-	
 	
 	
 	

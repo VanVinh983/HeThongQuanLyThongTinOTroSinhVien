@@ -750,22 +750,11 @@ public void addDatabase() {
 			return false;
 		}
 		if(!(ngaySinh.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
-			JOptionPane.showMessageDialog(this, "Ngày sinh nhâp sai");
+			JOptionPane.showMessageDialog(this, "Ngày sinh nhâp sai Định Đạng dd-MM-yyyy");
 			txtNgaySinh.requestFocus();
 			return false;
 		}
-		//"[\\p{Lu}[A-Z]][\\p{L}[a-z]]*( [\\p{Lu}[A-Z]][\\p{L}[a-z]]*)*"
-//		if(!(dienThoai.length()>0)) {
-//			JOptionPane.showMessageDialog(this, "Điện thoại nhân viên không được bỏ trống");
-//			txtSDT.requestFocus();
-//			return false;
-//		}
-//		if(!(dienThoai.matches("(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})"))) {
-//			JOptionPane.showMessageDialog(this, "Nhập số điện thoại sai");
-//			txtSDT.requestFocus();
-//			return false;
-//		}
-//		
+		
 		return true;
 	}
 }
