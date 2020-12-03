@@ -116,7 +116,7 @@ private ArrayList<NhanVien> danhSachNhanVien;
 			Connection con = ConnectDB.getConnecction();
 			Statement st = con.createStatement();
 			st.executeUpdate("INSERT INTO NhanVien(maNhanVien, loaiNhanVien, matKhau, tenNhanVien, ngaySinh, tenKhoa) "
-					+ "VALUES ('"+nv.getMaNV()+"', '"+nv.getLoaiNV()+"', '"+nv.getMatKhau()+"','"+nv.getTenNV()+"', '"+nv.getNgaySinh()+"', '"+nv.getTenKhoa()+"')"); 
+					+ "VALUES ('"+nv.getMaNV()+"', '"+nv.getLoaiNV()+"', '"+nv.getMatKhau()+"', N'"+nv.getTenNV()+"', '"+nv.getNgaySinh()+"', N'"+nv.getTenKhoa()+"')"); 
 			con.close();
 		} catch (SQLException ex) {
 			// TODO: handle exception
@@ -145,7 +145,9 @@ private ArrayList<NhanVien> danhSachNhanVien;
 			ConnectDB.getInstance().connect();
 			Connection con = ConnectDB.getConnecction();
 			Statement st = con.createStatement();
-			st.execute("UPDATE NHANVIEN SET tenNhanVien = '"+nv.getTenNV()+"', loaiNhanVien = '"+nv.getLoaiNV()+"', matKhau = '"+nv.getMatKhau()+"', ngaySinh = '"+nv.getNgaySinh()+"', khoa = '"+nv.getTenKhoa()+"' WHERE maNhanVien='"+nv.getMaNV()+"'");
+			st.executeUpdate("UPDATE NhanVien SET tenNhanVien = N'"+nv.getTenNV()+"', loaiNhanVien = '"+nv.getLoaiNV()+"', matKhau = '"+nv.getMatKhau()+"', ngaySinh = '"+nv.getNgaySinh()+"', tenKhoa = N'"+nv.getTenKhoa()+"' WHERE maNhanVien='"+nv.getMaNV()+"'");
+			this.xoaNhanVien(nv.getMaNV());
+			this.themNV(nv);
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
