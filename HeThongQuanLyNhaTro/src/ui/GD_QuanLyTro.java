@@ -290,7 +290,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			JcmpQuan.addItem(string);
 		}
 		
-		
 		boxDiaChi.add(lblPhuong = new JLabel("Phường: "));
 		boxDiaChi.add(JcmpPhuong = new JComboBox<String>());
 		JcmpPhuong.setEditable(true);
@@ -369,7 +368,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		 
 		 //compobox chọn phương thức tìm
 
-//		 
+		 
 		 // Button tìm
 		 pnlTim.add(Box.createVerticalStrut(5));
 		 Box boxbtnTim = Box.createHorizontalBox();
@@ -471,8 +470,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			if(!arrTenQuan.contains(v.getDiaChiTro().getTenQuan()))
 			{
 				JcmpTimQuan.addItem(v.getDiaChiTro().getTenQuan());
-				JcmpQuan.addItem(v.getDiaChiTro().getTenQuan());
-				arrTenPhuong.add(v.getDiaChiTro().getTenQuan());
+				arrTenQuan.add(v.getDiaChiTro().getTenQuan());
 			}
 		});
 		
@@ -507,6 +505,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			if(JcmpQuan.getSelectedItem().equals(" "))
 			{
 				JcmpPhuong.removeAllItems();
+				JcmpPhuong.setSelectedItem(" ");
 			}
 			else if(JcmpQuan.getSelectedItem().equals("Quận Gò Vấp"))
 			{
@@ -722,6 +721,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 					JcmpPhuong.addItem(string);
 				}
 			}
+			
 
 			else if(JcmpQuan.getSelectedItem().equals("Quận Hóc Môn"))
 			{
@@ -978,8 +978,13 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		String maNT = txtMaNhatro.getText().trim();
 		String tenChuNha = txtChuNha.getText().trim();
 		String dienThoai = txtSDT.getText().trim();
-		
+		//JOptionPane.showMessageDialog(this, JcmpQuan.getSelectedItem().toString().length());
 
+		if(JcmpQuan.getSelectedItem().toString().equals(" "))
+		{
+			JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ!!!");
+			return false;
+		}
 		if(maNT.length()==0) {
 			JOptionPane.showMessageDialog(this, "Mã nhà trọ không được bỏ trống");
 			txtMaNhatro.requestFocus();
