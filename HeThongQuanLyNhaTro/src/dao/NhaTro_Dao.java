@@ -59,8 +59,11 @@ public class NhaTro_Dao {
 	
 	public boolean them(NhaTro nhaTro)
 	{
-		if(listNhaTro.contains(nhaTro))
+		List<NhaTro> listNT = layTatCaBang();
+		if(listNT.contains(nhaTro))
+		{
 			return false;
+		}
 		else
 		{
 			themNhaTro(nhaTro);

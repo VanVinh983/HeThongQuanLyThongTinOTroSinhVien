@@ -796,8 +796,14 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				String soNha = JcmpSoNha.getSelectedItem().toString();
 				String tenDuong = JcmpDuong.getSelectedItem().toString();
 				NhaTro_Dao dao = new NhaTro_Dao();
-				dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
-				
+				boolean result = dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
+				if(result==false)
+				{
+					JOptionPane.showMessageDialog(this, "Mã trọ bị trùng!!!");
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Thêm thành công!!!");
+				}
 				tableModel.setRowCount(0);
 				addDatabase();
 			}
@@ -840,7 +846,14 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		{
 			String maNhaTro = txtMaNhatro.getText().toString();
 			NhaTro_Dao dao = new NhaTro_Dao();
-			dao.XoaNhaTroSinhVien(maNhaTro);
+			boolean result = dao.XoaNhaTroSinhVien(maNhaTro);
+			if(result==false)
+			{
+				JOptionPane.showMessageDialog(this, "Xóa thất bại!!!");
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Xóa thành công!!!");
+			}
 			tableModel.setRowCount(0);
 			addDatabase();
 		}
@@ -859,6 +872,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		else if(cmp.getSelectedItem().equals("Mã"))
 		{
+			txtTim.setEnabled(true);
 			if(ob.equals(btnTim))
 			{
 				NhaTro_Dao dao = new NhaTro_Dao();
@@ -883,6 +897,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		else if(cmp.getSelectedItem().equals("Tên"))
 		{
+			txtTim.setEnabled(true);
 			if(ob.equals(btnTim))
 			{
 				NhaTro_Dao dao = new NhaTro_Dao();
@@ -929,9 +944,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
 				}
 			}	
-			
 		}
-		
 	}
 
 	@Override
