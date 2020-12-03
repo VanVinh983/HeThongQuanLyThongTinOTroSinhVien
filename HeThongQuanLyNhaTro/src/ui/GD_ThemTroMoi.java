@@ -101,6 +101,7 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 	private JButton btnNhanVien;
 	private JButton btnHuongDanSD;
 	private JButton btnThoat;
+	private NhaTro_Dao nt_dao;
 	//Compobox Lua cong tim kiếm
 	private JComboBox<String> cmp;
 	public GD_ThemTroMoi(){
@@ -666,11 +667,11 @@ public void addDatabase() {
 
 		if(JcmpQuan.getSelectedItem().toString().equals(" "))
 		{
-			JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ!!!");
+			JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ !!!");
 			return false;
 		}
 		if(maNT.length()==0) {
-			JOptionPane.showMessageDialog(this, "Mã nhà trọ không được bỏ trống");
+			JOptionPane.showMessageDialog(this, "Mã nhà trọ không được bỏ trống !!!");
 			txtMaNhatro.requestFocus();
 			return false;
 		}
@@ -681,7 +682,7 @@ public void addDatabase() {
 			return false;
 		}
 		if(!(tenChuNha.length()>0)) {
-			JOptionPane.showMessageDialog(this, "Tên chủ nhà không được bỏ trống");
+			JOptionPane.showMessageDialog(this, "Tên chủ nhà không được bỏ trống !!!");
 			txtChuNha.requestFocus();
 			return false;
 		}
