@@ -241,6 +241,10 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		btnBTT.setPreferredSize(new Dimension(170, 45));
 		btnBTT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeAll();
+				add(new GD_ThongTinThueTro());
+				repaint();
+				revalidate();
 			}
 		});
 		btnBTT.setPreferredSize(btnNhanVien.getPreferredSize());
@@ -769,7 +773,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		cboLuaChon = new JComboBox<String>();
 
 		String[] luaChon = { "Tìm nhà trọ theo địa chỉ", "Tìm sinh viên theo mã", "Tìm nhà trọ theo mã", "Tìm nhà trọ theo số điện thoại",
-				"Tìm nhà trọ theo tên chủ trọ", "Tìm sinh viên theo tên", "Xem lịch sử thay đổi trọ theo mã sinh viên","Tìm thông tin thuê theo đia chỉ"};
+				"Tìm nhà trọ theo tên chủ trọ", "Tìm sinh viên theo tên", "Xem lịch sử thay đổi trọ theo mã sinh viên"};
 
 		for (String luachon : luaChon) {
 			cboLuaChon.addItem(luachon);
@@ -1203,6 +1207,56 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	}
 
 	public boolean rangBuocDuLieuVao() {
+		String ngayBD = txtNgayBatDau.getText().trim().toString();
+		String ngayKT = txtNgayKetThuc.getText().trim().toString();
+		String ngayCN = txtNgayCapNhat.getText().trim().toString();
+		String gia = txtGiaThue.getText().trim().toString();
+		
+		if(!(ngayBD.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Ngày sinh không được bỏ trống");
+			txtNgayBatDau.requestFocus();
+			return false;
+		}
+		if(!(ngayBD.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+			JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải theo định dạng dd/MM/yyyy");
+			txtNgayBatDau.requestFocus();
+			return false;
+		}
+		
+		if(!(ngayKT.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được bỏ trống");
+			txtNgayKetThuc.requestFocus();
+			return false;
+		}
+		if(!(ngayKT.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+			JOptionPane.showMessageDialog(this, "Ngày kết thúc phải theo định dạng dd/MM/yyyy");
+			txtNgayKetThuc.requestFocus();
+			return false;
+		}
+		
+		if(!(ngayCN.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Ngày cập nhật không được bỏ trống");
+			txtNgayCapNhat.requestFocus();
+			return false;
+		}
+		if(!(ngayCN.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+			JOptionPane.showMessageDialog(this, "Ngày cập nhật phải theo định dạng dd/MM/yyyy");
+			txtNgayCapNhat.requestFocus();
+			return false;
+		}
+		if(!(ngayBD.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Giá không được bỏ trống");
+			txtNgayBatDau.requestFocus();
+			return false;
+		}
+		try {
+			Double.parseDouble(gia);
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(this, "Giá phải là số");
+			return false;
+		}
+		
 		return true;
 	}
 
