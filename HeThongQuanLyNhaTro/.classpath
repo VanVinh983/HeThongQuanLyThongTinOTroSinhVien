@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="lib/sqljdbc42.jar" sourcepath="lib/sqljdbc42.jar"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/FPT SHOP/Downloads/swingx-all-1.6.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/FPT SHOP/Downloads/autocomplete-2.0.0-beta2-sources.jar/autocomplete-2.0.0-beta2-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/FPT SHOP/Downloads/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/autocomplete-2.0.0-beta2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
