@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,8 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import connectDB.ConnectDB;
 import dao.NhaTro_Dao;
 import dao.NhanVien_Dao;
@@ -60,10 +63,10 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	private JTextField txtChuNha;
 	private JComboBox<String> JcmpQuan;
 	private JComboBox<String> JcmpPhuong;
-	private JComboBox<String> JcmpSoNha;
-	private JComboBox<String> JcmpDuong;
+	private JTextField txtSoNha;
+	private JTextField txtDuong;
 	private JTextField txtSDT;
-	private JTextField txtTim;
+	private JComboBox<String> cmpTim;
 	
 	//attribute Form thông tin phần label
 	private JLabel lblMaNhaTro;
@@ -110,6 +113,12 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	private JButton btnThoat;
 	//Compobox Lua cong tim kiếm
 	private JComboBox<String> cmp;
+	
+	private List<String> a = new ArrayList<String>();
+	private List<String> b = new ArrayList<String>();
+	private List list = new ArrayList<String>();
+	private String dstim ="";
+	private int max=0;
 	public GD_QuanLyTro(){
 		nv_Dao = new NhanVien_Dao(); 
 		tamluu_dao = new TamLuuMaNhanVien_Dao();
@@ -274,9 +283,49 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		//Form điền thông tin
 		pnlFormSV.add(Box.createVerticalStrut(10));
 		Box boxMaTro = Box.createHorizontalBox();
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		NhaTro_Dao daont = new NhaTro_Dao();
+		
+		List<NhaTro> list = daont.layTatCaBang();
+		list.forEach(v -> {
+			String[] ma1 = v.getMaTro().split("_");			
+			
+			if(max<=Integer.parseInt(ma1[1].toString().trim()))
+			{
+				max = Integer.parseInt(ma1[1].toString().trim());
+				max = max+1;
+			}
+		});
+		
+		String maTro = null;
+		if(max<10)
+		{
+			maTro = "NT_0000"+max;
+		}
+		else if(max<100)
+		{
+			maTro = "NT_000"+max;
+		}
+		else if(max<1000)
+		{
+			maTro = "NT_00"+max;
+		}
+		else if(max<10000)
+		{
+			maTro = "NT_"+max;
+		}
+		else if(max<100000)
+		{
+			maTro = "NT_"+max;
+		}
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		boxMaTro.add(lblMaNhaTro=new JLabel("Mã Tro:"));
 		boxMaTro.add(txtMaNhatro=new JTextField());
+		txtMaNhatro.setText(maTro);
 		pnlFormSV.add(boxMaTro);
+		txtMaNhatro.setEditable(false);
 		
 		pnlFormSV.add(Box.createVerticalStrut(10));
 		Box boxDiaChi = Box.createHorizontalBox();
@@ -292,14 +341,13 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		boxDiaChi.add(lblPhuong = new JLabel("Phường: "));
 		boxDiaChi.add(JcmpPhuong = new JComboBox<String>());
+		JcmpPhuong.setSelectedItem("");
 		JcmpPhuong.setEditable(true);
 		boxDiaChi.add(lblSoNha = new JLabel("Số nhà: "));
-		boxDiaChi.add(JcmpSoNha = new JComboBox<>());
-		JcmpSoNha.setEditable(true);
+		boxDiaChi.add(txtSoNha = new JTextField());
 		boxDiaChi.add(lblDuong = new JLabel("Đường: "));
-		boxDiaChi.add(JcmpDuong = new JComboBox<String>());
+		boxDiaChi.add(txtDuong = new JTextField());
 		pnlFormSV.add(boxDiaChi);
-		JcmpDuong.setEditable(true);
 		pnlFormSV.add(Box.createVerticalStrut(10));
 		Box boxChuNha = Box.createHorizontalBox();
 		boxChuNha.add(lblChuNha=new JLabel("Tên chủ trọ"));
@@ -341,31 +389,53 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		 
 		 
 		 Box boxtxtTim = Box.createHorizontalBox();
+		 pnlFormTim = new JPanel();
+		 pnlTim.add(pnlFormTim);
+		 
+		 boxtxtTim = Box.createHorizontalBox();
 		 boxtxtTim.add(lblTim=new JLabel("Tìm Thông tin sinh viên: "));
-		 boxtxtTim.add(txtTim=new JTextField(10));
+		 cmpTim = new JComboBox<String>();
+		 cmpTim.setEditable(true);
+	        AutoCompleteDecorator.decorate(cmpTim);
+	        cmpTim.setEditable(true);
+	        cmpTim.addActionListener(this);
+	        
+	        boxtxtTim.add(cmpTim);
+	        pnlFormTim.add(boxtxtTim);
 		 String[] s = "Mã;Tên;Địa chỉ".split(";");
 		 Box boxcmpTim = Box.createHorizontalBox();
 		 boxtxtTim.add(cmp = new JComboBox<String>(s));
 		 pnlTim.add(boxtxtTim);
 		 pnlTim.add(pnlFormTim);
-		// Box boxFormTim = Box.createVerticalBox();
 		 
 		 Box boxTimDiaChi = Box.createHorizontalBox();
 		 boxTimDiaChi.add(lblDiaChi=new JLabel("Địa chỉ: "));
 		 boxTimDiaChi.add(lblQuan = new JLabel("Quận: "));
 		 boxTimDiaChi.add(JcmpTimQuan = new JComboBox<String>());
-
+		 //cmpTim = new JComboBox<String>();
+		 JcmpTimQuan.setEditable(true);
+	     AutoCompleteDecorator.decorate(JcmpTimQuan);
+	     JcmpTimQuan.setEditable(true);
+	       
 			
 		 boxTimDiaChi.add(lblPhuong = new JLabel("Phường: "));
 		 boxTimDiaChi.add(JcmpTimPhuong = new JComboBox<String>());
-			
+		 JcmpTimPhuong.setEditable(true);
+	     AutoCompleteDecorator.decorate(JcmpTimPhuong);
+	     JcmpTimPhuong.setEditable(true);	
+		 
 		 boxTimDiaChi.add(lblSoNha = new JLabel("Số nhà: "));
 		 boxTimDiaChi.add(JcmpTimSoNha = new JComboBox<>());
-			
+		 JcmpTimSoNha.setEditable(true);
+	     AutoCompleteDecorator.decorate(JcmpTimSoNha);
+	     JcmpTimSoNha.setEditable(true);
+		 
 		 boxTimDiaChi.add(lblDuong = new JLabel("Đường: "));
 		 boxTimDiaChi.add(JcmpTimDuong = new JComboBox<String>());
 		 pnlFormTim.add(boxTimDiaChi);
-		 
+		 JcmpTimDuong.setEditable(true);
+	     AutoCompleteDecorator.decorate(JcmpTimDuong);
+	     JcmpTimDuong.setEditable(true);
 		 //compobox chọn phương thức tìm
 
 		 
@@ -431,41 +501,42 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		});
 		
 		ArrayList<String> arrSoNha = new ArrayList<String>();
+		JcmpTimSoNha.addItem("");
 		listNhaTro.forEach(v -> {
 			
 			if(!arrSoNha.contains(v.getDiaChiTro().getSoNha()))
 			{
 				JcmpTimSoNha.addItem(v.getDiaChiTro().getSoNha());
-				JcmpSoNha.addItem(v.getDiaChiTro().getSoNha());
 				arrSoNha.add(v.getDiaChiTro().getSoNha());
 				
 			}
 		});
 		
 		ArrayList<String> arrTenDuong = new ArrayList<String>();
+		JcmpTimDuong.addItem("");
 		listNhaTro.forEach(v -> {	
 		
 			if(!arrTenDuong.contains(v.getDiaChiTro().getTenDuong()))
 			{
 				JcmpTimDuong.addItem(v.getDiaChiTro().getTenDuong());
-				JcmpDuong.addItem(v.getDiaChiTro().getTenDuong());
 				arrTenDuong.add(v.getDiaChiTro().getTenDuong());
 				
 			}
 		});
 		
 		ArrayList<String> arrTenPhuong = new ArrayList<String>();
+		JcmpTimPhuong.addItem("");
 		listNhaTro.forEach(v -> {
 		
 			if(!arrTenPhuong.contains(v.getDiaChiTro().getTenPhuong()))
 			{
 				JcmpTimPhuong.addItem(v.getDiaChiTro().getTenPhuong());
-				JcmpPhuong.addItem(v.getDiaChiTro().getTenPhuong());
 				arrTenPhuong.add(v.getDiaChiTro().getTenPhuong());
 			}
 		});
 		
 		ArrayList<String> arrTenQuan = new ArrayList<String>();
+		//JcmpTimQuan.addItem("");
 		listNhaTro.forEach(v -> {
 			if(!arrTenQuan.contains(v.getDiaChiTro().getTenQuan()))
 			{
@@ -502,15 +573,15 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		if(ob.equals(JcmpQuan) )
 		{
 			
-			if(JcmpQuan.getSelectedItem().equals(" "))
+			if(JcmpQuan.getSelectedItem().equals(""))
 			{
 				JcmpPhuong.removeAllItems();
-				JcmpPhuong.setSelectedItem(" ");
+				JcmpPhuong.setSelectedItem("");
 			}
 			else if(JcmpQuan.getSelectedItem().equals("Quận Gò Vấp"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16,Phường 17".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16,Phường 17".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -519,7 +590,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 1"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường Bến Nghé,Phường Bến Thành,Phường Cầu Kho,Phường Cầu Ông Lãnh,Phường Cô Giang,Phường Đa Kao,Phường Nguyễn Cư Trinh,Phường Nguyễn Thái Bình,Phường Phạm Ngũ Lão,Phường Tân Định".split(",");
+				String[] item = " ,Phường Bến Nghé,Phường Bến Thành,Phường Cầu Kho,Phường Cầu Ông Lãnh,Phường Cô Giang,Phường Đa Kao,Phường Nguyễn Cư Trinh,Phường Nguyễn Thái Bình,Phường Phạm Ngũ Lão,Phường Tân Định".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -530,7 +601,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			{
 				JcmpPhuong.removeAllItems();
 				
-				String[] item = "Phường An Khánh,Phường An Lợi Đông,Phường An Phú,Phường Bình An,Phường Bình Khánh,Phường Bình Trưng Đông,Phường Bình Trưng Tây,Phường Cát Lái,Phường Thạnh Mỹ Lợi,Phường Thảo Điền,Phường Thủ Thiêm".split(",");
+				String[] item = " ,Phường An Khánh,Phường An Lợi Đông,Phường An Phú,Phường Bình An,Phường Bình Khánh,Phường Bình Trưng Đông,Phường Bình Trưng Tây,Phường Cát Lái,Phường Thạnh Mỹ Lợi,Phường Thảo Điền,Phường Thủ Thiêm".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -539,7 +610,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			if(JcmpQuan.getSelectedItem().equals("Quận 3"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -548,7 +619,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 4"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16,Phường 17,Phường 18".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16,Phường 17,Phường 18".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -557,7 +628,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 5"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -566,7 +637,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 6"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -576,7 +647,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 7"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường Bình Thuận,Phường Phú Mỹ,Phường Phú Thuận,Phường Tân Hưng,Phường Tân Kiểng,Phường Tân Phong,Phường Tân Phú,Phường Tân Quy,Phường Tân Thuận Đông,Phường Tân Thuận Tây".split(",");
+				String[] item = " ,Phường Bình Thuận,Phường Phú Mỹ,Phường Phú Thuận,Phường Tân Hưng,Phường Tân Kiểng,Phường Tân Phong,Phường Tân Phú,Phường Tân Quy,Phường Tân Thuận Đông,Phường Tân Thuận Tây".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -585,7 +656,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 8"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -595,7 +666,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 9"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường Hiệp Phú,Phường Long Bình,Phường Long Phước,Phường Long Thạnh Mỹ,Phường Long Trường,Phường Phú Hữu,Phường Phước Bình,Phường Phước Long A,Phường Phước Long B,Phường Tân Phú,Phường Tăng Nhơn Phú A,Phường Tăng Nhơn Phú B,Phường Trường Thạnh".split(",");
+				String[] item = " ,Phường Hiệp Phú,Phường Long Bình,Phường Long Phước,Phường Long Thạnh Mỹ,Phường Long Trường,Phường Phú Hữu,Phường Phước Bình,Phường Phước Long A,Phường Phước Long B,Phường Tân Phú,Phường Tăng Nhơn Phú A,Phường Tăng Nhơn Phú B,Phường Trường Thạnh".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -605,7 +676,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 10"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -614,7 +685,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 11"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -623,7 +694,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận 12"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường An Phú Đông,Phường Đông Hưng Thuận,Phường Hiệp Thành,Phường Tân Chánh Hiệp,Phường Tân Hưng Thuận,Phường Tân Thới Hiệp,Phường Tân Thới Nhất,Phường Thạnh Lộc,Phường Thạnh Xuân,Phường Thới An,Phường Trung Mỹ Tây".split(",");
+				String[] item = " ,Phường An Phú Đông,Phường Đông Hưng Thuận,Phường Hiệp Thành,Phường Tân Chánh Hiệp,Phường Tân Hưng Thuận,Phường Tân Thới Hiệp,Phường Tân Thới Nhất,Phường Thạnh Lộc,Phường Thạnh Xuân,Phường Thới An,Phường Trung Mỹ Tây".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -633,7 +704,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Bình Tân"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường An Lạc,Phường An Lạc A,Phường Bình Hưng Hòa,Phường Bình Hưng Hoà A,Phường Bình Hưng Hoà B,Phường Bình Trị Đông,Phường Bình Trị Đông A,Phường Bình Trị Đông B,Phường Tân Tạo,Phường Tân Tạo A".split(",");
+				String[] item = " ,Phường An Lạc,Phường An Lạc A,Phường Bình Hưng Hòa,Phường Bình Hưng Hoà A,Phường Bình Hưng Hoà B,Phường Bình Trị Đông,Phường Bình Trị Đông A,Phường Bình Trị Đông B,Phường Tân Tạo,Phường Tân Tạo A".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -643,7 +714,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Bình Thạnh"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16,Phường 17,Phường 19,Phường 21,Phường 22,Phường 24,Phường 25,Phường 26,Phường 27,Phường 28".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 16,Phường 17,Phường 19,Phường 21,Phường 22,Phường 24,Phường 25,Phường 26,Phường 27,Phường 28".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -652,7 +723,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Phú Nhuận"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 17".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15,Phường 17".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -661,7 +732,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Tân Bình"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15".split(",");
+				String[] item = " ,Phường 1,Phường 3,Phường 4,Phường 5,Phường 6,Phường 7,Phường 8,Phường 9,Phường 10,Phường 11,Phường 12,Phường 13,Phường 14,Phường 15".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -670,7 +741,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Tân Phú"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường Hiệp Tân,Phường Hoà Thạnh,Phường Phú Thạnh,Phường Phú Thọ Hoà,Phường Phú Trung,Phường Sơn Kỳ,Phường Tân Qúy,Phường Tân Sơn Nhì,Phường Tân Thành,Phường Tân Thới Hoà,Phường Tây Thạnh".split(",");
+				String[] item = " ,Phường Hiệp Tân,Phường Hoà Thạnh,Phường Phú Thạnh,Phường Phú Thọ Hoà,Phường Phú Trung,Phường Sơn Kỳ,Phường Tân Qúy,Phường Tân Sơn Nhì,Phường Tân Thành,Phường Tân Thới Hoà,Phường Tây Thạnh".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -679,7 +750,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Thủ Đức"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Phường Bình Chiểu,Phường Bình Thọ,Phường Hiệp Bình Chánh,Phường Hiệp Bình Phước,Phường Linh Chiểu,Phường Linh Đông,Phường Linh Tây,Phường Linh Trung,Phường Linh Xuân,Phường Tam Bình,Phường Tam Phú,Phường Trường Thọ".split(",");
+				String[] item = " ,Phường Bình Chiểu,Phường Bình Thọ,Phường Hiệp Bình Chánh,Phường Hiệp Bình Phước,Phường Linh Chiểu,Phường Linh Đông,Phường Linh Tây,Phường Linh Trung,Phường Linh Xuân,Phường Tam Bình,Phường Tam Phú,Phường Trường Thọ".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -688,7 +759,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			if(JcmpQuan.getSelectedItem().equals("Quận Bình Chánh"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Thị trấn Tân Túc,Xã An Phú Tây,Xã Bình Chánh,Xã Bình Hưng,Xã Bình Lợi,Xã Đa Phước,Xã Hưng Long,Xã Lê Minh Xuân,Xã Phạm Văn Hai,Xã Phong Phú,Xã Quy Đức,Xã Tân Kiên,Xã Tân Nhựt,Xã Tân Quý Tây,Xã Vĩnh Lộc A,Xã Vĩnh Lộc B".split(",");
+				String[] item = " ,Thị trấn Tân Túc,Xã An Phú Tây,Xã Bình Chánh,Xã Bình Hưng,Xã Bình Lợi,Xã Đa Phước,Xã Hưng Long,Xã Lê Minh Xuân,Xã Phạm Văn Hai,Xã Phong Phú,Xã Quy Đức,Xã Tân Kiên,Xã Tân Nhựt,Xã Tân Quý Tây,Xã Vĩnh Lộc A,Xã Vĩnh Lộc B".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -697,7 +768,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			if(JcmpQuan.getSelectedItem().equals("Quận Cần Giờ"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Thị trấn Cần Thạnh,Xã An Thới Đông,Xã Bình Khánh,Xã Long Hòa,Xã Lý Nhơn,Xã Tam Thôn Hiệp,Xã Thạnh An".split(",");
+				String[] item = " ,Thị trấn Cần Thạnh,Xã An Thới Đông,Xã Bình Khánh,Xã Long Hòa,Xã Lý Nhơn,Xã Tam Thôn Hiệp,Xã Thạnh An".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -706,7 +777,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Củ Chi"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Thị trấn Củ Chi,Xã An Nhơn Tây,Xã An Phú,Xã Bình Mỹ,Xã Hòa Phú,Xã Nhuận Đức,Xã Phạm Văn Cội,Xã Phú Hòa Đông,Xã Phú Mỹ Hưng,Xã Phước Hiệp,Xã Phước Thạnh,Xã Phước Vĩnh An,Xã Tân An Hội,Xã Tân Phú Trung,Xã Tân Thạnh Đông,Xã Tân Thạnh Tây,Xã Tân Thông Hội,Xã Thái Mỹ,Xã Trung An,Xã Trung Lập Hạ,Xã Trung Lập Thượng".split(",");
+				String[] item = " ,Thị trấn Củ Chi,Xã An Nhơn Tây,Xã An Phú,Xã Bình Mỹ,Xã Hòa Phú,Xã Nhuận Đức,Xã Phạm Văn Cội,Xã Phú Hòa Đông,Xã Phú Mỹ Hưng,Xã Phước Hiệp,Xã Phước Thạnh,Xã Phước Vĩnh An,Xã Tân An Hội,Xã Tân Phú Trung,Xã Tân Thạnh Đông,Xã Tân Thạnh Tây,Xã Tân Thông Hội,Xã Thái Mỹ,Xã Trung An,Xã Trung Lập Hạ,Xã Trung Lập Thượng".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -715,7 +786,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Hóc Môn"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Thị trấn Hóc Môn,Xã Bà Điểm,Xã Đông Thạnh,Xã Nhị Bình,Xã Tân Hiệp,Xã Tân Thới Nhì,Xã Tân Xuân,Xã Thới Tam Thôn,Xã Trung Chánh,Xã Xuân Thới Đông,Xã Xuân Thới Sơn,Xã Xuân Thới Thượng".split(",");
+				String[] item = " ,Thị trấn Hóc Môn,Xã Bà Điểm,Xã Đông Thạnh,Xã Nhị Bình,Xã Tân Hiệp,Xã Tân Thới Nhì,Xã Tân Xuân,Xã Thới Tam Thôn,Xã Trung Chánh,Xã Xuân Thới Đông,Xã Xuân Thới Sơn,Xã Xuân Thới Thượng".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -726,7 +797,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			else if(JcmpQuan.getSelectedItem().equals("Quận Hóc Môn"))
 			{
 				JcmpPhuong.removeAllItems();
-				String[] item = "Thị trấn Nhà Bè,Xã Hiệp Phước,Xã Long Thới,Xã Nhơn Đức,Xã Phú Xuân,Xã Phước Kiển,Xã Phước Lộc".split(",");
+				String[] item = " ,Thị trấn Nhà Bè,Xã Hiệp Phước,Xã Long Thới,Xã Nhơn Đức,Xã Phú Xuân,Xã Phước Kiển,Xã Phước Lộc".split(",");
 				for (int i = 0; i < item.length; i++) {
 					String string = item[i];
 					JcmpPhuong.addItem(string);
@@ -769,8 +840,8 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				String SDT = txtSDT.getText();
 				String tenQuan = JcmpQuan.getSelectedItem().toString();
 				String tenPhuong = JcmpPhuong.getSelectedItem().toString();
-				String soNha = JcmpSoNha.getSelectedItem().toString();
-				String tenDuong = JcmpDuong.getSelectedItem().toString();
+				String soNha = txtSoNha.getText().toString().trim();
+				String tenDuong = txtDuong.getText().toString().trim();
 				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
 				
 				if(daoNhaTro.CapNhatNhaTroSinhVien(nhaTro)==true)
@@ -786,15 +857,53 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnThem))
 		{
+			
 			if(validData()==true)
 			{
-				String maTro = txtMaNhatro.getText();
+				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				NhaTro_Dao daont = new NhaTro_Dao();
+				
+				List<NhaTro> list = daont.layTatCaBang();
+				list.forEach(v -> {
+					String[] ma1 = v.getMaTro().split("_");			
+					
+					if(max<=Integer.parseInt(ma1[1].toString().trim()))
+					{
+						max = Integer.parseInt(ma1[1].toString().trim());
+						max = max+1;
+					}
+				});
+				
+				String maTro = null;
+				if(max<10)
+				{
+					maTro = "SV_0000"+max;
+				}
+				else if(max<100)
+				{
+					maTro = "SV_000"+max;
+				}
+				else if(max<1000)
+				{
+					maTro = "SV_00"+max;
+				}
+				else if(max<10000)
+				{
+					maTro = "SV_"+max;
+				}
+				else if(max<100000)
+				{
+					maTro = "SV_"+max;
+				}
+				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				
+				
 				String tenChutro = txtChuNha.getText();
 				String sDT = txtSDT.getText();
 				String tenQuan = JcmpQuan.getSelectedItem().toString();
 				String tenPhuong = JcmpPhuong.getSelectedItem().toString();
-				String soNha = JcmpSoNha.getSelectedItem().toString();
-				String tenDuong = JcmpDuong.getSelectedItem().toString();
+				String soNha = txtSoNha.getText().toString().trim();
+				String tenDuong = txtDuong.getText().toString().trim();
 				NhaTro_Dao dao = new NhaTro_Dao();
 				boolean result = dao.them(new NhaTro(maTro, tenChutro, sDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong)));
 				if(result==false)
@@ -859,93 +968,412 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
-			txtMaNhatro.setEditable(true);
-			txtChuNha.setText("");
-			txtMaNhatro.setText("");
-			txtSDT.setText("");
-			txtTim.setText("");
+			NhaTro_Dao daont = new NhaTro_Dao();
 			
-			txtTim.setText("");
+			List<NhaTro> list = daont.layTatCaBang();
+			list.forEach(v -> {
+				String[] ma1 = v.getMaTro().split("_");			
+				
+				if(max<=Integer.parseInt(ma1[1].toString().trim()))
+				{
+					max = Integer.parseInt(ma1[1].toString().trim());
+					max = max+1;
+				}
+			});
+			
+			String maTro = null;
+			if(max<10)
+			{
+				maTro = "SV_0000"+max;
+			}
+			else if(max<100)
+			{
+				maTro = "SV_000"+max;
+			}
+			else if(max<1000)
+			{
+				maTro = "SV_00"+max;
+			}
+			else if(max<10000)
+			{
+				maTro = "SV_"+max;
+			}
+			else if(max<100000)
+			{
+				maTro = "SV_"+max;
+			}
+			txtMaNhatro.setText(maTro);
+			txtChuNha.setText("");
+			txtSDT.setText("");
+			cmpTim.setSelectedItem("");
+			JcmpQuan.setSelectedItem("");
+			JcmpPhuong.setSelectedItem("");
+			txtSoNha.setText("");
+			txtDuong.setText("");
 			tableModel.setRowCount(0);
 			addDatabase();
 		}
 		
-		else if(cmp.getSelectedItem().equals("Mã"))
-		{
-			txtTim.setEnabled(true);
-			if(ob.equals(btnTim))
-			{
-				NhaTro_Dao dao = new NhaTro_Dao();
-				String ma = txtTim.getText();
-				if(dao.layTroTheoMa(ma)!=null)
-				{
-					
-					NhaTro v = dao.layTroTheoMa(ma);
-					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
-					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
-					
-					tableModel.setRowCount(0);
-					tableModel.addRow(row);
-				}
-				else {
-					txtTim.setText("");
-					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
-				}
-			}	
-			
-		}
 		
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		else if(cmp.getSelectedItem().equals("Mã"))
+			{
+			try {
+				if(ob.equals(cmpTim))
+				{
+					if(!(cmpTim.getSelectedItem().toString().trim().equalsIgnoreCase("")))
+					{
+							NhaTro_Dao daont = new NhaTro_Dao();
+							List<NhaTro> listSV = new ArrayList<NhaTro>();
+							listSV = daont.layTatCaBang();
+							int m=0;
+							listSV.forEach(v -> {
+								dstim = dstim+","+v.getMaTro();
+							});
+						
+							String[] tim = dstim.split(",");
+							int i=0;
+							int j=0;
+					        for (String string : tim) {
+					        	try {
+					        		if(!(cmpTim.getSelectedItem().toString().trim().equals("")))	
+					    	        {
+					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.equalsIgnoreCase(cmpTim.getSelectedItem().toString().trim()))
+					    	        	{
+					    	        		
+					    	        		a.add(string.toString());
+					    	        		i++;
+					    	        	}
+					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.contains(cmpTim.getSelectedItem().toString().trim()))
+					    	        	{
+					    	        		b.add(string.toString());
+					    	        		j++;
+					    	        	}  
+					    	        }
+								} catch (Exception e2) {
+									
+								}
+					        
+							}
+					        
+					        for (String string : a) {
+					        	if(!(list.contains(string)))
+						    	   {
+						    		   cmpTim.addItem(string);
+						    		   list.add(string.toString());
+						    	   }
+							}
+			
+					       for (String string : b) {
+					    	   if(!(list.contains(string)))
+					    	   {
+						    	   cmpTim.addItem(string);
+						    	   list.add(string.toString());
+					    	   }
+						}
+					       cmpTim.addItem("");
+					        if(cmpTim.getSelectedItem().toString().length()<2)
+					        {
+					        	cmpTim.removeAllItems();
+					        	list.clear();
+					        	a.clear();
+					        	b.clear();
+					        	dstim="";
+					        }
+					}
+				}
+				
+				if(ob.equals(btnTim))
+				{
+					NhaTro_Dao dao = new NhaTro_Dao();
+					String ma = cmpTim.getSelectedItem().toString().trim();
+					if(dao.layTroTheoMa(ma)!=null)
+					{
+						tableModel.setRowCount(0);
+						NhaTro nhaTro = dao.layTroTheoMa(ma);
+							String maTro = nhaTro.getMaTro();
+							String tenChuNha = nhaTro.getTenChutro();
+							String diaChi = nhaTro.getDiaChiTro().getSoNha() +" - "+ nhaTro.getDiaChiTro().getTenDuong() +" - "+  nhaTro.getDiaChiTro().getTenPhuong() +" - " + nhaTro.getDiaChiTro().getTenQuan();
+							String SDT = nhaTro.getSDT();
+							String[] row = {maTro,tenChuNha, diaChi, SDT};
+							tableModel.addRow(row);
+						
+						
+					}
+					else if(dao.layTroTheoMa(ma)==null){
+						cmpTim.setSelectedItem("");
+						JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+					}
+				}	
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+				
+				
+			}
+		
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		else if(cmp.getSelectedItem().equals("Tên"))
 		{
-			txtTim.setEnabled(true);
-			if(ob.equals(btnTim))
-			{
-				NhaTro_Dao dao = new NhaTro_Dao();
-				String ten = txtTim.getText();
-				if(dao.layTroTheoTen(ten)!=null)
+			try {
+				if(ob.equals(cmpTim))
 				{
-					
-					NhaTro v = dao.layTroTheoTen(ten);
-					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
-					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
-					
-					tableModel.setRowCount(0);
-					tableModel.addRow(row);
+					 for (String string : a) {
+				        	cmpTim.removeItem(string);
+						}
+		
+				       for (String string : b) {
+				    	   cmpTim.removeItem(string);
+					}
+					if(!(cmpTim.getSelectedItem().toString().trim().equalsIgnoreCase("")))
+					{
+							NhaTro_Dao daont = new NhaTro_Dao();
+							List<NhaTro> listSV = new ArrayList<NhaTro>();
+							
+							listSV = daont.layTatCaBang();
+							
+							int m=0;
+							listSV.forEach(v -> {
+								dstim = dstim+","+v.getTenChutro();
+							});
+							
+							String[] tim = dstim.split(",");
+							int i=0;
+							int j=0;
+					        for (String string : tim) {
+					        	try {
+					        		if(!(cmpTim.getSelectedItem().toString().trim().equals("")))	
+					    	        {
+					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.equalsIgnoreCase(cmpTim.getSelectedItem().toString().trim()))
+					    	        	{
+					    	        		a.add(string.toString());
+					    	        		i++;
+					    	        	}
+					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.contains(cmpTim.getSelectedItem().toString().trim()))
+					    	        	{
+					    	        		b.add(string.toString());
+					    	        		j++;
+					    	        	}  
+					    	        }
+								} catch (Exception e2) {
+									
+								}
+							}
+					        for (String string : a) {
+					        	if(!(list.contains(string)))
+						    	   {
+					        		System.out.println("\n1" + string);
+						    		   cmpTim.addItem(string);
+						    		   list.add(string.toString());
+						    	   }
+							}
+			
+					       for (String string : b) {
+					    	   if(!(list.contains(string)))
+					    	   {
+					    		   System.out.println("\n2" + string);
+						    	   cmpTim.addItem(string);
+						    	   list.add(string.toString());
+					    	   }
+						}
+					        if(cmpTim.getSelectedItem().toString().length()<2)
+					        {
+					        	
+					        	cmpTim.removeAllItems();
+					        	list.clear();
+					        	a.clear();
+					        	b.clear();
+					        	dstim="";
+					        }
+					}
 				}
-				else {
-					txtTim.setText("");
-					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+				
+				if(ob.equals(btnTim))
+				{
+					NhaTro_Dao dao = new NhaTro_Dao();
+					String tenChuTro = cmpTim.getSelectedItem().toString().trim();
+					if(dao.layNhaTroTheoTenChuTro(tenChuTro)!=null)
+					{
+						tableModel.setRowCount(0);
+						dao.layNhaTroTheoTenChuTro(tenChuTro).forEach(v -> {
+							String maTro = v.getMaTro();
+							String tenChuNha = v.getTenChutro();
+							String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+							String SDT = v.getSDT();
+							String[] row = {maTro,tenChuNha, diaChi, SDT};
+							tableModel.addRow(row);
+						});
+						
+					}
+					else if(dao.layNhaTroTheoTenChuTro(tenChuTro)==null){
+						cmpTim.setSelectedItem("");
+						JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+					}
 				}
-			}	
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
+				
 			
 		}
+
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		else if(cmp.getSelectedItem().equals("Địa chỉ"))
 		{
-			txtTim.setEnabled(false);
-			if(ob.equals(btnTim))
-			{
-				NhaTro_Dao dao = new NhaTro_Dao();
-				String soN = JcmpTimSoNha.getSelectedItem().toString();
-				String tenD = JcmpTimDuong.getSelectedItem().toString();
-				String tenP = JcmpTimPhuong.getSelectedItem().toString();
-				String tenQ = JcmpTimQuan.getSelectedItem().toString();
-				if(dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ)!=null)
+			try {
+//				if(ob.equals(cmpTim))
+//				{
+//					if(!(cmpTim.getSelectedItem().toString().trim().equalsIgnoreCase("")))
+//					{
+//							NhaTro_Dao daont = new NhaTro_Dao();
+//							List<NhaTro> listSV = new ArrayList<NhaTro>();
+//							
+//							listSV = daont.layTatCaBang();
+//							
+//							int m=0;
+//							listSV.forEach(v -> {
+//								dstim = dstim+","+v.getTenChutro();
+//							});
+//							
+//							String[] tim = dstim.split(",");
+//							int i=0;
+//							int j=0;
+//					        for (String string : tim) {
+//					        	try {
+//					        		if(!(cmpTim.getSelectedItem().toString().trim().equals("")))	
+//					    	        {
+//					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.equalsIgnoreCase(cmpTim.getSelectedItem().toString().trim()))
+//					    	        	{
+//					    	        		a.add(string.toString());
+//					    	        		i++;
+//					    	        	}
+//					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.contains(cmpTim.getSelectedItem().toString().trim()))
+//					    	        	{
+//					    	        		b.add(string.toString());
+//					    	        		j++;
+//					    	        	}  
+//					    	        }
+//								} catch (Exception e2) {
+//									
+//								}
+//							}
+//					        for (String string : a) {
+//					        	if(!(list.contains(string)))
+//						    	   {
+//					        		System.out.println("\n1" + string);
+//						    		   cmpTim.addItem(string);
+//						    		   list.add(string.toString());
+//						    	   }
+//							}
+//			
+//					       for (String string : b) {
+//					    	   if(!(list.contains(string)))
+//					    	   {
+//					    		   System.out.println("\n2" + string);
+//						    	   cmpTim.addItem(string);
+//						    	   list.add(string.toString());
+//					    	   }
+//						}
+//					        if(cmpTim.getSelectedItem().toString().length()<2)
+//					        {
+//					        	
+//					        	cmpTim.removeAllItems();
+//					        	list.clear();
+//					        	a.clear();
+//					        	b.clear();
+//					        	dstim="";
+//					        }
+//					}
+//				}
+				
+				if(JcmpTimQuan.getSelectedItem().toString().trim().length()>2)
 				{
-					
-					NhaTro v = dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ);
-					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
-					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
-					
-					tableModel.setRowCount(0);
-					tableModel.addRow(row);
+				
+					JOptionPane.showMessageDialog(this, "ok");
+					NhaTro_Dao dao = new NhaTro_Dao();
+					String tenQuan = JcmpTimQuan.getSelectedItem().toString().trim();
+					if(dao.layNhaTroTheoQuan(tenQuan)!=null)
+					{
+						tableModel.setRowCount(0);
+						dao.layNhaTroTheoQuan(tenQuan).forEach(v -> {
+							String maTro = v.getMaTro();
+							String tenChuNha = v.getTenChutro();
+							String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+							String SDT = v.getSDT();
+							String[] row = {maTro,tenChuNha, diaChi, SDT};
+							tableModel.addRow(row);
+						});
+						
+					}
+					else if(dao.layNhaTroTheoQuan(tenQuan)==null){
+						//cmpTim.setSelectedItem("");
+						JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+					}
 				}
-				else {
-					txtTim.setText("");
-					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+				
+				if(ob.equals(btnTim))
+				{
+					NhaTro_Dao dao = new NhaTro_Dao();
+					String tenChuTro = cmpTim.getSelectedItem().toString().trim();
+					if(dao.layNhaTroTheoTenChuTro(tenChuTro)!=null)
+					{
+						tableModel.setRowCount(0);
+						dao.layNhaTroTheoTenChuTro(tenChuTro).forEach(v -> {
+							String maTro = v.getMaTro();
+							String tenChuNha = v.getTenChutro();
+							String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+							String SDT = v.getSDT();
+							String[] row = {maTro,tenChuNha, diaChi, SDT};
+							tableModel.addRow(row);
+						});
+						
+					}
+					else if(dao.layNhaTroTheoTenChuTro(tenChuTro)==null){
+						cmpTim.setSelectedItem("");
+						JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+					}
 				}
-			}	
-		}
-	}
+			} catch (Exception e2) {
+				// TODO: handle exception
+			}
+			
+				
+			
+		}}
+		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//		else if(cmp.getSelectedItem().equals("Địa chỉ"))
+//		{
+//			cmpTim.setEnabled(false);
+//			if(ob.equals(btnTim))
+//			{
+//				NhaTro_Dao dao = new NhaTro_Dao();
+//				String soN = JcmpTimSoNha.getSelectedItem().toString();
+//				String tenD = JcmpTimDuong.getSelectedItem().toString();
+//				String tenP = JcmpTimPhuong.getSelectedItem().toString();
+//				String tenQ = JcmpTimQuan.getSelectedItem().toString();
+//				if(dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ)!=null)
+//				{
+//					
+//					NhaTro v = dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ);
+//					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
+//					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
+//					
+//					tableModel.setRowCount(0);
+//					tableModel.addRow(row);
+//				}
+//				else {
+//					cmpTim.setSelectedItem("");
+//					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+//				}
+//			}	
+//		}
+//	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -955,8 +1383,8 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		String[] s = table.getValueAt(row, 2).toString().split(" - ");
 		
 		
-		JcmpSoNha.setSelectedItem(s[0]);
-		JcmpDuong.setSelectedItem(s[1]);
+		txtSoNha.setText(s[0]);
+		txtDuong.setText(s[1]);
 		JcmpPhuong.addItem(s[2]);
 		JcmpQuan.setSelectedItem(s[3]);
 		txtSDT.setText(table.getValueAt(row, 3).toString());
@@ -991,8 +1419,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		String maNT = txtMaNhatro.getText().trim();
 		String tenChuNha = txtChuNha.getText().trim();
 		String dienThoai = txtSDT.getText().trim();
-		//JOptionPane.showMessageDialog(this, JcmpQuan.getSelectedItem().toString().length());
-
+	
 		if(JcmpQuan.getSelectedItem().toString().equals(" "))
 		{
 			JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ!!!");

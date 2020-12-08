@@ -133,11 +133,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	private NhanVien nhanVienTamLuu;
 	
 	///////////////////////////////////////////////////////////////////////////
-	private static String[] arr = { "Afghanistan", "Australia", "America", "Argentina", "United Kingdom",
-			   "United States", "United Arab Emirates", "Ukraine", "Uganda", "Albania", "Algeria", "Andorra", "Angola",
-			   "Antigua and Barbuda", "Austria", "India" };
-	private JPanel contentPane ;//= new JPanel();
-//	private JTextField txtTim;
+
+	private JPanel contentPane ;
 	private JComboBox<String> comboBox;
 	private Box boxtxtTim;
 	private JPanel pnlFormTim;
@@ -189,7 +186,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 					JPanel pnlcontent=new JPanel();
 		     		JLabel lblBanner = new JLabel();
 					pnlcontent.add(lblBanner);
-					lblBanner.setSize(250,250);
+					lblBanner.setSize(200,200);
 					add(pnlcontent);
 					//đường dẫn
 					setPicture(lblBanner, "HinhAnh/User.png");
@@ -484,7 +481,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		 //Form tìm
 		 JPanel pnlTim = new JPanel();
 		 pnlTim.setLayout(new BoxLayout(pnlTim, BoxLayout.Y_AXIS));
-		// pnlSouth.add(pnlTim, BorderLayout.EAST);
 		 pnlFormtxtbtnSV.add(pnlTim);
 		 pnlTim.setBorder(BorderFactory.createLoweredSoftBevelBorder());
 		 
@@ -508,7 +504,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	        cmpTim.addActionListener(this);
 	        
 	        boxtxtTim.add(cmpTim);
-	        //pnltxtTimauto.add(txtTim);
 	        pnlFormTim.add(boxtxtTim);
 	        
 	        
@@ -656,7 +651,19 @@ public void addDatabase() {
 				LocalDate ngaySinh = LocalDate.of(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
 				String queQuanSV = cmpQueQuan.getSelectedItem().toString().trim();
 				String maLop = txtMaLop.getText();
-				String maNV = txtMaNV.getText();
+				
+				SinhVien_Dao dao = new SinhVien_Dao();
+				List<SinhVien> listSV = new ArrayList<SinhVien>();
+				String maNV = null;
+				if(dao.layLoaiNV().equals("QL"))
+				{
+					maNV = cmpMaNV.getSelectedItem().toString().trim();
+				}
+				else if(dao.layLoaiNV().equals("NV"))
+				{
+					maNV = txtMaNV.getText();
+				}
+				
 				String gioiTinh = cmpGioiTinh.getSelectedItem().toString().trim();
 				String Khoa = cmpKhoa.getSelectedItem().toString().trim();
 				
@@ -682,12 +689,13 @@ public void addDatabase() {
 				list.forEach(v -> {
 					String[] ma1 = v.getMaSV().split("_");			
 					
-					if(max<Integer.parseInt(ma1[1].toString().trim()))
+					if(max<=Integer.parseInt(ma1[1].toString().trim()))
 					{
 						max = Integer.parseInt(ma1[1].toString().trim());
+						max = max+1;
 					}
 				});
-				max = max+1;
+				
 				String maSV = null;
 				if(max<10)
 				{
@@ -710,7 +718,6 @@ public void addDatabase() {
 					maSV = "SV_"+max;
 				}
 				String tenSV = txtTenSV.getText();
-				//String[] ns = txtNgaySinh.getText().split("/");
 				Calendar c = new GregorianCalendar();
 
 				LocalDate ngaySinh = LocalDate.of(dateNgaySinh.getJCalendar().getYearChooser().getYear(), (dateNgaySinh.getJCalendar().getMonthChooser().getMonth()+1), dateNgaySinh.getJCalendar().getDayChooser().getDay());
@@ -856,13 +863,11 @@ public void addDatabase() {
 			}
 			txtMaSV.setText(maSV);
 			txtTenSV.setText("");
-			//txtNgaySinh.setText("");
 			cmpQueQuan.setSelectedItem("");
 			txtMaLop.setText("");
 			cmpGioiTinh.setSelectedItem("Nam");;
 			SinhVien_Dao daoSV = new SinhVien_Dao();
 			cmpKhoa.setSelectedItem("");
-			
 			tableModel.setRowCount(0);
 			addDatabase();
 			
@@ -890,7 +895,6 @@ public void addDatabase() {
 						}
 						int m=0;
 						listSV.forEach(v -> {
-							//tim.add(v.getTenSV());
 							dstim = dstim+","+v.getMaSV();
 						});
 						
@@ -938,9 +942,11 @@ public void addDatabase() {
 					}
 				        if(cmpTim.getSelectedItem().toString().length()<2)
 				        {
-				        	
 				        	cmpTim.removeAllItems();
 				        	list.clear();
+				        	a.clear();
+				        	b.clear();
+				        	dstim="";
 				        }
 				}
 			}
@@ -1045,6 +1051,9 @@ public void addDatabase() {
 				        	
 				        	cmpTim.removeAllItems();
 				        	list.clear();
+				        	a.clear();
+				        	b.clear();
+				        	dstim="";
 				        }
 				}
 			}
@@ -1079,7 +1088,6 @@ public void addDatabase() {
 		int row = table.getSelectedRow();
 		txtMaSV.setText(table.getValueAt(row,0).toString());
 		txtTenSV.setText(table.getValueAt(row, 1).toString());
-		//txtNgaySinh.setText(table.getValueAt(row, 2).toString());
 		String[] date = table.getValueAt(row, 2).toString().split("/");
 		
 		Calendar ca = new GregorianCalendar();
@@ -1101,7 +1109,6 @@ public void addDatabase() {
 			d = new SimpleDateFormat("yyyy-MM-dd").parse(dd);
 			dateNgaySinh.setDate(d);
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		cmpQueQuan.setSelectedItem(table.getValueAt(row, 3).toString());

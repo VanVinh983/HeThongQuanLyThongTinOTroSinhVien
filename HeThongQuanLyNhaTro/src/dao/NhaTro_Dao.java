@@ -219,7 +219,7 @@ public class NhaTro_Dao {
 		
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where maNhaTro = "+"'"+ma+"'";
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where maNhaTro = "+"'"+ma+"'and [trangThaiDangThue]=0";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -246,7 +246,7 @@ public class NhaTro_Dao {
 		
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where tenChuNha = "+"N'"+ten+"'";
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where tenChuNha = "+"N'"+ten+"' and [trangThaiDangThue]=0";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -273,7 +273,7 @@ public class NhaTro_Dao {
 		
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "    select * from [QLThongTinOTroSinhVien].[dbo].[NhaTro] as nt  join [QLThongTinOTroSinhVien].[dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [soNha] = "+"'"+soN+"'"+" and [tenDuong] = "+ "N'"+tenD+"'"+" and [phuong] = N'"+tenP+"' and [quan] = N'"+tenQ+"'";
+			String sql = "    select * from [QLThongTinOTroSinhVien].[dbo].[NhaTro] as nt  join [QLThongTinOTroSinhVien].[dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [soNha] = "+"'"+soN+"'"+" and [tenDuong] = "+ "N'"+tenD+"'"+" and [phuong] = N'"+tenP+"' and [quan] = N'"+tenQ+"' and [trangThaiDangThue]=0";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -334,6 +334,33 @@ public class NhaTro_Dao {
 		}
 	return null;
 	}
+	
+	public ArrayList<NhaTro> layNhaTroTheoQuan(String quan) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [QLThongTinOTroSinhVien].[dbo].[NhaTro] where quan ="+"N'"+quan+"' and [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			/**/
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	
 	public ArrayList<DiaChi> layDiaChiTheoQuan(String quan) {
 		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
 		try {
