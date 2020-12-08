@@ -10,7 +10,7 @@ public class GD_Chinh {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Hệ Thống Quản Lý Ở Trọ Của Sinh Viên Trường Đại Học Công Nghiệp");
+		frame.setTitle("Hệ thống quản lý ở trọ của sinh viên trường Đại học Công nghiệp");
 		frame.getContentPane().add(new GD_DangNhap());
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int screenHeight = screenSize.height - 20;
