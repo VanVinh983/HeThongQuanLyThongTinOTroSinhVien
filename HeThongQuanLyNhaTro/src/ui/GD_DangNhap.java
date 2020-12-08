@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -26,8 +27,15 @@ import connectDB.ConnectDB;
 import dao.NhanVien_Dao;
 import dao.TamLuuMaNhanVien_Dao;
 import entity.NhanVien;
+import java.awt.Component;
+import java.awt.FlowLayout;
 
 public class GD_DangNhap extends JPanel implements ActionListener {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1850860719201618407L;
 
 	private JLabel lbltitle;
 
@@ -54,14 +62,15 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenHeight = screenSize.height - 20;
+		int screenWidth = screenSize.width + 15;
+		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
 		tamLuuMaNhanVien_dao.xoaMaNhanVienVaoVungNhoTam();
-		this.setPreferredSize(new Dimension(1400, 600));
-
 		ImageIcon img_background = new ImageIcon(
-				new ImageIcon("HinhAnh/background.jpg").getImage().getScaledInstance(1400, 600, Image.SCALE_SMOOTH));
+				new ImageIcon("HinhAnh/background.jpg").getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_SMOOTH));
 		JLabel lblbackground = new JLabel(img_background);
-		lblbackground.setPreferredSize(new Dimension(1400, 600));
+		lblbackground.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		lblbackground.setLayout(new BorderLayout());
 
 		JPanel pnlDangNhap = new JPanel();
@@ -167,7 +176,16 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 		pnlLeft.add(lblImgUser);
 
 		pnlTieuDe.add(lbltitle);
+		pnlMaDN.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		JLabel lblMaDangNhap = new JLabel("Mã đăng nhập                                    \r\n");
+		lblMaDangNhap.setFont(new Font("Arial", Font.PLAIN, 20));
+		pnlMaDN.add(lblMaDangNhap);
 		pnlMaDN.add(txtMaDN);
+		
+		JLabel lblNewLabel = new JLabel("Mật khẩu                                            \r\n");
+		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+		pnlMK.add(lblNewLabel);
 		pnlMK.add(txtMK);
 		pnlXem.add(btnXemMK);
 		pnlDN.add(btnDN);
@@ -183,10 +201,23 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 		pnlDangNhap.add(pnlLeft);
 		pnlDangNhap.add(pnlRight);
 
-		lblbackground.add(Box.createVerticalStrut(100), BorderLayout.NORTH);
-		lblbackground.add(Box.createVerticalStrut(100), BorderLayout.SOUTH);
-		lblbackground.add(Box.createHorizontalStrut(200), BorderLayout.WEST);
-		lblbackground.add(Box.createHorizontalStrut(200), BorderLayout.EAST);
+		Component verticalStrut_1 = Box.createVerticalStrut(45);
+		verticalStrut_1.setMinimumSize(new Dimension(0, 100));
+		verticalStrut_1.setMaximumSize(new Dimension(32767, 100));
+		verticalStrut_1.setPreferredSize(new Dimension(0, 100));
+		lblbackground.add(verticalStrut_1, BorderLayout.NORTH);
+		Component verticalStrut = Box.createVerticalStrut(79);
+		verticalStrut.setMaximumSize(new Dimension(32766, 100));
+		verticalStrut.setMinimumSize(new Dimension(0, 100));
+		verticalStrut.setPreferredSize(new Dimension(0, 150));
+		lblbackground.add(verticalStrut, BorderLayout.SOUTH);
+		Component horizontalStrut = Box.createHorizontalStrut(200);
+		horizontalStrut.setPreferredSize(new Dimension(300, 0));
+		horizontalStrut.setMinimumSize(new Dimension(300, 0));
+		lblbackground.add(horizontalStrut, BorderLayout.WEST);
+		Component horizontalStrut_1 = Box.createHorizontalStrut(200);
+		horizontalStrut_1.setPreferredSize(new Dimension(300, 0));
+		lblbackground.add(horizontalStrut_1, BorderLayout.EAST);
 		lblbackground.add(pnlDangNhap);
 
 		this.add(lblbackground);

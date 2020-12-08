@@ -1,13 +1,43 @@
 package ui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,38 +50,7 @@ import entity.DiaChi;
 import entity.NhaTro;
 import entity.SinhVien;
 import entity.ThongTinThueTro;
-
-import java.awt.Color;
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.Image;
-import javax.swing.BoxLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.CharArrayReader;
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
-import java.awt.Component;
-import java.awt.Desktop;
-
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
+import com.toedter.calendar.JDateChooser;
 
 public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseListener {
 
@@ -65,9 +64,6 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	private JTextField txtTPTenSinhVien;
 	private JTextField txtTPMaNhaTro;
 	private JTextField txtTPTenChuNhaTro;
-	private JTextField txtNgayCapNhat;
-	private JTextField txtNgayBatDau;
-	private JTextField txtNgayKetThuc;
 	private JTextField txtTuKhoa;
 	private JComboBox<String> cboQuan;
 	private JComboBox<String> cboPhuong;
@@ -91,6 +87,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	private JComboBox cboTrangThai;
 	private DefaultTableModel tableModelBTT2;
 	private String loaiNV;
+	private JDateChooser txtNgayBatDau;
+	private JDateChooser txtNgayKetThuc;
+	private JDateChooser txtNgayCapNhat;
 
 	/**
 	 * Launch the application.
@@ -112,7 +111,10 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		setAutoscrolls(true);
 		setBorder(null);
-		this.setPreferredSize(new Dimension(1600, 600));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenHeight = screenSize.height - 20;
+		int screenWidth = screenSize.width + 15;
+		this.setPreferredSize(new Dimension(screenWidth, screenHeight-58));
 		setLayout(new BorderLayout(0, 0));
 		loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
 		khoa = tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa();
@@ -135,12 +137,13 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 
 		JPanel pnlTrai = new JPanel();
-		pnlTrai.setBackground(Color.CYAN);
+		pnlTrai.setBackground(Color.WHITE);
 		pnlTrai.setBorder(null);
 		pnlTrai.setPreferredSize(new Dimension(200, 600));
 		pnlTrai.setMinimumSize(new Dimension(300, 600));
 		pnlTrai.setMaximumSize(new Dimension(300, 600));
 		add(pnlTrai, BorderLayout.WEST);
+		pnlTrai.setLayout(new BoxLayout(pnlTrai, BoxLayout.Y_AXIS));
 
 		JPanel pnlUser = new JPanel();
 		pnlUser.setPreferredSize(new Dimension(200, 200));
@@ -152,6 +155,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlUser.add(pnlChucVu, BorderLayout.NORTH);
 
 		JLabel lblChucVu = new JLabel("Quản Lý\r\n");
+		lblChucVu.setForeground(Color.GRAY);
 		lblChucVu.setFont(new Font("Arial", Font.BOLD, 27));
 
 		if (loaiNV.equals("NV")) {
@@ -160,6 +164,11 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		}
 
 		pnlChucVu.add(lblChucVu);
+		
+		Component verticalStrut_16 = Box.createVerticalStrut(20);
+		verticalStrut_16.setPreferredSize(new Dimension(0, 38));
+		verticalStrut_16.setMinimumSize(new Dimension(0, 50));
+		pnlChucVu.add(verticalStrut_16);
 
 		JLabel lblAnhUser = new JLabel("");
 		lblAnhUser.setPreferredSize(new Dimension(200, 200));
@@ -169,9 +178,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		JPanel pnlTacVu = new JPanel();
 		pnlTacVu.setFont(new Font("Arial", Font.BOLD, 20));
-		pnlTacVu.setPreferredSize(new Dimension(200, 400));
+		pnlTacVu.setPreferredSize(new Dimension(200, 450));
 		pnlTrai.add(pnlTacVu);
-		pnlTacVu.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		pnlTacVu.setLayout(new BoxLayout(pnlTacVu, BoxLayout.Y_AXIS));
 
 		JPanel pnlSinhVien = new JPanel();
 		pnlSinhVien.setPreferredSize(new Dimension(200, 50));
@@ -343,7 +352,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		JPanel pnlBang = new JPanel();
 		pnlBang.setBorder(new LineBorder(Color.CYAN, 2));
-		pnlRight.add(pnlBang, BorderLayout.CENTER);
+		pnlRight.add(pnlBang, BorderLayout.SOUTH);
 
 		String[] header = { "Mã Sinh Viên", "Tên Sinh Viên", "Mã Nhà Trọ", "Tên Nhà Trọ", "Địa Chỉ",
 				"Ngày Bắt Đầu Thuê", "Ngày Kết Thúc Thuê", "Giá", "Ngày Cập Nhật","Trạng thái"};
@@ -362,13 +371,13 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		};
 		pnlBang.add(new JScrollPane(tableBTT, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-		tableBTT.setPreferredScrollableViewportSize(new Dimension(1150, 240));
+		tableBTT.setPreferredScrollableViewportSize(new Dimension(1140, 290));
 		tableBTT.setRowHeight(30);
 
 		JPanel pnlNhapThongTin = new JPanel();
 		pnlNhapThongTin.setBackground(Color.CYAN);
-		pnlNhapThongTin.setPreferredSize(new Dimension(1400, 280));
-		pnlRight.add(pnlNhapThongTin, BorderLayout.SOUTH);
+		pnlNhapThongTin.setPreferredSize(new Dimension(1400, 320));
+		pnlRight.add(pnlNhapThongTin, BorderLayout.CENTER);
 		pnlNhapThongTin.setLayout(new BorderLayout(0, 0));
 
 		JPanel pnlNhapThongTinCoBan = new JPanel();
@@ -423,6 +432,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		lblTenChuNha.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPNhaTro.add(lblTenChuNha);
 
+		
 		txtTPTenChuNhaTro = new JTextField();
 		txtTPTenChuNhaTro.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlTPNhaTro.add(txtTPTenChuNhaTro);
@@ -616,14 +626,15 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		JLabel lblNgayCapNhat = new JLabel("Ngày Cập Nhật: \r\n");
 		lblNgayCapNhat.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlGia_NgayCapNhat.add(lblNgayCapNhat);
+		
+		txtNgayCapNhat = new JDateChooser();
+		txtNgayCapNhat.setDate(new Date());
+		txtNgayCapNhat.setDateFormatString("dd/MM/yyyy");
+		txtNgayCapNhat.setFont(new Font("arial",Font.PLAIN, 15));
+		pnlGia_NgayCapNhat.add(txtNgayCapNhat);
 
 		Component horizontalGlue = Box.createHorizontalGlue();
 		pnlGia_NgayCapNhat.add(horizontalGlue);
-
-		txtNgayCapNhat = new JTextField();
-		txtNgayCapNhat.setFont(new Font("Arial", Font.PLAIN, 15));
-		pnlGia_NgayCapNhat.add(txtNgayCapNhat);
-		txtNgayCapNhat.setColumns(10);
 
 		Component horizontalStrut_13 = Box.createHorizontalStrut(20);
 		pnlGia_NgayCapNhat.add(horizontalStrut_13);
@@ -644,11 +655,11 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		JLabel lblNgayBatDau = new JLabel("Ngày Bắt Đầu Thuê: ");
 		lblNgayBatDau.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlNgayBatDau_KetThuc.add(lblNgayBatDau);
-
-		txtNgayBatDau = new JTextField();
-		txtNgayBatDau.setFont(new Font("Arial", Font.PLAIN, 15));
+		
+		txtNgayBatDau = new JDateChooser();
+		txtNgayBatDau.setDateFormatString("dd/MM/yyyy");
+		txtNgayBatDau.setFont(new Font("arial", Font.PLAIN, 15));
 		pnlNgayBatDau_KetThuc.add(txtNgayBatDau);
-		txtNgayBatDau.setColumns(10);
 
 		Component horizontalStrut_15 = Box.createHorizontalStrut(20);
 		horizontalStrut_15.setPreferredSize(new Dimension(30, 0));
@@ -657,11 +668,11 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		JLabel lblNgayKetThuc = new JLabel("Ngày Kết Thúc Thuê: ");
 		lblNgayKetThuc.setFont(new Font("Arial", Font.PLAIN, 15));
 		pnlNgayBatDau_KetThuc.add(lblNgayKetThuc);
-
-		txtNgayKetThuc = new JTextField();
-		txtNgayKetThuc.setFont(new Font("Arial", Font.PLAIN, 15));
+		
+		txtNgayKetThuc = new JDateChooser();
+		txtNgayKetThuc.setDateFormatString("dd/MM/yyyy");
+		txtNgayKetThuc.setFont(new Font("arial", Font.PLAIN, 15));
 		pnlNgayBatDau_KetThuc.add(txtNgayKetThuc);
-		txtNgayKetThuc.setColumns(10);
 
 		Component horizontalStrut_16 = Box.createHorizontalStrut(20);
 		pnlNgayBatDau_KetThuc.add(horizontalStrut_16);
@@ -681,10 +692,11 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		JPanel pnlTieuDeTimKiem = new JPanel();
 		pnlTieuDeTimKiem.setPreferredSize(new Dimension(10, 50));
-		pnlTieuDeTimKiem.setBackground(Color.CYAN);
+		pnlTieuDeTimKiem.setBackground(Color.GRAY);
 		pnlTimKiem.add(pnlTieuDeTimKiem, BorderLayout.NORTH);
 
 		JLabel lblTieuDeTimKiem = new JLabel("Tác Vụ\r\n");
+		lblTieuDeTimKiem.setForeground(Color.CYAN);
 		lblTieuDeTimKiem.setFont(new Font("Arial", Font.BOLD, 25));
 		pnlTieuDeTimKiem.add(lblTieuDeTimKiem);
 
@@ -815,7 +827,6 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		});
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		verticalStrut_2.setMinimumSize(new Dimension(0, 10));
-		verticalStrut_2.setPreferredSize(new Dimension(0, 10));
 		pnlTacVuTimKiem.add(verticalStrut_2);
 
 		JPanel pnlNutTim = new JPanel();
@@ -866,7 +877,6 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		txtTPTenSinhVien.setEditable(false);
 		txtTPMaNhaTro.setEditable(false);
 		txtTPTenChuNhaTro.setEditable(false);
-		txtNgayCapNhat.setText(dt.format(LocalDate.now()));
 		
 		JPanel pnlGiaThue = new JPanel();
 		pnlThanhPhan.add(pnlGiaThue);
@@ -890,7 +900,6 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlGiaThue.add(horizontalStrut_19);
 		
 		Component verticalStrut_15 = Box.createVerticalStrut(20);
-		verticalStrut_15.setPreferredSize(new Dimension(0, 5));
 		pnlThanhPhan.add(verticalStrut_15);
 
 		themDuLieuCoSan(tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV(), loaiNV);
@@ -939,9 +948,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		if (o.equals(btnXoaTrang)) {
 			DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			txtGiaThue.setText("");
-			txtNgayBatDau.setText("");
-			txtNgayKetThuc.setText("");
-			txtNgayCapNhat.setText(dt.format(LocalDate.now()));
+			txtNgayBatDau.setCalendar(null);
+			txtNgayKetThuc.setCalendar(null);
+			txtNgayCapNhat.setDate(new Date());
 			txtTPMaNhaTro.setText("");
 			txtTPMaSinhVien.setText("");
 			txtTPTenChuNhaTro.setText("");
@@ -1185,9 +1194,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			cboDuong.setSelectedItem(nt.getDiaChiTro().getTenDuong());
 			cboSoNha.setSelectedItem(nt.getDiaChiTro().getSoNha());
 			txtGiaThue.setText(tableBTT.getValueAt(row, 7).toString());
-			txtNgayBatDau.setText(tableBTT.getValueAt(row, 5).toString());
-			txtNgayKetThuc.setText(tableBTT.getValueAt(row, 6).toString());
-			txtNgayCapNhat.setText(tableBTT.getValueAt(row, 8).toString());
+//			txtNgayBatDau.setText(tableBTT.getValueAt(row, 5).toString());
+//			txtNgayKetThuc.setText(tableBTT.getValueAt(row, 6).toString());
+//			txtNgayCapNhat.setText(tableBTT.getValueAt(row, 8).toString());
 			cboTrangThai.setSelectedItem(tableBTT.getValueAt(row, 9));
 			
 		} else if (tableBTT.getModel() == tableModelSinhVien) {
@@ -1207,48 +1216,48 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	}
 
 	public boolean rangBuocDuLieuVao() {
-		String ngayBD = txtNgayBatDau.getText().trim().toString();
-		String ngayKT = txtNgayKetThuc.getText().trim().toString();
-		String ngayCN = txtNgayCapNhat.getText().trim().toString();
+		 SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+		String ngayBD = dt.format(txtNgayBatDau.getDate());
+		
 		String gia = txtGiaThue.getText().trim().toString();
 		
-		if(!(ngayBD.length()>0)) {
-			JOptionPane.showMessageDialog(this, "Ngày sinh không được bỏ trống");
-			txtNgayBatDau.requestFocus();
-			return false;
-		}
-		if(!(ngayBD.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
-			JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải theo định dạng dd/MM/yyyy");
-			txtNgayBatDau.requestFocus();
-			return false;
-		}
-		
-		if(!(ngayKT.length()>0)) {
-			JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được bỏ trống");
-			txtNgayKetThuc.requestFocus();
-			return false;
-		}
-		if(!(ngayKT.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
-			JOptionPane.showMessageDialog(this, "Ngày kết thúc phải theo định dạng dd/MM/yyyy");
-			txtNgayKetThuc.requestFocus();
-			return false;
-		}
-		
-		if(!(ngayCN.length()>0)) {
-			JOptionPane.showMessageDialog(this, "Ngày cập nhật không được bỏ trống");
-			txtNgayCapNhat.requestFocus();
-			return false;
-		}
-		if(!(ngayCN.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
-			JOptionPane.showMessageDialog(this, "Ngày cập nhật phải theo định dạng dd/MM/yyyy");
-			txtNgayCapNhat.requestFocus();
-			return false;
-		}
-		if(!(ngayBD.length()>0)) {
-			JOptionPane.showMessageDialog(this, "Giá không được bỏ trống");
-			txtNgayBatDau.requestFocus();
-			return false;
-		}
+//		if(!(ngayBD.length()>0)) {
+//			JOptionPane.showMessageDialog(this, "Ngày sinh không được bỏ trống");
+//			txtNgayBatDau.requestFocus();
+//			return false;
+//		}
+//		if(!(ngayBD.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+//			JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải theo định dạng dd/MM/yyyy");
+//			txtNgayBatDau.requestFocus();
+//			return false;
+//		}
+//		
+//		if(!(ngayKT.length()>0)) {
+//			JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được bỏ trống");
+//			txtNgayKetThuc.requestFocus();
+//			return false;
+//		}
+//		if(!(ngayKT.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+//			JOptionPane.showMessageDialog(this, "Ngày kết thúc phải theo định dạng dd/MM/yyyy");
+//			txtNgayKetThuc.requestFocus();
+//			return false;
+//		}
+//		
+//		if(!(ngayCN.length()>0)) {
+//			JOptionPane.showMessageDialog(this, "Ngày cập nhật không được bỏ trống");
+//			txtNgayCapNhat.requestFocus();
+//			return false;
+//		}
+//		if(!(ngayCN.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+//			JOptionPane.showMessageDialog(this, "Ngày cập nhật phải theo định dạng dd/MM/yyyy");
+//			txtNgayCapNhat.requestFocus();
+//			return false;
+//		}
+//		if(!(ngayBD.length()>0)) {
+//			JOptionPane.showMessageDialog(this, "Giá không được bỏ trống");
+//			txtNgayBatDau.requestFocus();
+//			return false;
+//		}
 		try {
 			Double.parseDouble(gia);
 		} catch (Exception e) {
@@ -1288,26 +1297,26 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		double giaThue = Double.parseDouble(txtGiaThue.getText().trim());
 		LocalDate ngayBatDau = null;
-		try {
-			ngayBatDau = LocalDate.parse(txtNgayBatDau.getText().trim(), dt);
-		} catch (DateTimeParseException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+//		try {
+//			ngayBatDau = LocalDate.parse(txtNgayBatDau.getText().trim(), dt);
+//		} catch (DateTimeParseException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
 		LocalDate ngayKetThuc = null;
-		try {
-			ngayKetThuc = LocalDate.parse(txtNgayKetThuc.getText().trim(), dt);
-		} catch (DateTimeParseException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+//		try {
+//			ngayKetThuc = LocalDate.parse(txtNgayKetThuc.getText().trim(), dt);
+//		} catch (DateTimeParseException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
 		LocalDate ngayCapNhat = null;
-		try {
-			ngayCapNhat = LocalDate.parse(txtNgayCapNhat.getText().trim(), dt);
-		} catch (DateTimeParseException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+//		try {
+//			ngayCapNhat = LocalDate.parse(txtNgayCapNhat.getText().trim(), dt);
+//		} catch (DateTimeParseException e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
 		
 		NhaTro nt = new NhaTro(txtTPMaNhaTro.getText().toString().trim());
 		SinhVien sv = new SinhVien(txtTPMaSinhVien.getText().toString().trim());

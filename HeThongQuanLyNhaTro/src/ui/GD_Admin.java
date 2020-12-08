@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -27,6 +28,10 @@ import dao.TamLuuMaNhanVien_Dao;
 
 public class GD_Admin extends JPanel implements ActionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6505839134769737084L;
 	private JLabel lblTieuDe;
 	private JButton btnSinhVien;
 	private JButton btnNhanVien;
@@ -46,7 +51,10 @@ public class GD_Admin extends JPanel implements ActionListener{
 	private JLabel lblSD;
 
 	public GD_Admin() {
-		this.setPreferredSize(new Dimension(1400, 600));
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenHeight = screenSize.height - 20;
+		int screenWidth = screenSize.width + 15;
+		this.setPreferredSize(new Dimension(screenWidth, screenHeight-58));
 		this.setLayout(new BorderLayout());
 		
 		TamLuuMaNhanVien_Dao = new TamLuuMaNhanVien_Dao();
@@ -56,6 +64,8 @@ public class GD_Admin extends JPanel implements ActionListener{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		
+		
 		
 		ImageIcon imgNhanVien = new ImageIcon(new ImageIcon("HinhAnh/nhanvien.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		ImageIcon imgGhiChu =  new ImageIcon(new ImageIcon("HinhAnh/ghichu1.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
@@ -112,11 +122,11 @@ public class GD_Admin extends JPanel implements ActionListener{
 		pnlTieuDeBangThongTin.add(lblTin,BorderLayout.SOUTH);
 		btnBangThongTin.add(pnlTieuDeBangThongTin,BorderLayout.NORTH);
 		
-		btnBangThongTin.setPreferredSize(new Dimension(190, 400));
-		btnNhanVien.setPreferredSize(new Dimension(190, 400));
-		btnSinhVien.setPreferredSize(new Dimension(190, 400));
-		btnThongKe.setPreferredSize(new Dimension(190, 400));
-		btnTro.setPreferredSize(new Dimension(190, 400));
+		btnBangThongTin.setPreferredSize(new Dimension(190, screenHeight-300));
+		btnNhanVien.setPreferredSize(new Dimension(190, screenHeight-300));
+		btnSinhVien.setPreferredSize(new Dimension(190, screenHeight-300));
+		btnThongKe.setPreferredSize(new Dimension(190, screenHeight-300));
+		btnTro.setPreferredSize(new Dimension(190, screenHeight-300));
 		btnDangXuat.setPreferredSize(new Dimension(500, 70));
 		
 		
@@ -165,7 +175,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnHDSD.setPreferredSize(new Dimension(190, 400));
+		btnHDSD.setPreferredSize(new Dimension(190, screenHeight-300));
 		pnlCenter.add(btnHDSD);
 		this.add(pnlBottom,BorderLayout.SOUTH);
 		
