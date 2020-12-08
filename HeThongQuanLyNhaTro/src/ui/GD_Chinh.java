@@ -3,8 +3,9 @@ package ui;
 import javax.swing.JFrame;
 
 public class GD_Chinh {
+	public static JFrame frame;
 	public static void main(String[] args) {
-		JFrame frame = new JFrame();
+		 frame = new JFrame();
 		frame.setTitle("Hệ Thống Quản Lý Ở Trọ Của Sinh Viên Trường Đại Học Công Nghiệp");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(new GD_DangNhap());
@@ -14,3 +15,4 @@ public class GD_Chinh {
 		frame.setLocationRelativeTo(null);
 	}
 }
+

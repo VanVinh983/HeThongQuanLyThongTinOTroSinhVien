@@ -34,6 +34,8 @@ public class SinhVien_Dao {
 		}
 	}
 	
+	
+	
 	public String layMaNVTamLuu()
 	{
 		try {
@@ -53,7 +55,63 @@ public class SinhVien_Dao {
 	return null;
 	}
 	
-	public List<SinhVien> layTatCaBang()
+	public List<String> layTatCaMaNV()
+	{
+		List<String> listMaNV = new ArrayList<String>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhanVien]";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				listMaNV.add(rs.getString(1));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listMaNV;
+	}
+	public List<SinhVien> layTatCaBangQL()
+	{
+		
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[SinhVien]";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String maSV= rs.getString(1);
+				String tenSV = rs.getString(2);
+				
+				DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+				
+				LocalDate ngaySinh = LocalDate.of(rs.getDate(3).toLocalDate().getYear(), rs.getDate(3).toLocalDate().getMonthValue(), rs.getDate(3).toLocalDate().getDayOfMonth());
+				String queQuanSV= rs.getString(4);
+				String maLop = rs.getString(5);
+				String maNV = rs.getString(6);
+				String gioiTinh = "";
+				if(rs.getByte(7)==1)
+				{
+					gioiTinh = "Nữ";
+				}
+				else {
+					gioiTinh = "Nam";
+				}
+				String chuyenNghanh = rs.getString(8);
+				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
+				listSV.add(sv);
+		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return listSV;
+	}
+	
+	public List<SinhVien> layTatCaBangNV()
 	{
 		
 		try {

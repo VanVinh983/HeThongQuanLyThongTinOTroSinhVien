@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -183,10 +184,22 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 				revalidate();
 			}
 			else if (o.equals(btnSinhVien)) {
-				removeAll();
-				add(new GD_QuanLySinhVien());
-				repaint();
-				revalidate();
+				
+				
+//				
+//				EventQueue.invokeLater(new Runnable() {
+//					   public void run() {
+					//    try {
+					    	removeAll();
+							add(new GD_QuanLySinhVien());
+							repaint();
+							revalidate();
+//					    } catch (Exception e) {
+//					     e.printStackTrace();
+//					    }
+//					   }
+//					  });
+				
 			}
 		}
 }
