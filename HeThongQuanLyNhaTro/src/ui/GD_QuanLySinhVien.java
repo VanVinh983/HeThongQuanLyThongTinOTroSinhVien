@@ -883,6 +883,7 @@ public void addDatabase() {
 			SinhVien_Dao daoSV = new SinhVien_Dao();
 			cmpKhoa.setSelectedItem("");
 			tableModel.setRowCount(0);
+			dateNgaySinh.setCalendar(null);
 			addDatabase();
 			
 		}

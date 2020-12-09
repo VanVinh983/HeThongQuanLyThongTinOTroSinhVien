@@ -15,6 +15,8 @@ import java.awt.Label;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -55,8 +57,9 @@ import entity.NhaTro;
 import entity.NhanVien;
 import entity.SinhVien;
 
-public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListener{
+public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListener, KeyListener{
 
+	private JPanel pnl;
 	private NhanVien_Dao nv_Dao;
 	private TamLuuMaNhanVien_Dao tamluu_dao;
 	//attribute Form thông tin phần txt
@@ -126,7 +129,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
-		JPanel pnl = new JPanel();
+		pnl = new JPanel();
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
 	
@@ -444,7 +447,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		 btnTim.setBackground(Color.green);
 		 //pnlTim.setBackground(Color.CYAN);
 		 pnlTim.add(boxbtnTim);
-		
+		 pnl.addKeyListener(this);
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		 //điêu chỉnh kích thướt theo lblSDT
 		lblMaNhaTro.setPreferredSize(lblSDT.getPreferredSize());
@@ -887,23 +890,23 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				String maTro = null;
 				if(max<10)
 				{
-					maTro = "SV_0000"+max;
+					maTro = "NT_0000"+max;
 				}
 				else if(max<100)
 				{
-					maTro = "SV_000"+max;
+					maTro = "NT_000"+max;
 				}
 				else if(max<1000)
 				{
-					maTro = "SV_00"+max;
+					maTro = "NT_00"+max;
 				}
 				else if(max<10000)
 				{
-					maTro = "SV_"+max;
+					maTro = "NT_"+max;
 				}
 				else if(max<100000)
 				{
-					maTro = "SV_"+max;
+					maTro = "NT_"+max;
 				}
 				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
@@ -1189,7 +1192,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 					        for (String string : a) {
 					        	if(!(list.contains(string)))
 						    	   {
-					        		System.out.println("\n1" + string);
 						    		   cmpTim.addItem(string);
 						    		   list.add(string.toString());
 						    	   }
@@ -1198,7 +1200,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 					       for (String string : b) {
 					    	   if(!(list.contains(string)))
 					    	   {
-					    		   System.out.println("\n2" + string);
 						    	   cmpTim.addItem(string);
 						    	   list.add(string.toString());
 					    	   }
@@ -1749,6 +1750,27 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		 if(e.getKeyCode() == KeyEvent.VK_O){
+	     	 JOptionPane.showMessageDialog(null, "ok");
+	         System.exit(0);
+	      }
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
