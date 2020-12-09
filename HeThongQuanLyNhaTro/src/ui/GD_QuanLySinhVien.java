@@ -1,4 +1,3 @@
-
 package ui;
 
 import java.awt.BorderLayout;
@@ -351,6 +350,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 			if(max<Integer.parseInt(ma1[1].toString().trim()))
 			{
 				max = Integer.parseInt(ma1[1].toString().trim());
+				
 			}
 		});
 		max = max+1;
@@ -450,7 +450,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		Box boxKhoa = Box.createHorizontalBox();
 		boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
 		boxKhoa.add(cmpKhoa=new JComboBox<>());
-		String []khoa = ";Công Nghệ Cơ Khí;Công Nghệ Thông Tin;Công Nghệ Điện;Công Nghệ Điện Tử;Công Nghệ Động Lực;Công Nghệ Nhiệt - Lạnh;Công Nghệ May - Thời Trang;Công Nghệ Hóa Học;Kế toán - Kiểm toán;Lý Luận Chính Trị;Ngoại Ngữ;Quản Trị Kinh Doanh;Tài Chính - Ngân Hàng;Thương Mại - Du Lịch;Kỹ Thuật Xây Dựng;Luật;Khoa Học Cơ Bản".split(";");
+		String []khoa = ";Công Nghệ Cơ Khí;Công Nghệ Thông Tin;Công Nghệ Điện;Công Nghệ Điện Tử;Công Nghệ Động Lực;Công Nghệ Nhiệt Lạnh;Công Nghệ May Thời Trang;Công Nghệ Hóa Học;Kế toán Kiểm toán;Lý Luận Chính Trị;Ngoại Ngữ;Quản Trị Kinh Doanh;Tài Chính Ngân Hàng;Thương Mại Du Lịch;Kỹ Thuật Xây Dựng;Luật;Khoa Học Cơ Bản".split(";");
 		
 		for(String k : khoa) {
 			cmpKhoa.addItem(k);
@@ -683,44 +683,43 @@ public void addDatabase() {
 			if(validData()==true)
 			{
 				SinhVien_Dao daosv = new SinhVien_Dao();
-						
-				List<SinhVien> list = daosv.layTatCaBangQL();
-				list.forEach(v -> {
-					String[] ma1 = v.getMaSV().split("_");			
-					
-					if(max<=Integer.parseInt(ma1[1].toString().trim()))
-					{
-						max = Integer.parseInt(ma1[1].toString().trim());
-						max = max+1;
-					}
-				});
-				
-				String maSV = null;
-				if(max<10)
-				{
-					maSV = "SV_0000"+max;
-				}
-				else if(max<100)
-				{
-					maSV = "SV_000"+max;
-				}
-				else if(max<1000)
-				{
-					maSV = "SV_00"+max;
-				}
-				else if(max<10000)
-				{
-					maSV = "SV_"+max;
-				}
-				else if(max<100000)
-				{
-					maSV = "SV_"+max;
-				}
+//						
+//				List<SinhVien> list = daosv.layTatCaBangQL();
+//				list.forEach(v -> {
+//					String[] ma1 = v.getMaSV().split("_");			
+//					
+//					if(max<=Integer.parseInt(ma1[1].toString().trim()))
+//					{
+//						max = Integer.parseInt(ma1[1].toString().trim());
+//						max = max+1;
+//					}
+//				});
+//				
+//				String maSV = null;
+//				if(max<10)
+//				{
+//					maSV = "SV_0000"+max;
+//				}
+//				else if(max<100)
+//				{
+//					maSV = "SV_000"+max;
+//				}
+//				else if(max<1000)
+//				{
+//					maSV = "SV_00"+max;
+//				}
+//				else if(max<10000)
+//				{
+//					maSV = "SV_"+max;
+//				}
+//				else if(max<100000)
+//				{
+//					maSV = "SV_"+max;
+//				}
 				String tenSV = txtTenSV.getText();
 				Calendar c = new GregorianCalendar();
-
+				String maSV = txtMaSV.getText().toString().trim();
 				LocalDate ngaySinh = LocalDate.of(dateNgaySinh.getJCalendar().getYearChooser().getYear(), (dateNgaySinh.getJCalendar().getMonthChooser().getMonth()+1), dateNgaySinh.getJCalendar().getDayChooser().getDay());
-				//JOptionPane.showMessageDialog(this, dateNgaySinh.getJCalendar().getYearChooser().getYear());
 				String queQuanSV = cmpQueQuan.getSelectedItem().toString().trim();
 				String maLop = txtMaLop.getText();
 				String maNV = txtMaNV.getText();
@@ -733,24 +732,25 @@ public void addDatabase() {
 				
 				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, Khoa);
 				
-
-				if(daosv.layLoaiNV().equals("QL"))
-				{
-					listSV = daosv.layTatCaBangQL();
-				}
-				else if(daosv.layLoaiNV().equals("NV"))
-				{
-					listSV = daosv.layTatCaBangNV();
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
-				}
+				listSV = daosv.layTatCaBangQL();
+//				if(daosv.layLoaiNV().equals("QL"))
+//				{
+//					listSV = daosv.layTatCaBangQL();
+//				}
+//				else if(daosv.layLoaiNV().equals("NV"))
+//				{
+//					listSV = daosv.layTatCaBangNV();
+//				}
+//				else {
+//					JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
+//				}
 				
 				
 				
 				if(!(listSV.contains(sv)))
 				{
-					if(daosv.themSV(sv)==true)
+					boolean rs=daosv.themSV(sv);
+					if(rs==true)
 					{
 						JOptionPane.showMessageDialog(this, "Thêm thành công!!");
 						tableModel.setRowCount(0);
@@ -848,11 +848,12 @@ public void addDatabase() {
 			list.forEach(v -> {
 				String[] ma1 = v.getMaSV().split("_");
 								
-				if(max<Integer.parseInt(ma1[1].toString().trim()))
+				if(max<=Integer.parseInt(ma1[1].toString().trim()))
 				{
 					max = Integer.parseInt(ma1[1].toString().trim());
 					max = max+1;
 				}
+				
 			});
 			
 			String maSV = null;
@@ -1209,4 +1210,6 @@ public void addDatabase() {
 	
 		return true;
 	}
+	
+	 
 }

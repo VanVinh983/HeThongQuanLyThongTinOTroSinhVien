@@ -1,4 +1,3 @@
-
 package ui;
 
 import java.awt.BorderLayout;
@@ -876,41 +875,41 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				//Phat sinh ma tu dong
 				NhaTro_Dao daont = new NhaTro_Dao();
 				
-				List<NhaTro> list = daont.layTatCaBang();
-				list.forEach(v -> {
-					String[] ma1 = v.getMaTro().split("_");			
-					
-					if(max<=Integer.parseInt(ma1[1].toString().trim()))
-					{
-						max = Integer.parseInt(ma1[1].toString().trim());
-						max = max+1;
-					}
-				});
-				
-				String maTro = null;
-				if(max<10)
-				{
-					maTro = "NT_0000"+max;
-				}
-				else if(max<100)
-				{
-					maTro = "NT_000"+max;
-				}
-				else if(max<1000)
-				{
-					maTro = "NT_00"+max;
-				}
-				else if(max<10000)
-				{
-					maTro = "NT_"+max;
-				}
-				else if(max<100000)
-				{
-					maTro = "NT_"+max;
-				}
+//				List<NhaTro> list = daont.layTatCaBang();
+//				list.forEach(v -> {
+//					String[] ma1 = v.getMaTro().split("_");			
+//					
+//					if(max<=Integer.parseInt(ma1[1].toString().trim()))
+//					{
+//						max = Integer.parseInt(ma1[1].toString().trim());
+//						max = max+1;
+//					}
+//				});
+//				
+//				String maTro = null;
+//				if(max<10)
+//				{
+//					maTro = "NT_0000"+max;
+//				}
+//				else if(max<100)
+//				{
+//					maTro = "NT_000"+max;
+//				}
+//				else if(max<1000)
+//				{
+//					maTro = "NT_00"+max;
+//				}
+//				else if(max<10000)
+//				{
+//					maTro = "NT_"+max;
+//				}
+//				else if(max<100000)
+//				{
+//					maTro = "NT_"+max;
+//				}
 				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
-				
+				String maTro = txtMaNhatro.getText().toString().trim();
 				String tenChutro = txtChuNha.getText();
 				String sDT = txtSDT.getText();
 				String tenQuan = JcmpQuan.getSelectedItem().toString();
@@ -1774,3 +1773,4 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	}
 	
 }
+
