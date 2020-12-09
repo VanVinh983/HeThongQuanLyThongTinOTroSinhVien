@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -50,7 +51,10 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 				e.printStackTrace();
 			}
 			
-			this.setPreferredSize(new Dimension(1400, 600));
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			int screenHeight = screenSize.height - 20;
+			int screenWidth = screenSize.width + 15;
+			this.setPreferredSize(new Dimension(screenWidth, screenHeight-58));
 			this.setLayout(new BorderLayout());
 			
 			ImageIcon imgGhiChu =  new ImageIcon(new ImageIcon("HinhAnh/ghichu1.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));

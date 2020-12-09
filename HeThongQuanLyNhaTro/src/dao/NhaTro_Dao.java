@@ -887,6 +887,31 @@ public class NhaTro_Dao {
 		}
 	return dsNhaTro;
 	}
-	
+	public NhaTro layTroTheoMaCuaVanVinh(String ma)
+	{
+		
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where maNhaTro = '"+ma+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String  tenDuong= rs.getString(7);
+				String tenPhuong= rs.getString(8);
+				String  tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				return nhaTro;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return null;
+	}
 }
 

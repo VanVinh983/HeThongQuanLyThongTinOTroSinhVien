@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
 import javax.swing.Box;
@@ -168,7 +171,8 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 				}
 			}
 		});
-
+		
+			
 		pnlDangNhap.setPreferredSize(new Dimension(800, 400));
 		pnlDangNhap.setBackground(Color.WHITE);
 		pnlDangNhap.setLayout(new BoxLayout(pnlDangNhap, BoxLayout.X_AXIS));
@@ -277,7 +281,7 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 			JOptionPane.showMessageDialog(this, "mời nhập vào mã nhân viên");
 			return false;
 		}
-		else if (matkhau.length() <=0||matkhau.equals("Mật Khẩu")) {
+		else if (matkhau.length()<=0||matkhau.equals("Mật Khẩu")) {
 			JOptionPane.showMessageDialog(this, "mời nhập đầy đủ mật khẩu và mã nhân viên");
 			return false;
 		}
