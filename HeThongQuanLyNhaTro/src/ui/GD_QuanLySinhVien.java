@@ -769,18 +769,22 @@ public void addDatabase() {
 		}
 		else if(ob.equals(btnThoat))
 		{
-			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-			if(loaiNV.equals("QL")) {
-				removeAll();
-				add(new GD_Admin());
-				repaint();
-				revalidate();
-			}
-			else if (loaiNV.equals("NV")) {
-				removeAll();
-				add(new GD_TrangChuNhanVienGVK());
-				repaint();
-				revalidate();
+			int n = JOptionPane.showConfirmDialog(this, "Bạn có muốn thoát hay không?","Thoát",JOptionPane.YES_NO_OPTION);
+			if(n==JOptionPane.YES_OPTION)
+			{
+				String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+				if(loaiNV.equals("QL")) {
+					removeAll();
+					add(new GD_Admin());
+					repaint();
+					revalidate();
+				}
+				else if (loaiNV.equals("NV")) {
+					removeAll();
+					add(new GD_TrangChuNhanVienGVK());
+					repaint();
+					revalidate();
+				}
 			}
 		}
 		
