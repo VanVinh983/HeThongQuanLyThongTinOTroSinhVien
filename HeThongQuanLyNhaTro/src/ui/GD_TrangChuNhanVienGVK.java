@@ -185,21 +185,11 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			}
 			else if (o.equals(btnSinhVien)) {
 				
-				
-//				
-//				EventQueue.invokeLater(new Runnable() {
-//					   public void run() {
-					//    try {
 					    	removeAll();
 							add(new GD_QuanLySinhVien());
 							repaint();
 							revalidate();
-//					    } catch (Exception e) {
-//					     e.printStackTrace();
-//					    }
-//					   }
-//					  });
-				
+
 			}
 		}
 }

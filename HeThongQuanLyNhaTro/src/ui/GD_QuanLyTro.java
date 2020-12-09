@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
@@ -125,9 +126,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
-		
 		JPanel pnl = new JPanel();
-		
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
 	
@@ -341,7 +340,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		boxDiaChi.add(lblPhuong = new JLabel("Phường: "));
 		boxDiaChi.add(JcmpPhuong = new JComboBox<String>());
-		JcmpPhuong.setSelectedItem("");
 		JcmpPhuong.setEditable(true);
 		boxDiaChi.add(lblSoNha = new JLabel("Số nhà: "));
 		boxDiaChi.add(txtSoNha = new JTextField());
@@ -381,7 +379,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		 JPanel pnlTim = new JPanel();
 		 pnlTim.setLayout(new BoxLayout(pnlTim, BoxLayout.Y_AXIS));
-		// pnlSouth.add(pnlTim, BorderLayout.EAST);
 		 pnlFormSV.add(pnlTim);
 		 pnlTim.setBorder(BorderFactory.createLoweredSoftBevelBorder());
 		 
@@ -412,7 +409,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		 boxTimDiaChi.add(lblDiaChi=new JLabel("Địa chỉ: "));
 		 boxTimDiaChi.add(lblQuan = new JLabel("Quận: "));
 		 boxTimDiaChi.add(JcmpTimQuan = new JComboBox<String>());
-		 //cmpTim = new JComboBox<String>();
 		 JcmpTimQuan.setEditable(true);
 	     AutoCompleteDecorator.decorate(JcmpTimQuan);
 	     JcmpTimQuan.setEditable(true);
@@ -470,11 +466,12 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		btnXoaTrang.addActionListener(this);
 		cmp.addActionListener(this);
 		table.addMouseListener(this);
+		JcmpTimQuan.addActionListener(this);
+		JcmpTimPhuong.addActionListener(this);
+		JcmpTimDuong.addActionListener(this);
+		JcmpTimSoNha.addActionListener(this);
 		
-		
-		
-		
-				/////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////
 	
 		setVisible(true);
 		JcmpQuan.addActionListener(this);
@@ -483,7 +480,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			ConnectDB.getInstance().connect();
 			addDatabase();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}
@@ -536,7 +533,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		});
 		
 		ArrayList<String> arrTenQuan = new ArrayList<String>();
-		//JcmpTimQuan.addItem("");
+		JcmpTimQuan.addItem("");
 		listNhaTro.forEach(v -> {
 			if(!arrTenQuan.contains(v.getDiaChiTro().getTenQuan()))
 			{
@@ -825,10 +822,22 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnSinhVien))
 		{
-			removeAll();
-			add(new GD_QuanLySinhVien());
-			repaint();
-			revalidate();
+			EventQueue.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						removeAll();
+						add(new GD_QuanLySinhVien());
+						repaint();
+						revalidate();
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+					
+				}
+			});
+			
 		}
 		else if(ob.equals(btnSua))
 		{
@@ -861,6 +870,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			if(validData()==true)
 			{
 				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				//Phat sinh ma tu dong
 				NhaTro_Dao daont = new NhaTro_Dao();
 				
 				List<NhaTro> list = daont.layTatCaBang();
@@ -968,6 +978,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
+			//setText ma nha tro moi khong trung vao txtMaNhaTro
 			NhaTro_Dao daont = new NhaTro_Dao();
 			
 			List<NhaTro> list = daont.layTatCaBang();
@@ -1011,6 +1022,10 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			txtSoNha.setText("");
 			txtDuong.setText("");
 			tableModel.setRowCount(0);
+			JcmpTimDuong.setSelectedItem("");
+			JcmpTimPhuong.setSelectedItem("");
+			JcmpTimQuan.setSelectedItem("");
+			JcmpTimSoNha.setSelectedItem("");
 			addDatabase();
 		}
 		
@@ -1227,153 +1242,417 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		else if(cmp.getSelectedItem().equals("Địa chỉ"))
 		{
 			try {
-//				if(ob.equals(cmpTim))
-//				{
-//					if(!(cmpTim.getSelectedItem().toString().trim().equalsIgnoreCase("")))
-//					{
-//							NhaTro_Dao daont = new NhaTro_Dao();
-//							List<NhaTro> listSV = new ArrayList<NhaTro>();
-//							
-//							listSV = daont.layTatCaBang();
-//							
-//							int m=0;
-//							listSV.forEach(v -> {
-//								dstim = dstim+","+v.getTenChutro();
-//							});
-//							
-//							String[] tim = dstim.split(",");
-//							int i=0;
-//							int j=0;
-//					        for (String string : tim) {
-//					        	try {
-//					        		if(!(cmpTim.getSelectedItem().toString().trim().equals("")))	
-//					    	        {
-//					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.equalsIgnoreCase(cmpTim.getSelectedItem().toString().trim()))
-//					    	        	{
-//					    	        		a.add(string.toString());
-//					    	        		i++;
-//					    	        	}
-//					    	        	if(cmpTim.getSelectedItem().toString().trim()!=null && string.contains(cmpTim.getSelectedItem().toString().trim()))
-//					    	        	{
-//					    	        		b.add(string.toString());
-//					    	        		j++;
-//					    	        	}  
-//					    	        }
-//								} catch (Exception e2) {
-//									
-//								}
-//							}
-//					        for (String string : a) {
-//					        	if(!(list.contains(string)))
-//						    	   {
-//					        		System.out.println("\n1" + string);
-//						    		   cmpTim.addItem(string);
-//						    		   list.add(string.toString());
-//						    	   }
-//							}
-//			
-//					       for (String string : b) {
-//					    	   if(!(list.contains(string)))
-//					    	   {
-//					    		   System.out.println("\n2" + string);
-//						    	   cmpTim.addItem(string);
-//						    	   list.add(string.toString());
-//					    	   }
-//						}
-//					        if(cmpTim.getSelectedItem().toString().length()<2)
-//					        {
-//					        	
-//					        	cmpTim.removeAllItems();
-//					        	list.clear();
-//					        	a.clear();
-//					        	b.clear();
-//					        	dstim="";
-//					        }
-//					}
-//				}
-				
-				if(JcmpTimQuan.getSelectedItem().toString().trim().length()>2)
+				if(!(JcmpTimDuong.getSelectedItem().equals("")) && JcmpTimSoNha.getSelectedItem().equals("") && JcmpTimPhuong.getSelectedItem().equals("") && JcmpTimQuan.getSelectedItem().equals(""))
 				{
-				
-					JOptionPane.showMessageDialog(this, "ok");
-					NhaTro_Dao dao = new NhaTro_Dao();
-					String tenQuan = JcmpTimQuan.getSelectedItem().toString().trim();
-					if(dao.layNhaTroTheoQuan(tenQuan)!=null)
+					if(JcmpTimDuong.getSelectedItem().toString().trim()!="" )
 					{
-						tableModel.setRowCount(0);
-						dao.layNhaTroTheoQuan(tenQuan).forEach(v -> {
-							String maTro = v.getMaTro();
-							String tenChuNha = v.getTenChutro();
-							String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
-							String SDT = v.getSDT();
-							String[] row = {maTro,tenChuNha, diaChi, SDT};
-							tableModel.addRow(row);
-						});
-						
-					}
-					else if(dao.layNhaTroTheoQuan(tenQuan)==null){
-						//cmpTim.setSelectedItem("");
-						JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						NhaTro_Dao dao = new NhaTro_Dao();
+						String tDuong = JcmpTimDuong.getSelectedItem().toString().trim();
+						if(dao.layNhaTroTheoTenDuong(tDuong)!=null)
+						{
+							tableModel.setRowCount(0);
+							dao.layNhaTroTheoTenDuong(tDuong).forEach(v -> {
+								String maTro = v.getMaTro();
+								String tenChuNha = v.getTenChutro();
+								String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+								String SDT = v.getSDT();
+								String[] row = {maTro,tenChuNha, diaChi, SDT};
+								tableModel.addRow(row);
+							});
+							
+						}
+						else if(dao.layNhaTroTheoTenDuong(tDuong)==null){
+							JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						}
 					}
 				}
 				
-				if(ob.equals(btnTim))
+				if(JcmpTimDuong.getSelectedItem().equals("") && !(JcmpTimSoNha.getSelectedItem().equals("")) && JcmpTimPhuong.getSelectedItem().equals("") && JcmpTimQuan.getSelectedItem().equals(""))
 				{
-					NhaTro_Dao dao = new NhaTro_Dao();
-					String tenChuTro = cmpTim.getSelectedItem().toString().trim();
-					if(dao.layNhaTroTheoTenChuTro(tenChuTro)!=null)
+					if(JcmpTimSoNha.getSelectedItem().toString().trim()!="" )
 					{
-						tableModel.setRowCount(0);
-						dao.layNhaTroTheoTenChuTro(tenChuTro).forEach(v -> {
-							String maTro = v.getMaTro();
-							String tenChuNha = v.getTenChutro();
-							String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
-							String SDT = v.getSDT();
-							String[] row = {maTro,tenChuNha, diaChi, SDT};
-							tableModel.addRow(row);
-						});
-						
-					}
-					else if(dao.layNhaTroTheoTenChuTro(tenChuTro)==null){
-						cmpTim.setSelectedItem("");
-						JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						NhaTro_Dao dao = new NhaTro_Dao();
+						String sn = JcmpTimSoNha.getSelectedItem().toString().trim();
+						if(dao.layNhaTroTheoSoNha(sn)!=null)
+						{
+							tableModel.setRowCount(0);
+							dao.layNhaTroTheoSoNha(sn).forEach(v -> {
+								String maTro = v.getMaTro();
+								String tenChuNha = v.getTenChutro();
+								String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+								String SDT = v.getSDT();
+								String[] row = {maTro,tenChuNha, diaChi, SDT};
+								tableModel.addRow(row);
+							});
+							
+						}
+						else if(dao.layNhaTroTheoSoNha(sn)==null){
+							JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						}
 					}
 				}
+				if(JcmpTimDuong.getSelectedItem().equals("") && JcmpTimSoNha.getSelectedItem().equals("") && !(JcmpTimPhuong.getSelectedItem().equals("")) && JcmpTimQuan.getSelectedItem().equals(""))
+				{
+					if(JcmpTimPhuong.getSelectedItem().toString().trim()!="" )
+					{
+						NhaTro_Dao dao = new NhaTro_Dao();
+						String tenPhuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+						if(dao.layNhaTroTheoPhuong(tenPhuong)!=null)
+						{
+							tableModel.setRowCount(0);
+							dao.layNhaTroTheoPhuong(tenPhuong).forEach(v -> {
+								String maTro = v.getMaTro();
+								String tenChuNha = v.getTenChutro();
+								String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+								String SDT = v.getSDT();
+								String[] row = {maTro,tenChuNha, diaChi, SDT};
+								tableModel.addRow(row);
+							});
+							
+						}
+						else if(dao.layNhaTroTheoPhuong(tenPhuong)==null){
+							JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						}
+					}
+				}
+				
+				if(JcmpTimDuong.getSelectedItem().equals("") && JcmpTimSoNha.getSelectedItem().equals("") && JcmpTimPhuong.getSelectedItem().equals("") && !(JcmpTimQuan.getSelectedItem().equals("")))
+				{
+					if(JcmpTimQuan.getSelectedItem().toString().trim()!="" )
+					{
+					
+						NhaTro_Dao dao = new NhaTro_Dao();
+						String tenQuan = JcmpTimQuan.getSelectedItem().toString().trim();
+						if(dao.layNhaTroTheoQuan(tenQuan)!=null)
+						{
+							tableModel.setRowCount(0);
+							dao.layNhaTroTheoQuan(tenQuan).forEach(v -> {
+								String maTro = v.getMaTro();
+								String tenChuNha = v.getTenChutro();
+								String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+								String SDT = v.getSDT();
+								String[] row = {maTro,tenChuNha, diaChi, SDT};
+								tableModel.addRow(row);
+							});
+							
+						}
+						else if(dao.layNhaTroTheoQuan(tenQuan)==null){
+							JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						}
+					}
+				}
+			//2	//////////////////////////////////////////////////////////////////////////////////////////////////////
+				if(JcmpTimDuong.getSelectedItem().equals("") && JcmpTimSoNha.getSelectedItem().equals("") && !(JcmpTimPhuong.getSelectedItem().equals("")) && !(JcmpTimQuan.getSelectedItem().equals("")))
+				{
+					if(JcmpTimQuan.getSelectedItem().toString().trim()!="" && JcmpTimPhuong.getSelectedItem().toString().trim()!="")
+					{
+					
+						NhaTro_Dao dao = new NhaTro_Dao();
+						String tenQuan = JcmpTimQuan.getSelectedItem().toString().trim();
+						String tenPhuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+						if(dao.layNhaTroTheoPhuongQuan(tenQuan, tenPhuong)!=null)
+						{
+							tableModel.setRowCount(0);
+							dao.layNhaTroTheoPhuongQuan(tenQuan, tenPhuong).forEach(v -> {
+								String maTro = v.getMaTro();
+								String tenChuNha = v.getTenChutro();
+								String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+								String SDT = v.getSDT();
+								String[] row = {maTro,tenChuNha, diaChi, SDT};
+								tableModel.addRow(row);
+							});
+							
+						}
+						else if(dao.layNhaTroTheoPhuongQuan(tenQuan, tenPhuong)==null){
+							JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						}
+					}
+				}
+				
+				//Tim theo Quan va ten Duong
+				if(!(JcmpTimDuong.getSelectedItem().equals("")) && JcmpTimSoNha.getSelectedItem().equals("") && JcmpTimPhuong.getSelectedItem().equals("") && !(JcmpTimQuan.getSelectedItem().equals("")))
+				{
+					if(JcmpTimQuan.getSelectedItem().toString().trim()!="" && JcmpTimDuong.getSelectedItem().toString().trim()!="")
+					{
+					
+						NhaTro_Dao dao = new NhaTro_Dao();
+						String tQuan = JcmpTimQuan.getSelectedItem().toString().trim();
+						String tDuong = JcmpTimDuong.getSelectedItem().toString().trim();
+						if(dao.layNhaTroTheoQuanTenDuong(tQuan, tDuong)!=null)
+						{
+							tableModel.setRowCount(0);
+							dao.layNhaTroTheoQuanTenDuong(tQuan, tDuong).forEach(v -> {
+								String maTro = v.getMaTro();
+								String tenChuNha = v.getTenChutro();
+								String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+								String SDT = v.getSDT();
+								String[] row = {maTro,tenChuNha, diaChi, SDT};
+								tableModel.addRow(row);
+							});
+							
+						}
+						else if(dao.layNhaTroTheoQuanTenDuong(tQuan, tDuong)==null){
+							JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						}
+					}
+				}
+				
+
+				//Tim theo quan va so nha
+				if(JcmpTimDuong.getSelectedItem().equals("") && !(JcmpTimSoNha.getSelectedItem().equals("")) && JcmpTimPhuong.getSelectedItem().equals("") && !(JcmpTimQuan.getSelectedItem().equals("")))
+				{
+					if(JcmpTimQuan.getSelectedItem().toString().trim()!="" && JcmpTimSoNha.getSelectedItem().toString().trim()!="")
+					{
+					
+						NhaTro_Dao dao = new NhaTro_Dao();
+						String tQuan = JcmpTimQuan.getSelectedItem().toString().trim();
+						String sn = JcmpTimSoNha.getSelectedItem().toString().trim();
+						if(dao.layNhaTroTheoQuanSoNha(tQuan, sn)!=null)
+						{
+							tableModel.setRowCount(0);
+							dao.layNhaTroTheoQuanSoNha(tQuan, sn).forEach(v -> {
+								String maTro = v.getMaTro();
+								String tenChuNha = v.getTenChutro();
+								String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+								String SDT = v.getSDT();
+								String[] row = {maTro,tenChuNha, diaChi, SDT};
+								tableModel.addRow(row);
+							});
+							
+						}
+						else if(dao.layNhaTroTheoQuanSoNha(tQuan, sn)==null){
+							JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+						}
+					}
+				}
+					//Tim theo phuong va ten duong
+					if(!(JcmpTimDuong.getSelectedItem().equals("")) && JcmpTimSoNha.getSelectedItem().equals("") && !(JcmpTimPhuong.getSelectedItem().equals("")) && JcmpTimQuan.getSelectedItem().equals(""))
+					{
+						if(JcmpTimDuong.getSelectedItem().toString().trim()!="" && JcmpTimPhuong.getSelectedItem().toString().trim()!="")
+						{
+						
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String Phuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+							String td = JcmpTimDuong.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoPhuongTenDuong(Phuong, td)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoPhuongTenDuong(Phuong, td).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoPhuongTenDuong(Phuong, td)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
+					//Tim theo phuong va so nha
+					if(JcmpTimDuong.getSelectedItem().equals("") && !(JcmpTimSoNha.getSelectedItem().equals("")) && !(JcmpTimPhuong.getSelectedItem().equals("")) && JcmpTimQuan.getSelectedItem().equals(""))
+					{
+						if(JcmpTimPhuong.getSelectedItem().toString().trim()!="" && JcmpTimSoNha.getSelectedItem().toString().trim()!="")
+						{
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String Phuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+							String sn = JcmpTimSoNha.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoPhuongSoNha(Phuong, sn)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoPhuongSoNha(Phuong, sn).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoPhuongSoNha(Phuong, sn)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
+					//Tim theo ten duong so nha
+					if(!(JcmpTimDuong.getSelectedItem().equals("")) && !(JcmpTimSoNha.getSelectedItem().equals("")) && JcmpTimPhuong.getSelectedItem().equals("") && JcmpTimQuan.getSelectedItem().equals(""))
+					{
+						if(JcmpTimDuong.getSelectedItem().toString().trim()!="" && JcmpTimSoNha.getSelectedItem().toString().trim()!="")
+						{
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String td = JcmpTimDuong.getSelectedItem().toString().trim();
+							String sn = JcmpTimSoNha.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoTenDuongSoNha(td, sn)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoTenDuongSoNha(td, sn).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoTenDuongSoNha(td, sn)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
+					
+					//Tim theo phuong, quan, so nha
+					if(JcmpTimDuong.getSelectedItem().equals("") && !(JcmpTimSoNha.getSelectedItem().equals("")) && !(JcmpTimPhuong.getSelectedItem().equals("")) && !(JcmpTimQuan.getSelectedItem().equals("")))
+					{
+						if(JcmpTimQuan.getSelectedItem().toString().trim()!="" && JcmpTimPhuong.getSelectedItem().toString().trim()!="" && JcmpTimSoNha.getSelectedItem().toString().trim()!="")
+						{
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String Phuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+							String Quan = JcmpTimQuan.getSelectedItem().toString().trim();
+							String sn = JcmpTimSoNha.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoPhuongQuanSoNha(Phuong, Quan, sn)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoPhuongQuanSoNha(Phuong, Quan, sn).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoPhuongQuanSoNha(Phuong, Quan, sn)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
+					
+					//Tim theo phuong, quan, ten duong
+					if(!(JcmpTimDuong.getSelectedItem().equals("")) && JcmpTimSoNha.getSelectedItem().equals("") && !(JcmpTimPhuong.getSelectedItem().equals("")) && !(JcmpTimQuan.getSelectedItem().equals("")))
+					{
+						if(JcmpTimQuan.getSelectedItem().toString().trim()!="" && JcmpTimPhuong.getSelectedItem().toString().trim()!="" && JcmpTimDuong.getSelectedItem().toString().trim()!="")
+						{
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String Phuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+							String Quan = JcmpTimQuan.getSelectedItem().toString().trim();
+							String td = JcmpTimDuong.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoQuanPhuongTenDuong(Quan, Phuong, td)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoQuanPhuongTenDuong(Quan, Phuong, td).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoQuanPhuongTenDuong(Quan, Phuong, td)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
+					
+					//Tim theo quan, ten duong, so nha
+					if(!(JcmpTimDuong.getSelectedItem().equals("")) && !(JcmpTimSoNha.getSelectedItem().equals("")) && JcmpTimPhuong.getSelectedItem().equals("") && !(JcmpTimQuan.getSelectedItem().equals("")))
+					{
+						if(JcmpTimQuan.getSelectedItem().toString().trim()!="" && JcmpTimSoNha.getSelectedItem().toString().trim()!="" && JcmpTimDuong.getSelectedItem().toString().trim()!="")
+						{
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String Phuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+							String Quan = JcmpTimQuan.getSelectedItem().toString().trim();
+							String td = JcmpTimDuong.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoQuanPhuongTenDuong(Quan, Phuong, td)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoQuanPhuongTenDuong(Quan, Phuong, td).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoQuanPhuongTenDuong(Quan, Phuong, td)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
+					
+					//Tim theo Phuong, ten duong, so nha
+					if(!(JcmpTimDuong.getSelectedItem().equals("")) && !(JcmpTimSoNha.getSelectedItem().equals("")) && !(JcmpTimPhuong.getSelectedItem().equals("")) && JcmpTimQuan.getSelectedItem().equals(""))
+					{
+						if(JcmpTimPhuong.getSelectedItem().toString().trim()!="" && JcmpTimSoNha.getSelectedItem().toString().trim()!="" && JcmpTimDuong.getSelectedItem().toString().trim()!="")
+						{
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String Phuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+							String sn = JcmpTimSoNha.getSelectedItem().toString().trim();
+							String td = JcmpTimDuong.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoPhuongTenDuongSoNha(Phuong, td, sn)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoPhuongTenDuongSoNha(Phuong, td, sn).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoPhuongTenDuongSoNha(Phuong, td, sn)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
+					//Tim theo quan, phuong, ten duong, so nha
+					if(!(JcmpTimDuong.getSelectedItem().equals("")) && !(JcmpTimSoNha.getSelectedItem().equals("")) && !(JcmpTimPhuong.getSelectedItem().equals("")) && !(JcmpTimQuan.getSelectedItem().equals("")))
+					{
+						if(JcmpTimQuan.getSelectedItem().toString().trim()!="" && JcmpTimSoNha.getSelectedItem().toString().trim()!="" && JcmpTimDuong.getSelectedItem().toString().trim()!="" && JcmpTimPhuong.getSelectedItem().toString().trim()!="")
+						{
+							NhaTro_Dao dao = new NhaTro_Dao();
+							String Phuong = JcmpTimPhuong.getSelectedItem().toString().trim();
+							String Quan = JcmpTimQuan.getSelectedItem().toString().trim();
+							String td = JcmpTimDuong.getSelectedItem().toString().trim();
+							String sn = JcmpTimSoNha.getSelectedItem().toString().trim();
+							if(dao.layNhaTroTheoQuanPhuongTenDuongSoNha(Quan, Phuong, td, sn)!=null)
+							{
+								tableModel.setRowCount(0);
+								dao.layNhaTroTheoQuanPhuongTenDuongSoNha(Quan, Phuong, td, sn).forEach(v -> {
+									String maTro = v.getMaTro();
+									String tenChuNha = v.getTenChutro();
+									String diaChi = v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong() +" - "+  v.getDiaChiTro().getTenPhuong() +" - " + v.getDiaChiTro().getTenQuan();
+									String SDT = v.getSDT();
+									String[] row = {maTro,tenChuNha, diaChi, SDT};
+									tableModel.addRow(row);
+								});
+								
+							}
+							else if(dao.layNhaTroTheoQuanPhuongTenDuongSoNha(Quan, Phuong, td, sn)==null){
+								JOptionPane.showMessageDialog(this, "Tìm thất bại!");
+							}
+						}
+					}
 			} catch (Exception e2) {
 				// TODO: handle exception
-			}
-			
-				
-			
-		}}
+			}	
+		}
+		}
+	
+	
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		else if(cmp.getSelectedItem().equals("Địa chỉ"))
-//		{
-//			cmpTim.setEnabled(false);
-//			if(ob.equals(btnTim))
-//			{
-//				NhaTro_Dao dao = new NhaTro_Dao();
-//				String soN = JcmpTimSoNha.getSelectedItem().toString();
-//				String tenD = JcmpTimDuong.getSelectedItem().toString();
-//				String tenP = JcmpTimPhuong.getSelectedItem().toString();
-//				String tenQ = JcmpTimQuan.getSelectedItem().toString();
-//				if(dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ)!=null)
-//				{
-//					
-//					NhaTro v = dao.layTroTheoDiaChi(tenD, soN, tenP, tenQ);
-//					String diaChi = v.getDiaChiTro().getTenQuan() +" - "+ v.getDiaChiTro().getTenPhuong() +" - "+ v.getDiaChiTro().getSoNha() +" - "+ v.getDiaChiTro().getTenDuong();
-//					String[] row = {v.getMaTro(), v.getTenChutro(),diaChi, v.getSDT()};
-//					
-//					tableModel.setRowCount(0);
-//					tableModel.addRow(row);
-//				}
-//				else {
-//					cmpTim.setSelectedItem("");
-//					JOptionPane.showMessageDialog(this, "Tìm thất bại!");
-//				}
-//			}	
-//		}
-//	}
+
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -1385,8 +1664,9 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 		txtSoNha.setText(s[0]);
 		txtDuong.setText(s[1]);
-		JcmpPhuong.addItem(s[2]);
+		
 		JcmpQuan.setSelectedItem(s[3]);
+		JcmpPhuong.setSelectedItem(s[2]);
 		txtSDT.setText(table.getValueAt(row, 3).toString());
 		txtMaNhatro.setEditable(false);
 		

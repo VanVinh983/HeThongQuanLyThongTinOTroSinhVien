@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
@@ -154,7 +155,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		this.setPreferredSize(new Dimension(1200, 600));
 		
 		pnl = new JPanel();
-		
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
 		
@@ -169,7 +169,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 					//box user1 
 					buser.add(bUser = Box.createHorizontalBox());
 					
-					//NhaTro_Dao dao = new NhaTro_Dao();
 					SinhVien_Dao daoSV = new SinhVien_Dao();
 					
 					String tenKhoaNV = daoSV.layTenKhoaNhanVien().trim().toString();
@@ -300,8 +299,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		pnlForm.setLayout(new BorderLayout());
 		
 		Box boxcenFormTitle, boxcenFormSV;
-		//pnlForm.add(boxcenFormTitle = box.createVerticalBox(), BorderLayout.NORTH);
-
+		
 		JLabel lblThongTin = new JLabel("Thông tin");
 		
 		lblThongTin.setFont(new Font("Arial", Font.BOLD, 30));
@@ -801,10 +799,22 @@ public void addDatabase() {
 		
 		else if(ob.equals(btnTro))
 		{
-			removeAll();
-			add(new GD_QuanLyTro());
-			repaint();
-			revalidate();
+			EventQueue.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						removeAll();
+						add(new GD_QuanLyTro());
+						repaint();
+						revalidate();
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+					
+				}
+			});
+			
 		}
 		else if(ob.equals(btnXoa))
 		{
@@ -997,7 +1007,6 @@ public void addDatabase() {
 						}
 						int m=0;
 						listSV.forEach(v -> {
-							//tim.add(v.getTenSV());
 							dstim = dstim+","+v.getTenSV();
 						});
 						
@@ -1132,7 +1141,6 @@ public void addDatabase() {
 				}
 		
 		cmpKhoa.setSelectedItem(table.getValueAt(row, 7).toString());
-		
 		txtMaSV.setEditable(false);
 	}
 

@@ -335,14 +335,13 @@ public class NhaTro_Dao {
 	return null;
 	}
 	
-	public ArrayList<NhaTro> layNhaTroTheoQuan(String quan) {
+	public ArrayList<NhaTro> layNhaTroTheoTenDuong(String tDuong) {
 		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [QLThongTinOTroSinhVien].[dbo].[NhaTro] where quan ="+"N'"+quan+"' and [trangThaiDangThue]=0";
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [tenDuong] ="+"N'"+tDuong+"' and  [trangThaiDangThue]=0";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
-			/**/
 			while(rs.next())
 			{
 				String maTro = rs.getString(1);
@@ -361,6 +360,372 @@ public class NhaTro_Dao {
 	return dsNhaTro;
 	}
 	
+	public ArrayList<NhaTro> layNhaTroTheoSoNha(String sn) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [soNha] ="+"N'"+sn+"' and  [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	
+	public ArrayList<NhaTro> layNhaTroTheoPhuong(String phuong) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where phuong ="+"N'"+phuong+"' and  [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	
+	public ArrayList<NhaTro> layNhaTroTheoQuan(String quan) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where quan ="+"N'"+quan+"' and  [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	
+	//2  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public ArrayList<NhaTro> layNhaTroTheoPhuongQuan(String quan, String phuong) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where phuong = N'"+phuong+"' and  quan ="+"N'"+quan+"' and  [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	
+	public ArrayList<NhaTro> layNhaTroTheoQuanTenDuong(String tQuan, String tDuong) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [tenDuong] = N'"+tDuong+"' and  quan ="+"N'"+tQuan+"' and  [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	
+	public ArrayList<NhaTro> layNhaTroTheoQuanSoNha(String tQuan, String sn) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [soNha] = '"+sn+"' and  quan ="+"N'"+tQuan+"' and  [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	//Tim theo phuong va ten duong
+	public ArrayList<NhaTro> layNhaTroTheoPhuongTenDuong(String Phuong, String td) {
+		ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [phuong] = N'"+Phuong+"' and  [tenDuong] ="+"N'"+td+"' and  [trangThaiDangThue]=0";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maTro = rs.getString(1);
+				String tenChutro = rs.getString(2);
+				String SDT = rs.getString(3);
+				String soNha= rs.getString(6);
+				String tenDuong = rs.getString(7);
+				String tenPhuong = rs.getString(8);
+				String tenQuan = rs.getString(9);
+				NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+				dsNhaTro.add(nhaTro);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return dsNhaTro;
+	}
+	
+	//Tim theo phuong va so nha
+		public ArrayList<NhaTro> layNhaTroTheoPhuongSoNha(String Phuong, String sn) {
+			ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+			try {
+				Connection con = ConnectDB.getInstance().getConnecction();
+				String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [phuong] = N'"+Phuong+"' and  [soNha] = '"+sn+"' and  [trangThaiDangThue]=0";
+				Statement statement = con.createStatement();
+				ResultSet rs = statement.executeQuery(sql);
+				while(rs.next())
+				{
+					String maTro = rs.getString(1);
+					String tenChutro = rs.getString(2);
+					String SDT = rs.getString(3);
+					String soNha= rs.getString(6);
+					String tenDuong = rs.getString(7);
+					String tenPhuong = rs.getString(8);
+					String tenQuan = rs.getString(9);
+					NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+					dsNhaTro.add(nhaTro);
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return dsNhaTro;
+		}
+		
+		//Tim theo ten duong va so nha
+				public ArrayList<NhaTro> layNhaTroTheoTenDuongSoNha(String td, String sn) {
+					ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+					try {
+						Connection con = ConnectDB.getInstance().getConnecction();
+						String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [tenDuong] = N'"+td+"' and  [soNha] = '"+sn+"' and  [trangThaiDangThue]=0";
+						Statement statement = con.createStatement();
+						ResultSet rs = statement.executeQuery(sql);
+						while(rs.next())
+						{
+							String maTro = rs.getString(1);
+							String tenChutro = rs.getString(2);
+							String SDT = rs.getString(3);
+							String soNha= rs.getString(6);
+							String tenDuong = rs.getString(7);
+							String tenPhuong = rs.getString(8);
+							String tenQuan = rs.getString(9);
+							NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+							dsNhaTro.add(nhaTro);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				return dsNhaTro;
+				}
+				
+				//Tim theo phuong, quan , so nha
+				public ArrayList<NhaTro> layNhaTroTheoPhuongQuanSoNha(String Phuong,String Quan, String sn) {
+					ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+					try {
+						Connection con = ConnectDB.getInstance().getConnecction();
+						String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [phuong] = N'"+Phuong+"' and  [quan] = N'"+Quan+"' and  [soNha] = '"+sn+"' and  [trangThaiDangThue]=0";
+						Statement statement = con.createStatement();
+						ResultSet rs = statement.executeQuery(sql);
+						while(rs.next())
+						{
+							String maTro = rs.getString(1);
+							String tenChutro = rs.getString(2);
+							String SDT = rs.getString(3);
+							String soNha= rs.getString(6);
+							String tenDuong = rs.getString(7);
+							String tenPhuong = rs.getString(8);
+							String tenQuan = rs.getString(9);
+							NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+							dsNhaTro.add(nhaTro);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				return dsNhaTro;
+				}
+				
+				//Tim theo phuong, quan , ten duong
+				public ArrayList<NhaTro> layNhaTroTheoQuanPhuongTenDuong(String Quan,String Phuong,String td) {
+					ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+					try {
+						Connection con = ConnectDB.getInstance().getConnecction();
+						String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [phuong] = N'"+Phuong+"' and  [quan] = N'"+Quan+"' and  [tenDuong] = N'"+td+"' and  [trangThaiDangThue]=0";
+						Statement statement = con.createStatement();
+						ResultSet rs = statement.executeQuery(sql);
+						while(rs.next())
+						{
+							String maTro = rs.getString(1);
+							String tenChutro = rs.getString(2);
+							String SDT = rs.getString(3);
+							String soNha= rs.getString(6);
+							String tenDuong = rs.getString(7);
+							String tenPhuong = rs.getString(8);
+							String tenQuan = rs.getString(9);
+							NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+							dsNhaTro.add(nhaTro);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				return dsNhaTro;
+				}
+				
+				//Tim theo quan , ten duong, so nha
+				public ArrayList<NhaTro> layNhaTroTheoQuanTenDuongSoNha(String Quan,String td,String sn) {
+					ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+					try {
+						Connection con = ConnectDB.getInstance().getConnecction();
+						String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [soNha] = N'"+sn+"' and  [quan] = N'"+Quan+"' and  [tenDuong] = N'"+td+"' and  [trangThaiDangThue]=0";
+						Statement statement = con.createStatement();
+						ResultSet rs = statement.executeQuery(sql);
+						while(rs.next())
+						{
+							String maTro = rs.getString(1);
+							String tenChutro = rs.getString(2);
+							String SDT = rs.getString(3);
+							String soNha= rs.getString(6);
+							String tenDuong = rs.getString(7);
+							String tenPhuong = rs.getString(8);
+							String tenQuan = rs.getString(9);
+							NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+							dsNhaTro.add(nhaTro);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				return dsNhaTro;
+				}
+				
+				//Tim theo Phuong , ten duong, so nha
+				public ArrayList<NhaTro> layNhaTroTheoPhuongTenDuongSoNha(String Phuong,String td,String sn) {
+					ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+					try {
+						Connection con = ConnectDB.getInstance().getConnecction();
+						String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [soNha] = N'"+sn+"' and  [phuong] = N'"+Phuong+"' and  [tenDuong] = N'"+td+"' and  [trangThaiDangThue]=0";
+						Statement statement = con.createStatement();
+						ResultSet rs = statement.executeQuery(sql);
+						while(rs.next())
+						{
+							String maTro = rs.getString(1);
+							String tenChutro = rs.getString(2);
+							String SDT = rs.getString(3);
+							String soNha= rs.getString(6);
+							String tenDuong = rs.getString(7);
+							String tenPhuong = rs.getString(8);
+							String tenQuan = rs.getString(9);
+							NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+							dsNhaTro.add(nhaTro);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				return dsNhaTro;
+				}
+	
+				//Tim theo quan, Phuong , ten duong, so nha
+				public ArrayList<NhaTro> layNhaTroTheoQuanPhuongTenDuongSoNha(String Quan,String Phuong,String td,String sn) {
+					ArrayList<NhaTro> dsNhaTro = new ArrayList<NhaTro>();
+					try {
+						Connection con = ConnectDB.getInstance().getConnecction();
+						String sql = "select * from [dbo].[NhaTro] as nt  join [dbo].[DiaChi] as dc on nt.maNhaTro = dc.maDiaChi where [quan] = N'"+Quan+"' and [soNha] = N'"+sn+"' and  [phuong] = N'"+Phuong+"' and  [tenDuong] = N'"+td+"' and  [trangThaiDangThue]=0";
+						Statement statement = con.createStatement();
+						ResultSet rs = statement.executeQuery(sql);
+						while(rs.next())
+						{
+							String maTro = rs.getString(1);
+							String tenChutro = rs.getString(2);
+							String SDT = rs.getString(3);
+							String soNha= rs.getString(6);
+							String tenDuong = rs.getString(7);
+							String tenPhuong = rs.getString(8);
+							String tenQuan = rs.getString(9);
+							NhaTro nhaTro = new NhaTro(maTro, tenChutro, SDT, new DiaChi(tenQuan, tenPhuong, soNha, tenDuong));
+							dsNhaTro.add(nhaTro);
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				return dsNhaTro;
+				}
 	public ArrayList<DiaChi> layDiaChiTheoQuan(String quan) {
 		ArrayList<DiaChi> dsDiaChi = new ArrayList<DiaChi>();
 		try {

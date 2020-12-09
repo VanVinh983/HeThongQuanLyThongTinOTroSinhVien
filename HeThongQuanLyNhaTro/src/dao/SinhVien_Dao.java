@@ -29,7 +29,6 @@ public class SinhVien_Dao {
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -86,9 +85,7 @@ public class SinhVien_Dao {
 			{
 				String maSV= rs.getString(1);
 				String tenSV = rs.getString(2);
-				
 				DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
-				
 				LocalDate ngaySinh = LocalDate.of(rs.getDate(3).toLocalDate().getYear(), rs.getDate(3).toLocalDate().getMonthValue(), rs.getDate(3).toLocalDate().getDayOfMonth());
 				String queQuanSV= rs.getString(4);
 				String maLop = rs.getString(5);
@@ -331,12 +328,7 @@ public class SinhVien_Dao {
 			{
 				String tenKhoaNV = rs.getString(1);
 				return tenKhoaNV;
-				
-//				if(rs.getString(2).equals("NV"))
-//					return "Giáo vụ khoa: " + tenNV;
-//				else if(rs.getString(2).equals("QL")){
-//					return "Người quản lý: " + tenNV;
-//				}
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -392,7 +384,6 @@ public class SinhVien_Dao {
 			while(rs.next())
 			{
 				
-				//System.out.println("Ngay sinh : " + rs.getDate(3).toLocalDate());
 				String maSV= rs.getString(1);
 				String tenSV = rs.getString(2);
 				
@@ -417,7 +408,6 @@ public class SinhVien_Dao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(list);
 	return list;
 	}
 	
