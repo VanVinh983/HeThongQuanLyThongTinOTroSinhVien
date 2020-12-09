@@ -1,3 +1,4 @@
+
 package ui;
 
 import java.awt.BorderLayout;
@@ -62,7 +63,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	private JPanel pnl;
 	private NhanVien_Dao nv_Dao;
 	private TamLuuMaNhanVien_Dao tamluu_dao;
-	//attribute Form thông tin phần txt
 	private JTextField txtMaNhatro;
 	private JTextField txtChuNha;
 	private JComboBox<String> JcmpQuan;
@@ -1008,23 +1008,23 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 			String maTro = null;
 			if(max<10)
 			{
-				maTro = "SV_0000"+max;
+				maTro = "NT_0000"+max;
 			}
 			else if(max<100)
 			{
-				maTro = "SV_000"+max;
+				maTro = "NT_000"+max;
 			}
 			else if(max<1000)
 			{
-				maTro = "SV_00"+max;
+				maTro = "NT_00"+max;
 			}
 			else if(max<10000)
 			{
-				maTro = "SV_"+max;
+				maTro = "NT_"+max;
 			}
 			else if(max<100000)
 			{
-				maTro = "SV_"+max;
+				maTro = "NT_"+max;
 			}
 			txtMaNhatro.setText(maTro);
 			txtChuNha.setText("");
@@ -1774,4 +1774,3 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 	}
 	
 }
-

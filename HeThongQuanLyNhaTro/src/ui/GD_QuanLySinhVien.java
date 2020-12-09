@@ -1,3 +1,4 @@
+
 package ui;
 
 import java.awt.BorderLayout;
@@ -719,7 +720,7 @@ public void addDatabase() {
 				Calendar c = new GregorianCalendar();
 
 				LocalDate ngaySinh = LocalDate.of(dateNgaySinh.getJCalendar().getYearChooser().getYear(), (dateNgaySinh.getJCalendar().getMonthChooser().getMonth()+1), dateNgaySinh.getJCalendar().getDayChooser().getDay());
-				JOptionPane.showMessageDialog(this, dateNgaySinh.getJCalendar().getYearChooser().getYear());
+				//JOptionPane.showMessageDialog(this, dateNgaySinh.getJCalendar().getYearChooser().getYear());
 				String queQuanSV = cmpQueQuan.getSelectedItem().toString().trim();
 				String maLop = txtMaLop.getText();
 				String maNV = txtMaNV.getText();
@@ -1208,6 +1209,4 @@ public void addDatabase() {
 	
 		return true;
 	}
-	
-	 
 }
