@@ -515,19 +515,10 @@ JPanel pnl = new JPanel();
 		}
 		else if(ob.equals(btnThoat))
 		{
-			String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-			if(loaiNV.equals("QL")) {
 				removeAll();
 				add(new GD_Admin());
 				repaint();
 				revalidate();
-			}
-			else if (loaiNV.equals("NV")) {
-				removeAll();
-				add(new GD_TrangChuNhanVienGVK());
-				repaint();
-				revalidate();
-			}
 		}
 		else if(ob.equals(btnThongKe))
 		{
