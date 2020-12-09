@@ -172,7 +172,7 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 			}
 		});
 		
-			
+		
 		pnlDangNhap.setPreferredSize(new Dimension(800, 400));
 		pnlDangNhap.setBackground(Color.WHITE);
 		pnlDangNhap.setLayout(new BoxLayout(pnlDangNhap, BoxLayout.X_AXIS));

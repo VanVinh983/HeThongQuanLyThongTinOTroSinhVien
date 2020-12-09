@@ -1,3 +1,4 @@
+
 package dao;
 
 import java.sql.Connection;
@@ -6,7 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.spi.CollatorProvider;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -62,7 +66,7 @@ private ArrayList<NhanVien> danhSachNhanVien;
 		return null;
 	}
 	
-	public ArrayList<NhanVien> loadNhanVienTuDatabase() {
+	public void loadNhanVienTuDatabase() {
 		//mở kết nối sql
 		try {
 			ConnectDB.getInstance().connect();
@@ -84,7 +88,6 @@ private ArrayList<NhanVien> danhSachNhanVien;
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return danhSachNhanVien;
 	}
 	
 
@@ -189,4 +192,32 @@ private ArrayList<NhanVien> danhSachNhanVien;
 	public ArrayList<NhanVien> layDanhSach(){
 		return danhSachNhanVien;
 	}
+	
+	public String phatSinhMaNV() {
+		String maNV = "NV_00001";
+		for(NhanVien nv : danhSachNhanVien) {
+			if(nv.getMaNV().equals(maNV)) {
+				int number = Integer.parseInt(maNV.split("_")[1]);
+				number++;
+				maNV = "NV_" + String.valueOf(number/10000) + String.valueOf(number/1000) + String.valueOf(number/100) + String.valueOf(number/10) + String.valueOf(number/1);
+			}
+		}
+		return maNV;
+	}
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
