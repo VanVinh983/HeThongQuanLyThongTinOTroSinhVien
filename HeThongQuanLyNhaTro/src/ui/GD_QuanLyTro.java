@@ -963,18 +963,23 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnXoa))
 		{
-			String maNhaTro = txtMaNhatro.getText().toString();
-			NhaTro_Dao dao = new NhaTro_Dao();
-			boolean result = dao.XoaNhaTroSinhVien(maNhaTro);
-			if(result==false)
+			int n = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa hay không?","Xóa một dòng",JOptionPane.YES_NO_OPTION);
+			if(n==JOptionPane.YES_OPTION)
 			{
-				JOptionPane.showMessageDialog(this, "Xóa thất bại!!!");
+				String maNhaTro = txtMaNhatro.getText().toString();
+				NhaTro_Dao dao = new NhaTro_Dao();
+				boolean result = dao.XoaNhaTroSinhVien(maNhaTro);
+				if(result==false)
+				{
+					JOptionPane.showMessageDialog(this, "Xóa thất bại!!!");
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Xóa thành công!!!");
+				}
+				tableModel.setRowCount(0);
+				addDatabase();
 			}
-			else {
-				JOptionPane.showMessageDialog(this, "Xóa thành công!!!");
-			}
-			tableModel.setRowCount(0);
-			addDatabase();
+			
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
