@@ -19,6 +19,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -193,11 +194,13 @@ public class GD_Admin extends JPanel implements ActionListener{
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o.equals(btnDangXuat)){
-			TamLuuMaNhanVien_Dao.xoaMaNhanVienVaoVungNhoTam();
-			removeAll();
-			add(new GD_DangNhap());
-			repaint();
-			revalidate();
+			if (JOptionPane.showConfirmDialog(this, "Bạn muốn đăng xuất!","Đăng xuất",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+				TamLuuMaNhanVien_Dao.xoaMaNhanVienVaoVungNhoTam();
+				removeAll();
+				add(new GD_DangNhap());
+				repaint();
+				revalidate();
+			}
 		}
 		else if (o.equals(btnBangThongTin)) {
 			removeAll();

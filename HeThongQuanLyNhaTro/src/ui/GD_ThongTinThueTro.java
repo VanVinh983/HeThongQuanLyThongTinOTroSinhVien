@@ -44,6 +44,8 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import connectDB.ConnectDB;
 import dao.NhaTro_Dao;
 import dao.SinhVien_Dao;
@@ -93,6 +95,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 	private JDateChooser txtNgayBatDau;
 	private JDateChooser txtNgayKetThuc;
 	private JDateChooser txtNgayCapNhat;
+	private JButton btnThoat;
 
 	/**
 	 * Launch the application.
@@ -313,26 +316,11 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlThoat.setPreferredSize(new Dimension(200, 50));
 		pnlTacVu.add(pnlThoat);
 
-		JButton btnThoat = new JButton("Thoát\r\n");
+		btnThoat = new JButton("Thoát\r\n");
 		btnThoat.setBorder(null);
 		btnThoat.setBackground(Color.CYAN);
 		btnThoat.setPreferredSize(new Dimension(170, 45));
-		btnThoat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
-				if (loaiNV.equals("QL")) {
-					removeAll();
-					add(new GD_Admin());
-					repaint();
-					revalidate();
-				} else if (loaiNV.equals("NV")) {
-					removeAll();
-					add(new GD_TrangChuNhanVienGVK());
-					repaint();
-					revalidate();
-				}
-			}
-		});
+	
 		btnThoat.setFont(new Font("Arial", Font.BOLD, 16));
 		btnThoat.setIcon(imgexit);
 		pnlThoat.add(btnThoat);
@@ -513,6 +501,8 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			}
 		});
 		cboQuan.setFont(new Font("Arial", Font.PLAIN, 15));
+		cboQuan.setEditable(true);
+		AutoCompleteDecorator.decorate(cboQuan);
 		pnlTPDiaChiTro.add(cboQuan);
 
 		Component horizontalStrut_4 = Box.createHorizontalStrut(20);
@@ -552,6 +542,8 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			e.printStackTrace();
 		}
 		cboPhuong.setFont(new Font("Arial", Font.PLAIN, 15));
+		cboPhuong.setEditable(true);
+		AutoCompleteDecorator.decorate(cboPhuong);
 		pnlTPDiaChiTro.add(cboPhuong);
 
 		Component horizontalStrut_5 = Box.createHorizontalStrut(20);
@@ -584,6 +576,8 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			}
 		});
 		cboDuong.setFont(new Font("Arial", Font.PLAIN, 15));
+		cboDuong.setEditable(true);
+		AutoCompleteDecorator.decorate(cboDuong);
 		pnlTPDiaChiTro.add(cboDuong);
 
 		Component horizontalStrut_6 = Box.createHorizontalStrut(20);
@@ -596,6 +590,8 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		cboSoNha = new JComboBox<String>();
 		cboSoNha.setMinimumSize(new Dimension(20, 22));
 		cboSoNha.setFont(new Font("Arial", Font.PLAIN, 15));
+		cboSoNha.setEditable(true);
+		AutoCompleteDecorator.decorate(cboSoNha);
 		pnlTPDiaChiTro.add(cboSoNha);
 
 		Component horizontalStrut_8 = Box.createHorizontalStrut(20);
@@ -873,6 +869,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		cboSoNha.addActionListener(this);
 		tableBTT.addMouseListener(this);
 		cboTrangThai.addActionListener(this);
+		btnThoat.addActionListener(this);
 
 		DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -1165,6 +1162,24 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				} else
 					JOptionPane.showMessageDialog(this, "Sửa không thành công");
 			}
+		}else if (o.equals(btnThoat)) {
+			int n = JOptionPane.showConfirmDialog(this,"Bạn có muốn thoát hay không?", "thoát", JOptionPane.YES_NO_OPTION);
+			if(n==JOptionPane.YES_OPTION)
+			{
+				String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+				if(loaiNV.equals("QL")) {
+					removeAll();
+					add(new GD_Admin());
+					repaint();
+					revalidate();
+				}
+				else if (loaiNV.equals("NV")) {
+					removeAll();
+					add(new GD_TrangChuNhanVienGVK());
+					repaint();
+					revalidate();
+				}
+			}
 		}
 
 	}
@@ -1309,41 +1324,35 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		if(!(ngayBD.length()>0)) {
 			JOptionPane.showMessageDialog(this, "Ngày sinh không được bỏ trống");
+			return false;
+		}
+		if(!(ngayBD.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+			JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải theo định dạng dd/MM/yyyy");
+			return false;
+		}
+		
+		if(!(ngayKT.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được bỏ trống");
+			return false;
+		}
+		if(!(ngayKT.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+			JOptionPane.showMessageDialog(this, "Ngày kết thúc phải theo định dạng dd/MM/yyyy");
+			return false;
+		}
+		
+		if(!(ngayCN.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Ngày cập nhật không được bỏ trống");
+			return false;
+		}
+		if(!(ngayCN.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
+			JOptionPane.showMessageDialog(this, "Ngày cập nhật phải theo định dạng dd/MM/yyyy");
+			return false;
+		}
+		if(!(gia.length()>0)) {
+			JOptionPane.showMessageDialog(this, "Giá không được bỏ trống");
 			txtNgayBatDau.requestFocus();
 			return false;
 		}
-//		if(!(ngayBD.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
-//			JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải theo định dạng dd/MM/yyyy");
-//			txtNgayBatDau.requestFocus();
-//			return false;
-//		}
-//		
-//		if(!(ngayKT.length()>0)) {
-//			JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được bỏ trống");
-//			txtNgayKetThuc.requestFocus();
-//			return false;
-//		}
-//		if(!(ngayKT.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
-//			JOptionPane.showMessageDialog(this, "Ngày kết thúc phải theo định dạng dd/MM/yyyy");
-//			txtNgayKetThuc.requestFocus();
-//			return false;
-//		}
-//		
-//		if(!(ngayCN.length()>0)) {
-//			JOptionPane.showMessageDialog(this, "Ngày cập nhật không được bỏ trống");
-//			txtNgayCapNhat.requestFocus();
-//			return false;
-//		}
-//		if(!(ngayCN.matches("\\d{1,2}[-|/]\\d{1,2}[-|/]\\d{4}"))) {
-//			JOptionPane.showMessageDialog(this, "Ngày cập nhật phải theo định dạng dd/MM/yyyy");
-//			txtNgayCapNhat.requestFocus();
-//			return false;
-//		}
-//		if(!(ngayBD.length()>0)) {
-//			JOptionPane.showMessageDialog(this, "Giá không được bỏ trống");
-//			txtNgayBatDau.requestFocus();
-//			return false;
-//		}
 		try {
 			double giathue = Double.parseDouble(gia);
 			if(giathue<0) {

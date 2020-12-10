@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import connectDB.ConnectDB;
@@ -169,11 +170,13 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			// TODO Auto-generated method stub
 			Object o = e.getSource();
 			if(o.equals(btnDangXuat)) {
-				TamLuuMaNhanVien_Dao.xoaMaNhanVienVaoVungNhoTam();
-				removeAll();
-				add(new GD_DangNhap());
-				repaint();
-				revalidate();
+				if (JOptionPane.showConfirmDialog(this, "Bạn muốn đăng xuất!","Đăng xuất",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+					TamLuuMaNhanVien_Dao.xoaMaNhanVienVaoVungNhoTam();
+					removeAll();
+					add(new GD_DangNhap());
+					repaint();
+					revalidate();
+				}
 			}
 			else if (o.equals(btnBangThongTin)) {
 				removeAll();
