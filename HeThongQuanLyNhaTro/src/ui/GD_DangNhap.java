@@ -33,7 +33,7 @@ import entity.NhanVien;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
-public class GD_DangNhap extends JPanel implements ActionListener {
+public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 
 	/**
 	 * 
@@ -225,7 +225,8 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 		lblbackground.add(pnlDangNhap);
 
 		this.add(lblbackground);
-
+		txtMaDN.addKeyListener(this);
+		txtMK.addKeyListener(this);
 		txtMaDN.addActionListener(this);
 		txtMK.addActionListener(this);
 		btnDN.addActionListener(this);
@@ -289,5 +290,46 @@ public class GD_DangNhap extends JPanel implements ActionListener {
 	}
 	public String getMaNhanVien() {
 		return txtMaDN.getText().trim();
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+		{
+			if(vaidData()==true) {
+				NhanVien nv = nv_dao.dangNhap(txtMaDN.getText().trim(), txtMK.getText().trim());
+				if(nv!=null) {
+					tamLuuMaNhanVien_dao.themMaNhanVienVaoVungNhoTam(txtMaDN.getText().trim());
+					if(nv.getLoaiNV().equals("NV")) {
+						removeAll();
+						add(new GD_TrangChuNhanVienGVK());
+						repaint();
+						revalidate();
+					}
+					else if (nv.getLoaiNV().equals("QL")) {
+						removeAll();
+						add(new GD_Admin());
+						repaint();
+						revalidate();
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "sai mật khẩu hoặc sai mã nhân viên! mời nhập lại");
+				}
+			}
+		}
 	}
 }

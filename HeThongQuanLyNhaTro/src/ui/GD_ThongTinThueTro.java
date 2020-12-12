@@ -960,10 +960,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			cboDuong.setSelectedIndex(0);
 			cboQuan.setSelectedIndex(0);
 			cboPhuong.setSelectedIndex(0);
-			cboSoNha.setSelectedIndex(0);
+			cboSoNha.setSelectedItem("");
 			cboTrangThai.setSelectedIndex(0);
 			txtGiaThue.requestFocus();
-			tableBTT.setModel(tableModelBTT);
 		} else if (o.equals(btnThemTroMoi)) {
 			JOptionPane.showMessageDialog(this, new GD_ThemTroMoi());
 		} else if (o.equals(btnTim)) {

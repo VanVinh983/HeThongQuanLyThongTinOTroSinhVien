@@ -722,7 +722,19 @@ public void addDatabase() {
 				LocalDate ngaySinh = LocalDate.of(dateNgaySinh.getJCalendar().getYearChooser().getYear(), (dateNgaySinh.getJCalendar().getMonthChooser().getMonth()+1), dateNgaySinh.getJCalendar().getDayChooser().getDay());
 				String queQuanSV = cmpQueQuan.getSelectedItem().toString().trim();
 				String maLop = txtMaLop.getText();
-				String maNV = txtMaNV.getText();
+				String maNV =null;
+				if(daosv.layLoaiNV().equals("QL"))
+					{
+						maNV = cmpMaNV.getSelectedItem().toString().toString().trim();
+					}
+					else if(daosv.layLoaiNV().equals("NV"))
+					{
+						maNV = txtMaNV.getText();
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
+					}
+				
 				String gioiTinh = cmpGioiTinh.getSelectedItem().toString().trim();
 				String Khoa = cmpKhoa.getSelectedItem().toString().trim();
 				
