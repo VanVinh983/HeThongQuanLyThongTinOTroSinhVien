@@ -87,6 +87,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	private JComboBox<String> cmpGioiTinh;
 	private JComboBox<String> cmpKhoa;
 	private JDateChooser dateNgaySinh;
+	private JTextField txtKhoa;
 	
 	//attribute Form thông tin phần label
 	
@@ -142,6 +143,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	private JPanel pnl;
 	private String dstim ="";
 	private int max = 0;
+	private String ma = "";
 	////////////////////////////////////////////////////////////////////////
 	private List list = new ArrayList<String>();
 	
@@ -448,15 +450,33 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		boxQueQuan.add(cmpQueQuan);
 		cmpQueQuan.setEditable(true);
 		Box boxKhoa = Box.createHorizontalBox();
-		boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
-		boxKhoa.add(cmpKhoa=new JComboBox<>());
-		String []khoa = ";Công Nghệ Cơ Khí;Công Nghệ Thông Tin;Công Nghệ Điện;Công Nghệ Điện Tử;Công Nghệ Động Lực;Công Nghệ Nhiệt Lạnh;Công Nghệ May Thời Trang;Công Nghệ Hóa Học;Kế toán Kiểm toán;Lý Luận Chính Trị;Ngoại Ngữ;Quản Trị Kinh Doanh;Tài Chính Ngân Hàng;Thương Mại Du Lịch;Kỹ Thuật Xây Dựng;Luật;Khoa Học Cơ Bản".split(";");
-		
-		for(String k : khoa) {
-			cmpKhoa.addItem(k);
+		if(daosv.layLoaiNV().equals("QL"))
+		{
+			
+			boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
+			boxKhoa.add(txtKhoa=new JTextField());
+			txtKhoa.setEditable(false);
+			txtKhoa.setText(daosv.layTenKhoaNV(cmpMaNV.getSelectedItem().toString().trim()));
+//			boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
+//			boxKhoa.add(cmpKhoa = new JComboBox<String>());
+//			String []khoa = ";Công Nghệ Cơ Khí;Công Nghệ Thông Tin;Công Nghệ Điện;Công Nghệ Điện Tử;Công Nghệ Động Lực;Công Nghệ Nhiệt Lạnh;Công Nghệ May Thời Trang;Công Nghệ Hóa Học;Kế toán Kiểm toán;Lý Luận Chính Trị;Ngoại Ngữ;Quản Trị Kinh Doanh;Tài Chính Ngân Hàng;Thương Mại Du Lịch;Kỹ Thuật Xây Dựng;Luật;Khoa Học Cơ Bản".split(";");
+//			
+//			for(String k : khoa) {
+//				cmpKhoa.addItem(k);
+//			}
+//		//	cmpKhoa.setSelectedItem(daosv.layTenKhoaNV(txtMaNV.getText()).toString().trim());
+//			cmpKhoa.setEditable(true);
 		}
-		cmpKhoa.setEditable(true);
-		AutoCompleteDecorator.decorate(cmpKhoa);
+		else if(daosv.layLoaiNV().equals("NV"))
+		{
+			boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
+			boxKhoa.add(txtKhoa=new JTextField());
+			txtKhoa.setEditable(false);
+			txtKhoa.setText(daosv.layTenKhoaNV(txtMaNV.getText()));
+			
+		}
+		
+		//AutoCompleteDecorator.decorate(txtKhoa);
 		pnlForm.add(boxKhoa);
 		pnlFormtxtSV.add(boxQueQuan);
 		
@@ -548,6 +568,13 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		btnXoa.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
 		table.addMouseListener(this);
+		//cmpKhoa.addActionListener(this);
+		SinhVien_Dao dao = new SinhVien_Dao();
+		
+		if(dao.layLoaiNV().equals("QL"))
+		{
+			cmpMaNV.addActionListener(this);
+		}
 		
 	////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -582,14 +609,17 @@ public void addDatabase() {
 		else {
 			JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
 		}
+		
 		//Đưa thông tin vào bảng
 		listSV.forEach(v -> {
 			DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/mm/yyyy");
 			String ngaySinh = v.getNgaySinh().getDayOfMonth() + "/" + v.getNgaySinh().getMonthValue() + "/" +v.getNgaySinh().getYear();
 			String[] row = {v.getMaSV(), v.getTenSV(),ngaySinh, v.getQueQuanSV(), v.getMaLop(), v.getMaNV().getMaNV(), v.getGioiTinh(), v.getChuyenNghanh()};
 			tableModel.addRow(row);
-			
+			ma = v.getMaNV().getMaNV().toString().trim();
 		});
+		//cmpKhoa.setSelectedItem(dao.layTenKhoaNV(ma));
+		//txtKhoa.setText(dao.layTenKhoaNV(ma));
 }
 	// Phương thức đọc hình ảnh từ file
 	public  void setPicture(  JLabel label ,String filename ){
@@ -614,8 +644,19 @@ public void addDatabase() {
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
 		
+		SinhVien_Dao dao = new SinhVien_Dao();
 		
-	
+		if(dao.layLoaiNV().equals("QL"))
+		{
+			if(!(cmpMaNV.getSelectedItem().equals(dao.layMaNVTamLuu())))
+			{
+				txtKhoa.setText((dao.layTenKhoaNV(cmpMaNV.getSelectedItem().toString().trim())));
+			}
+		}
+		
+		
+		
+		
 		if(ob.equals(btnHuongDanSD))
 		{
 			File file =  new File("File\\File Help.chm");
@@ -643,7 +684,7 @@ public void addDatabase() {
 		{
 			if(validData()==true)
 			{
-				SinhVien_Dao daosv = new SinhVien_Dao();
+
 				String maSV = txtMaSV.getText();
 				String tenSV = txtTenSV.getText();
 				//String[] ns = txtNgaySinh.getText().split("/");
@@ -651,23 +692,26 @@ public void addDatabase() {
 				String queQuanSV = cmpQueQuan.getSelectedItem().toString().trim();
 				String maLop = txtMaLop.getText();
 				
-				SinhVien_Dao dao = new SinhVien_Dao();
+				//SinhVien_Dao dao = new SinhVien_Dao();
 				List<SinhVien> listSV = new ArrayList<SinhVien>();
 				String maNV = null;
+				String Khoa =null;
 				if(dao.layLoaiNV().equals("QL"))
 				{
 					maNV = cmpMaNV.getSelectedItem().toString().trim();
+					Khoa = dao.layTenKhoaNV(cmpMaNV.getSelectedItem().toString().trim());
 				}
 				else if(dao.layLoaiNV().equals("NV"))
 				{
 					maNV = txtMaNV.getText();
+					Khoa = txtKhoa.getText().trim();
 				}
 				
 				String gioiTinh = cmpGioiTinh.getSelectedItem().toString().trim();
-				String Khoa = cmpKhoa.getSelectedItem().toString().trim();
+				//String Khoa = txtKhoa.getSelectedItem().toString().trim();
 				
 				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, Khoa);
-				if(daosv.CapNhatSinhVien(sv)==true)
+				if(dao.CapNhatSinhVien(sv)==true)
 				{
 					JOptionPane.showMessageDialog(this, "Sửa thành công!!");
 					tableModel.setRowCount(0);
@@ -682,40 +726,6 @@ public void addDatabase() {
 		{
 			if(validData()==true)
 			{
-				SinhVien_Dao daosv = new SinhVien_Dao();
-//						
-//				List<SinhVien> list = daosv.layTatCaBangQL();
-//				list.forEach(v -> {
-//					String[] ma1 = v.getMaSV().split("_");			
-//					
-//					if(max<=Integer.parseInt(ma1[1].toString().trim()))
-//					{
-//						max = Integer.parseInt(ma1[1].toString().trim());
-//						max = max+1;
-//					}
-//				});
-//				
-//				String maSV = null;
-//				if(max<10)
-//				{
-//					maSV = "SV_0000"+max;
-//				}
-//				else if(max<100)
-//				{
-//					maSV = "SV_000"+max;
-//				}
-//				else if(max<1000)
-//				{
-//					maSV = "SV_00"+max;
-//				}
-//				else if(max<10000)
-//				{
-//					maSV = "SV_"+max;
-//				}
-//				else if(max<100000)
-//				{
-//					maSV = "SV_"+max;
-//				}
 				String tenSV = txtTenSV.getText();
 				Calendar c = new GregorianCalendar();
 				String maSV = txtMaSV.getText().toString().trim();
@@ -723,45 +733,35 @@ public void addDatabase() {
 				String queQuanSV = cmpQueQuan.getSelectedItem().toString().trim();
 				String maLop = txtMaLop.getText();
 				String maNV =null;
-				if(daosv.layLoaiNV().equals("QL"))
+				String Khoa =null;
+				if(dao.layLoaiNV().equals("QL"))
 					{
 						maNV = cmpMaNV.getSelectedItem().toString().toString().trim();
+						Khoa = txtKhoa.getText().toString().trim();
 					}
-					else if(daosv.layLoaiNV().equals("NV"))
+				else if(dao.layLoaiNV().equals("NV"))
 					{
 						maNV = txtMaNV.getText();
+						Khoa = txtKhoa.getText().toString().trim();
 					}
-					else {
-						JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
-					}
+//					else {
+//						JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
+//					}
 				
 				String gioiTinh = cmpGioiTinh.getSelectedItem().toString().trim();
-				String Khoa = cmpKhoa.getSelectedItem().toString().trim();
-				
+				 
+				//Khoa = daosv.layTenKhoaNV(maNV).toString().trim();
 				List<SinhVien> listSV = new ArrayList<SinhVien>();
 				
 				
 				
 				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, Khoa);
-				
-				listSV = daosv.layTatCaBangQL();
-//				if(daosv.layLoaiNV().equals("QL"))
-//				{
-//					listSV = daosv.layTatCaBangQL();
-//				}
-//				else if(daosv.layLoaiNV().equals("NV"))
-//				{
-//					listSV = daosv.layTatCaBangNV();
-//				}
-//				else {
-//					JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
-//				}
-				
-				
+				listSV = dao.layTatCaBangQL();
+			
 				
 				if(!(listSV.contains(sv)))
 				{
-					boolean rs=daosv.themSV(sv);
+					boolean rs=dao.themSV(sv);
 					if(rs==true)
 					{
 						JOptionPane.showMessageDialog(this, "Thêm thành công!!");
@@ -839,7 +839,7 @@ public void addDatabase() {
 			int n = JOptionPane.showConfirmDialog(this, "bạn có chắc muốn xóa hay không?", "Xóa một dòng",JOptionPane.YES_NO_OPTION);
 			if(n==JOptionPane.YES_OPTION)
 			{
-				SinhVien_Dao dao = new SinhVien_Dao();
+				//SinhVien_Dao dao = new SinhVien_Dao();
 				String id = txtMaSV.getText();
 				if(dao.XoaSinhVien(id)==true)
 				{
@@ -854,9 +854,8 @@ public void addDatabase() {
 		}
 		else if(ob.equals(btnXoaTrang))
 		{
-			SinhVien_Dao daosv = new SinhVien_Dao();
-			
-			List<SinhVien> list = daosv.layTatCaBangQL();
+
+			List<SinhVien> list = dao.layTatCaBangQL();
 			list.forEach(v -> {
 				String[] ma1 = v.getMaSV().split("_");
 								
@@ -895,12 +894,13 @@ public void addDatabase() {
 			txtMaLop.setText("");
 			cmpGioiTinh.setSelectedItem("Nam");;
 			SinhVien_Dao daoSV = new SinhVien_Dao();
-			cmpKhoa.setSelectedItem("");
+			//txtKhoa.setSelectedItem("");
 			tableModel.setRowCount(0);
 			dateNgaySinh.setCalendar(null);
 			addDatabase();
-			
 		}
+		
+		
 		else if(cmp.getSelectedItem().equals("Mã"))
 		{
 			if(ob.equals(cmpTim))
@@ -908,16 +908,15 @@ public void addDatabase() {
 				
 				if(!(cmpTim.getSelectedItem().toString().trim().equalsIgnoreCase("")))
 				{
-						
-						SinhVien_Dao daosv = new SinhVien_Dao();
+
 						List<SinhVien> listSV = new ArrayList<SinhVien>();
-						if(daosv.layLoaiNV().equals("QL"))
+						if(dao.layLoaiNV().equals("QL"))
 						{
-							listSV = daosv.layTatCaBangQL();
+							listSV = dao.layTatCaBangQL();
 						}
-						else if(daosv.layLoaiNV().equals("NV"))
+						else if(dao.layLoaiNV().equals("NV"))
 						{
-							listSV = daosv.layTatCaBangNV();
+							listSV = dao.layTatCaBangNV();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
@@ -983,7 +982,7 @@ public void addDatabase() {
 			
 			if(ob.equals(btnTim))
 			{
-				SinhVien_Dao dao = new SinhVien_Dao();
+				//SinhVien_Dao dao = new SinhVien_Dao();
 				
 				String ma = cmpTim.getSelectedItem().toString().trim();
 				if(dao.laySinhVienTheoMa(ma, nhanVienTamLuu.getMaNV(),nhanVienTamLuu.getLoaiNV())!=null)
@@ -1011,15 +1010,15 @@ public void addDatabase() {
 				
 				if(!(cmpTim.getSelectedItem().toString().trim().equalsIgnoreCase("")))
 				{
-						SinhVien_Dao daosv = new SinhVien_Dao();
+
 						List<SinhVien> listSV = new ArrayList<SinhVien>();
-						if(daosv.layLoaiNV().equals("QL"))
+						if(dao.layLoaiNV().equals("QL"))
 						{
-							listSV = daosv.layTatCaBangQL();
+							listSV = dao.layTatCaBangQL();
 						}
-						else if(daosv.layLoaiNV().equals("NV"))
+						else if(dao.layLoaiNV().equals("NV"))
 						{
-							listSV = daosv.layTatCaBangNV();
+							listSV = dao.layTatCaBangNV();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
@@ -1088,7 +1087,7 @@ public void addDatabase() {
 			
 			if(ob.equals(btnTim))
 			{
-				SinhVien_Dao dao = new SinhVien_Dao();
+				//SinhVien_Dao dao = new SinhVien_Dao();
 				String ten = cmpTim.getSelectedItem().toString().trim();
 				if(dao.laySinhVienTheoTen(ten)!=null)
 				{
@@ -1147,20 +1146,23 @@ public void addDatabase() {
 				List<SinhVien> listSV = new ArrayList<SinhVien>();
 				if(daosv.layLoaiNV().equals("QL"))
 				{
-					cmpMaNV.setSelectedItem(table.getValueAt(row, 5).toString());
 					
+					cmpMaNV.setSelectedItem(table.getValueAt(row, 5).toString());
+					txtKhoa.setText(table.getValueAt(row, 7).toString());
+					txtMaSV.setEditable(false);
 				}
 				else if(daosv.layLoaiNV().equals("NV"))
 				{
 					txtMaNV.setText(table.getValueAt(row, 5).toString());
 					txtMaNV.setEditable(false);
+					txtKhoa.setText(table.getValueAt(row, 7).toString());
+					txtMaSV.setEditable(false);
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
 				}
 		
-		cmpKhoa.setSelectedItem(table.getValueAt(row, 7).toString());
-		txtMaSV.setEditable(false);
+		
 	}
 
 	@Override
@@ -1196,7 +1198,6 @@ public void addDatabase() {
 		String maLop = txtMaLop.getText().trim();
 		String tenSV = txtTenSV.getText().trim();
 		String queQuan = cmpQueQuan.getSelectedItem().toString().trim();
-		String nghanh = cmpKhoa.getSelectedItem().toString().trim();
 
 		if(maLop.length()==0) {
 			JOptionPane.showMessageDialog(this, "Mã lớp không được bỏ trống");

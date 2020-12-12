@@ -54,6 +54,41 @@ public class SinhVien_Dao {
 	return null;
 	}
 	
+	public String layTenKhoaTuMaNV()
+	{
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select [tenKhoa] from [QLThongTinOTroSinhVien].[dbo].[NhanVien] where [maNhanVien] = '"+layMaNVTamLuu()+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			return rs.getString(1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String layMaNVTuTenKhoa(String tenKhoa)
+	{
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = "select [maNhanVien] from [QLThongTinOTroSinhVien].[dbo].[NhanVien] where [tenKhoa] = N'" + tenKhoa +"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next())
+			{
+				String maNV = rs.getString(1);
+				return maNV;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public List<String> layTatCaMaNV()
 	{
 		List<String> listMaNV = new ArrayList<String>();
@@ -113,7 +148,7 @@ public class SinhVien_Dao {
 		
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[SinhVien] where [maNhanVien] = '" + layMaNVTamLuu() + "'";
+			String sql = "select * from [QLThongTinOTroSinhVien].[dbo].[SinhVien] where [maNhanVien] =  '" + layMaNVTamLuu() + "'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			
@@ -289,6 +324,25 @@ public class SinhVien_Dao {
 				String chuyenNghanh = rs.getString(8);
 				SinhVien sv = new SinhVien(maSV, tenSV, ngaySinh, queQuanSV, maLop, new NhanVien(maNV), gioiTinh, chuyenNghanh);
 				return sv;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	return null;
+	}
+	
+	public String layTenKhoaNV(String maNV)
+	{
+		try {
+			Connection con = ConnectDB.getInstance().getConnecction();
+			String sql = " SELECT [tenKhoa] FROM [QLThongTinOTroSinhVien].[dbo].[NhanVien] where [maNhanVien] = '" + maNV + "'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				String loaiNV = rs.getString(1);
+				return loaiNV;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

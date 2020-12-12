@@ -57,7 +57,7 @@ import entity.NhaTro;
 import entity.NhanVien;
 import entity.SinhVien;
 
-public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListener, KeyListener{
+public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListener{
 
 	private JPanel pnl;
 	private NhanVien_Dao nv_Dao;
@@ -446,7 +446,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		 btnTim.setBackground(Color.green);
 		 //pnlTim.setBackground(Color.CYAN);
 		 pnlTim.add(boxbtnTim);
-		 pnl.addKeyListener(this);
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		 //điêu chỉnh kích thướt theo lblSDT
 		lblMaNhaTro.setPreferredSize(lblSDT.getPreferredSize());
@@ -1751,26 +1750,6 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		return true;
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		 if(e.getKeyCode() == KeyEvent.VK_O){
-	     	 JOptionPane.showMessageDialog(null, "ok");
-	         System.exit(0);
-	      }
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
 
