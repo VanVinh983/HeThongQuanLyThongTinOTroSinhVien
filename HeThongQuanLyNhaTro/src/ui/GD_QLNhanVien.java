@@ -288,7 +288,7 @@ JPanel pnl = new JPanel();
 		Box boxNgaySinh = Box.createHorizontalBox();
 		boxNgaySinh.add(lblNgaySinh=new JLabel("Ngày sinh: "));
 		cbNam = new JComboBox<Integer>();
-		for(int i = 1955; i <= 2020; i++) {
+		for(int i = 1970; i <= 2020; i++) {
 			cbNam.addItem(i);
 		}
 		cbThang = new JComboBox<Integer>();
@@ -375,7 +375,7 @@ JPanel pnl = new JPanel();
 		 btnTim.setBackground(Color.green);
 		 pnlSouthRight.setBackground(Color.CYAN);
 		 
-		 boxbtnTim.add(btnDSNV = new JButton("Hiển thị DSNV"));
+		 boxbtnTim.add(btnDSNV = new JButton("Làm mới DS"));
 		 btnDSNV.add(Box.createHorizontalStrut(50));
 		 btnDSNV.add(Box.createVerticalStrut(50));
 		 pnlSouthRight.add(boxbtnTim);
@@ -522,7 +522,10 @@ JPanel pnl = new JPanel();
 		}
 		else if(ob.equals(btnThongKe))
 		{
-			
+			removeAll();
+			add(new GD_ThongKe());
+			repaint();
+			revalidate();
 		}
 		else if(ob.equals(btnTim))
 		{

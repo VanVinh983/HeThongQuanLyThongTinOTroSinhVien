@@ -195,13 +195,21 @@ private ArrayList<NhanVien> danhSachNhanVien;
 	
 	public String phatSinhMaNV() {
 		String maNV = "NV_00001";
+		int number = Integer.parseInt(maNV.split("_")[1]);
 		for(NhanVien nv : danhSachNhanVien) {
-			if(nv.getMaNV().equals(maNV)) {
-				int number = Integer.parseInt(maNV.split("_")[1]);
-				number++;
+			
+			int number_x = Integer.parseInt(nv.getMaNV().split("_")[1]);
+			if(number < number_x) {
+				number = number_x;
+			}	
+		}
+			number++;
+			if(number < 100000) {
 				maNV = "NV_" + String.valueOf(number/10000) + String.valueOf(number/1000) + String.valueOf(number/100) + String.valueOf(number/10) + String.valueOf(number/1);
 			}
-		}
+			else {
+				maNV = "NV_" + number;
+			}
 		return maNV;
 	}
 }
