@@ -176,12 +176,13 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 					String tenKhoaNV = daoSV.layTenKhoaNhanVien().trim().toString();
 					if(daoSV.layLoaiNV().trim().toString().equals("NV"))
 					{
-						bUser.add(lblNameUser = new JLabel("Giáo vụ khoa: " + tenKhoaNV));
+						bUser.add(lblNameUser = new JLabel("GV:" + tenKhoaNV));
 					}
 					else if(daoSV.layLoaiNV().trim().toString().equals("QL")){
-						bUser.add(lblNameUser = new JLabel("Người quản lý: " + tenKhoaNV));
+						bUser.add(lblNameUser = new JLabel("Quản lý"));
 					}
 					
+					lblNameUser.setFont(new Font( "Arial", Font.BOLD, 30));
 					buser.add(buserImg = Box.createVerticalBox());
 					//box user2 Hinh Anh user
 					JPanel pnlcontent=new JPanel();
@@ -215,45 +216,63 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//Thanh điều hướng 
 				pnlMenubtn.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(btnTro = new JButton("Quản lý trọ"));
+				pnlMenubtn.add(btnTro = new JButton("Trọ"));
+				pnlMenubtn.setBackground(new Color(0, 238, 238));
 				btnTro.add(Box.createHorizontalStrut(30));
 				btnTro.add(Box.createVerticalStrut(20));
+				btnTro.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnTro.setBackground(new Color(72, 209, 204));
 				
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnSinhVien = new JButton("Quản lý sinh viên"));
+				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnSinhVien = new JButton("Sinh viên"));
 				btnSinhVien.add(Box.createHorizontalStrut(30));
 				btnSinhVien.add(Box.createVerticalStrut(20));
-				
+				btnSinhVien.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnSinhVien.setBackground(new Color(0, 206, 209));
 				if(daoSV.layLoaiNV().equals("QL"))
 				{
-					pnlMenubtn.add(Box.createVerticalStrut(10));
-					pnlMenubtn.add(btnNhanVien = new JButton("Quản lý nhân viên"));
+					pnlMenubtn.add(Box.createVerticalStrut(25));
+					pnlMenubtn.add(btnNhanVien = new JButton("Nhân viên"));
 					btnNhanVien.add(Box.createHorizontalStrut(30));
 					btnNhanVien.add(Box.createVerticalStrut(20));
+					btnNhanVien.setFont(new Font( "Arial", Font.BOLD, 25));
 					btnNhanVien.addActionListener(this);
+					btnNhanVien.setBackground(new Color(64, 224, 208));
 				}
 				
 				
 				
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnThueTro = new JButton("Quản lý thuê trọ"));
+				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnThueTro = new JButton("Thuê trọ"));
 				btnThueTro.add(Box.createHorizontalStrut(30));
 				btnThueTro.add(Box.createVerticalStrut(20));
+				btnThueTro.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnThueTro.setBackground(new Color(0, 245, 255));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				
+				pnlMenubtn.add(Box.createVerticalStrut(25));
 				pnlMenubtn.add(btnThongKe = new JButton("Thống kê"));
 				btnThongKe.add(Box.createHorizontalStrut(30));
+				btnThongKe.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnThongKe.add(Box.createVerticalStrut(20));
+				btnThongKe.setBackground(new Color(0, 229, 238));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				
-				pnlMenubtn.add(btnHuongDanSD = new JButton("Hương dẫn sử dụng"));
+				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnHuongDanSD = new JButton("Trợ giúp"));
 				btnHuongDanSD.add(Box.createHorizontalStrut(30));
+				btnHuongDanSD.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
+				btnHuongDanSD.setBackground(new Color(0, 197, 205));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 
+				pnlMenubtn.add(Box.createVerticalStrut(25));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
 				btnThoat.add(Box.createHorizontalStrut(30));
+				btnThoat.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnThoat.add(Box.createVerticalStrut(20));
+				btnThoat.setBackground(new Color(0, 134, 139));
+				pnlMenubtn.add(Box.createVerticalStrut(10));
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -299,13 +318,14 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		JPanel pnlForm = new JPanel();
 		pnlForm.setSize(100, 20);
 		pnlForm.setLayout(new BorderLayout());
-		
+		//pnlForm.setBackground(new Color(0, 139, 139));
 		Box boxcenFormTitle, boxcenFormSV;
 		
 		JLabel lblThongTin = new JLabel("Thông tin");
 		
 		lblThongTin.setFont(new Font("Arial", Font.BOLD, 30));
 		
+		lblThongTin.setBackground(new Color(0, 139, 139));
 		bcenForm.add(lblThongTin);
 		bcenForm.setBackground(Color.LIGHT_GRAY);
 		
@@ -316,7 +336,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		JPanel pnlSouth = new JPanel();
 		pnlSouth.setLayout(new BorderLayout());
 	
-		
+		//boxcenFormTitle.setFont(new Font("Arial", Font.BOLD, 30));
+		boxcenFormSV.setBackground(new Color(0, 139, 139));
 		pnlSouth.add(Box.createHorizontalStrut(100), BorderLayout.WEST);
 		JPanel pnlFormSV=new JPanel();
 		pnlSouth.add(pnlFormSV);
@@ -341,7 +362,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		Box boxMaSV = Box.createHorizontalBox();
 		boxMaSV.add(lblMaSV=new JLabel("Mã sinh viên:"));
 		boxMaSV.add(txtMaSV=new JTextField());
-		
+	
 		
 		SinhVien_Dao daosv = new SinhVien_Dao();
 		
@@ -349,13 +370,13 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		list.forEach(v -> {
 			String[] ma1 = v.getMaSV().split("_");				
 			
-			if(max<Integer.parseInt(ma1[1].toString().trim()))
+			if(max<=Integer.parseInt(ma1[1].toString().trim()))
 			{
 				max = Integer.parseInt(ma1[1].toString().trim());
-				
+				max = max+1;
 			}
 		});
-		max = max+1;
+		
 		String maSV = null;
 		if(max<10)
 		{
@@ -457,15 +478,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 			boxKhoa.add(txtKhoa=new JTextField());
 			txtKhoa.setEditable(false);
 			txtKhoa.setText(daosv.layTenKhoaNV(cmpMaNV.getSelectedItem().toString().trim()));
-//			boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
-//			boxKhoa.add(cmpKhoa = new JComboBox<String>());
-//			String []khoa = ";Công Nghệ Cơ Khí;Công Nghệ Thông Tin;Công Nghệ Điện;Công Nghệ Điện Tử;Công Nghệ Động Lực;Công Nghệ Nhiệt Lạnh;Công Nghệ May Thời Trang;Công Nghệ Hóa Học;Kế toán Kiểm toán;Lý Luận Chính Trị;Ngoại Ngữ;Quản Trị Kinh Doanh;Tài Chính Ngân Hàng;Thương Mại Du Lịch;Kỹ Thuật Xây Dựng;Luật;Khoa Học Cơ Bản".split(";");
-//			
-//			for(String k : khoa) {
-//				cmpKhoa.addItem(k);
-//			}
-//		//	cmpKhoa.setSelectedItem(daosv.layTenKhoaNV(txtMaNV.getText()).toString().trim());
-//			cmpKhoa.setEditable(true);
+
 		}
 		else if(daosv.layLoaiNV().equals("NV"))
 		{
@@ -505,9 +518,10 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		 
 		 pnlFormTim = new JPanel();
 		 pnlTim.add(pnlFormTim);
-		 
+		 //JPanel pnlTim = new JPanel();
 		 boxtxtTim = Box.createHorizontalBox();
 		 boxtxtTim.add(lblTim=new JLabel("Tìm Thông tin sinh viên: "));
+		 lblTim.setFont(new Font("Arial", Font.BOLD, 20));
 		 cmpTim = new JComboBox<String>();
 		 
 		 
@@ -525,23 +539,28 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	        boxtxtTim.add(cmpTim);
 	        pnlFormTim.add(boxtxtTim);
 	        
-	        
-	
-		 pnlFormTim.add(Box.createVerticalStrut(30));
 		 Box boxcmpTim = Box.createHorizontalBox();
+		 JLabel lblTim ;
+		 boxcmpTim.add(lblTim = new JLabel("__Tìm kiếm thông tin__"));
+		 lblTim.setFont(new Font("Arial", Font.BOLD, 30));
 		 String[] s = "Mã;Tên".split(";");
-		 boxcmpTim.add(cmp = new JComboBox<String>(s));
+		 boxtxtTim.add(cmp = new JComboBox<String>(s));
+		 pnlTim.add(boxtxtTim);
 		 pnlFormTim.add(boxcmpTim);
+		 
 		 
 		 // Button tìm
 		 pnlTim.add(Box.createVerticalStrut(30));
 		 Box boxbtnTim = Box.createHorizontalBox();
 		 
-		 boxbtnTim.add(btnTim = new JButton("Tìm"));
+		// boxbtnTim.add(btnTim = new JButton("Tìm"));
 
-		 btnTim.setBackground(Color.green);
+		
+		 pnlTim.add(btnTim = new JButton("Tìm"));
+		 btnTim.setFont(new Font("Arial", Font.BOLD, 25));
+		 btnTim.setBackground(new Color(102, 205, 170));
 		 pnlTim.setBackground(Color.CYAN);
-		 pnlTim.add(boxbtnTim);
+		 pnlTim.add(box.createVerticalStrut(40));
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		 //điêu chỉnh kích thướt theo lblSDT
 		lblMaSV.setPreferredSize(lblMaNV.getPreferredSize());
@@ -744,13 +763,10 @@ public void addDatabase() {
 						maNV = txtMaNV.getText();
 						Khoa = txtKhoa.getText().toString().trim();
 					}
-//					else {
-//						JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
-//					}
+
 				
 				String gioiTinh = cmpGioiTinh.getSelectedItem().toString().trim();
 				 
-				//Khoa = daosv.layTenKhoaNV(maNV).toString().trim();
 				List<SinhVien> listSV = new ArrayList<SinhVien>();
 				
 				
@@ -804,7 +820,10 @@ public void addDatabase() {
 		
 		else if(ob.equals(btnThongKe))
 		{
-		
+			removeAll();
+			add(new GD_ThongKe());
+			repaint();
+			revalidate();
 		}
 		else if(ob.equals(btnThueTro))
 		{

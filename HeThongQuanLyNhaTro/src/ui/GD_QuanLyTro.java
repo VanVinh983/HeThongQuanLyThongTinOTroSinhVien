@@ -143,14 +143,13 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 					String tenKhoaNV = dao.layTenNhanVien().trim().toString();
 					if(dao.layTenNhanVien().trim().toString().equals("NV"))
 					{
-						bUser.add(lblNameUser = new JLabel("Giáo vụ khoa: " + tenKhoaNV));
+						bUser.add(lblNameUser = new JLabel("GV:" + tenKhoaNV));
 					}
 					else if(dao.layTenNhanVien().trim().toString().equals("QL")){
-						bUser.add(lblNameUser = new JLabel("Người quản lý: " + tenKhoaNV));
+						bUser.add(lblNameUser = new JLabel("Quản lý"));
 					}
+					lblNameUser.setFont(new Font( "Arial", Font.BOLD, 30));
 					
-					
-					//bUser.add(lblNameUser = new JLabel(dao.layTenNhanVien()));
 					buser.add(buserImg = Box.createVerticalBox());
 					//Hinh Anh user
 					JPanel pnlImg=new JPanel();
@@ -182,43 +181,64 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//Thanh điều hướng 
 				pnlMenubtn.add(Box.createVerticalStrut(20));
-				pnlMenubtn.add(btnTro = new JButton("Quản lý trọ"));
+				pnlMenubtn.add(btnTro = new JButton("Trọ"));
+				pnlMenubtn.setBackground(new Color(0, 238, 238));
 				btnTro.add(Box.createHorizontalStrut(30));
 				btnTro.add(Box.createVerticalStrut(20));
+				btnTro.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnTro.setBackground(new Color(72, 209, 204));
 				
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnSinhVien = new JButton("Quản lý sinh viên"));
+				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnSinhVien = new JButton("Sinh viên"));
 				btnSinhVien.add(Box.createHorizontalStrut(30));
 				btnSinhVien.add(Box.createVerticalStrut(20));
-				
-				if(dao.layTenNhanVien().equals("QL"))
+				btnSinhVien.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnSinhVien.setBackground(new Color(0, 206, 209));
+				SinhVien_Dao daosv = new SinhVien_Dao();
+				if(daosv.layLoaiNV().equals("QL"))
 				{
-					pnlMenubtn.add(Box.createVerticalStrut(10));
-					pnlMenubtn.add(btnNhanVien = new JButton("Quản lý nhân viên"));
+					pnlMenubtn.add(Box.createVerticalStrut(25));
+					pnlMenubtn.add(btnNhanVien = new JButton("Nhân viên"));
 					btnNhanVien.add(Box.createHorizontalStrut(30));
 					btnNhanVien.add(Box.createVerticalStrut(20));
+					btnNhanVien.setFont(new Font( "Arial", Font.BOLD, 25));
 					btnNhanVien.addActionListener(this);
+					btnNhanVien.setBackground(new Color(64, 224, 208));
 				}
 				
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnThueTro = new JButton("Quản lý thuê trọ"));
+				
+				
+				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnThueTro = new JButton("Thuê trọ"));
 				btnThueTro.add(Box.createHorizontalStrut(30));
 				btnThueTro.add(Box.createVerticalStrut(20));
-				
+				btnThueTro.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnThueTro.setBackground(new Color(0, 245, 255));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
+				
+				pnlMenubtn.add(Box.createVerticalStrut(25));
 				pnlMenubtn.add(btnThongKe = new JButton("Thống kê"));
 				btnThongKe.add(Box.createHorizontalStrut(30));
+				btnThongKe.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnThongKe.add(Box.createVerticalStrut(20));
-				
+				btnThongKe.setBackground(new Color(0, 229, 238));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
-				pnlMenubtn.add(btnHuongDanSD = new JButton("Hương dẫn sử dụng"));
+				
+				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnHuongDanSD = new JButton("Trợ giúp"));
 				btnHuongDanSD.add(Box.createHorizontalStrut(30));
+				btnHuongDanSD.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
-				
+				btnHuongDanSD.setBackground(new Color(0, 197, 205));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
+
+				pnlMenubtn.add(Box.createVerticalStrut(25));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
 				btnThoat.add(Box.createHorizontalStrut(30));
+				btnThoat.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnThoat.add(Box.createVerticalStrut(20));
+				btnThoat.setBackground(new Color(0, 134, 139));
+				pnlMenubtn.add(Box.createVerticalStrut(10));
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -442,9 +462,8 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		 Box boxbtnTim = Box.createHorizontalBox();
 		 
 		 boxbtnTim.add(btnTim = new JButton("Tìm"));
-
-		 btnTim.setBackground(Color.green);
-		 //pnlTim.setBackground(Color.CYAN);
+		 btnTim.setFont(new Font("Arial", Font.BOLD, 25));
+		 btnTim.setBackground(new Color(102, 205, 170));
 		 pnlTim.add(boxbtnTim);
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		 //điêu chỉnh kích thướt theo lblSDT
@@ -873,39 +892,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//Phat sinh ma tu dong
 				NhaTro_Dao daont = new NhaTro_Dao();
-				
-//				List<NhaTro> list = daont.layTatCaBang();
-//				list.forEach(v -> {
-//					String[] ma1 = v.getMaTro().split("_");			
-//					
-//					if(max<=Integer.parseInt(ma1[1].toString().trim()))
-//					{
-//						max = Integer.parseInt(ma1[1].toString().trim());
-//						max = max+1;
-//					}
-//				});
-//				
-//				String maTro = null;
-//				if(max<10)
-//				{
-//					maTro = "NT_0000"+max;
-//				}
-//				else if(max<100)
-//				{
-//					maTro = "NT_000"+max;
-//				}
-//				else if(max<1000)
-//				{
-//					maTro = "NT_00"+max;
-//				}
-//				else if(max<10000)
-//				{
-//					maTro = "NT_"+max;
-//				}
-//				else if(max<100000)
-//				{
-//					maTro = "NT_"+max;
-//				}
+
 				/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				
 				String maTro = txtMaNhatro.getText().toString().trim();
@@ -952,7 +939,10 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		}
 		else if(ob.equals(btnThongKe))
 		{
-			
+			removeAll();
+			add(new GD_ThongKe());
+			repaint();
+			revalidate();
 			
 		}
 		else if(ob.equals(btnThueTro))
