@@ -349,7 +349,7 @@ JPanel pnl = new JPanel();
 			xoaTrangAction();
 		}
 		else if(ob.equals(btnTK_Action)) {
-			if(cbNhaTro.getSelectedItem().toString().strip().equals("Đang được thuê")) {
+			if(cbNhaTro.getSelectedItem().toString().trim().equals("Đang được thuê")) {
 				
 				String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 				tableModel = new DefaultTableModel(header, 0);
@@ -362,7 +362,7 @@ JPanel pnl = new JPanel();
 					tableModel.addRow(row);
 				}
 			}
-			else if(cbNhaTro.getSelectedItem().toString().strip().equals("Không có sinh viên thuê")) {
+			else if(cbNhaTro.getSelectedItem().toString().trim().equals("Không có sinh viên thuê")) {
 				String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 				tableModel = new DefaultTableModel(header, 0);
 				table.setModel(tableModel);

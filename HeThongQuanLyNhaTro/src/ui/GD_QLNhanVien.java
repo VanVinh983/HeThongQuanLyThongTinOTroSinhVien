@@ -469,8 +469,8 @@ JPanel pnl = new JPanel();
 			if(validData()) {
 				int row = table.getSelectedRow();
 				
-				String maNV = txtMaNV.getText().strip();
-				String tenNV = txtTenNV.getText().strip();
+				String maNV = txtMaNV.getText().trim();
+				String tenNV = txtTenNV.getText().trim();
 				String khoa = cbKhoa.getSelectedItem().toString();
 				String loaiNV = cbCapBac.getSelectedItem().toString();
 				
@@ -489,8 +489,8 @@ JPanel pnl = new JPanel();
 		{
 			if(validData()) {
 				//lấy dl từ textfield
-				String maNV = txtMaNV.getText().strip();
-				String tenNV = txtTenNV.getText().strip();
+				String maNV = txtMaNV.getText().trim();
+				String tenNV = txtTenNV.getText().trim();
 				String loaiNV = cbCapBac.getSelectedItem().toString();
 				String khoa = cbKhoa.getSelectedItem().toString();
 				String ngaySinh =  (int)cbNam.getSelectedItem() + "-" + (int)cbThang.getSelectedItem() + "-" + (int)cbNgay.getSelectedItem();
@@ -532,7 +532,7 @@ JPanel pnl = new JPanel();
 			
 			//tim theo ma
 			if(cmp.getSelectedItem().toString().equals("Mã")) {
-				String maNhanVienCanTim = txtTim.getText().strip();
+				String maNhanVienCanTim = txtTim.getText().trim();
 				ArrayList<NhanVien> dsNVTheoMa  = nv_dao.timNhanVienTheoMa(maNhanVienCanTim);
 				tableModel.setRowCount(0);
 				for(NhanVien nv : dsNVTheoMa){
@@ -543,7 +543,7 @@ JPanel pnl = new JPanel();
 			
 			//tim theo ten
 			if(cmp.getSelectedItem().toString().equals("Tên Nhân Viên")) {
-				String tenNhanVienCanTim = txtTim.getText().strip();
+				String tenNhanVienCanTim = txtTim.getText().trim();
 				ArrayList<NhanVien> dsNVTheoTen  = nv_dao.timNhanVienTheoTen(tenNhanVienCanTim);
 				tableModel.setRowCount(0);
 				for(NhanVien nv : dsNVTheoTen){
@@ -554,7 +554,7 @@ JPanel pnl = new JPanel();
 			
 			//tim theo khoa
 			if(cmp.getSelectedItem().toString().equals("Khoa")) {
-				String khoaCanTim = txtTim.getText().strip();
+				String khoaCanTim = txtTim.getText().trim();
 				ArrayList<NhanVien> dsNVTheoTen  = nv_dao.timNhanVienTheoKhoa(khoaCanTim);
 				tableModel.setRowCount(0);
 				for(NhanVien nv : dsNVTheoTen){
