@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 
 import connectDB.ConnectDB;
 import dao.TamLuuMaNhanVien_Dao;
+import javax.swing.border.LineBorder;
 
 public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 		/**
@@ -73,8 +74,8 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			lblThongKe = new JLabel("         Thống Kê");
 			lblBangThongTin = new JLabel("    Bảng Thông Tin");
 			lblTro = new JLabel("              Trọ");
-			lblHDSD = new JLabel("Hướng Dẫn");
-			lblDoiMK = new JLabel("Đổi mật khẩu");
+			lblHDSD = new JLabel("     Hướng Dẫn");
+			lblDoiMK = new JLabel("   Đổi mật khẩu");
 			
 			
 			lblSinhVien.setFont(new Font("arial", 1, 20));
@@ -86,12 +87,18 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 
 			
 			btnSinhVien = new JButton(imgSinhVien);
+			btnSinhVien.setBounds(228, 5, 208, 494);
 			btnThongKe = new JButton(imgThongKe);
+			btnThongKe.setBounds(681, 5, 215, 494);
 			btnTro = new JButton(imgNhaTro);
+			btnTro.setBounds(446, 5, 215, 494);
 			btnBangThongTin = new JButton(imgGhiChu);
+			btnBangThongTin.setBounds(10, 5, 208, 494);
 			btnDoiMK = new JButton(imgDoiMK);
+			btnDoiMK.setBounds(906, 5, 208, 494);
 			
 			btnDangXuat = new JButton("Đăng Xuất");
+			btnDangXuat.setBorder(new LineBorder(new Color(255, 102, 0), 5));
 			btnDangXuat.setFont(new Font("arial",1,20));
 			btnDangXuat.setBackground(Color.RED);
 			btnDangXuat.setForeground(Color.white);
@@ -132,6 +139,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			
 			
 			JPanel pnlTitle = new JPanel();
+			pnlTitle.setBorder(new LineBorder(new Color(255, 160, 122), 5, true));
 			JPanel pnlBottom = new JPanel();
 			JPanel pnlCenter = new JPanel();
 			
@@ -140,6 +148,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			pnlTitle.setPreferredSize(new Dimension(1200, 100));
 			pnlTitle.setBackground(new Color(237, 125, 49));
 			pnlTitle.add(lblTieuDe);
+			pnlCenter.setLayout(null);
 			
 			
 			pnlCenter.add(btnBangThongTin);
@@ -154,6 +163,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			this.add(pnlCenter,BorderLayout.CENTER);
 			
 			btnHDSD = new JButton(imgHDSD);
+			btnHDSD.setBounds(1127, 5, 208, 494);
 			btnHDSD.setLayout(new BorderLayout());
 			btnHDSD.add(lblHDSD,BorderLayout.NORTH);
 			btnHDSD.addActionListener(new ActionListener() {

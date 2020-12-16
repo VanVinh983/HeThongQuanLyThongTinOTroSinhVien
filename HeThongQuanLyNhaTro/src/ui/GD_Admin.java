@@ -26,6 +26,7 @@ import javax.swing.border.Border;
 
 import connectDB.ConnectDB;
 import dao.TamLuuMaNhanVien_Dao;
+import javax.swing.border.LineBorder;
 
 public class GD_Admin extends JPanel implements ActionListener{
 
@@ -106,6 +107,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		btnBangThongTin = new JButton(imgGhiChu);
 		btnDoiMK = new JButton(imgDoiMK);
 		btnDangXuat = new JButton("Đăng Xuất");
+		btnDangXuat.setBorder(new LineBorder(new Color(255, 102, 0), 5, true));
 		btnDangXuat.setFont(new Font("arial",1,20));
 		btnDangXuat.setBackground(Color.RED);
 		btnDangXuat.setForeground(Color.white);
@@ -154,6 +156,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		
 		
 		JPanel pnlTitle = new JPanel();
+		pnlTitle.setBorder(new LineBorder(new Color(244, 164, 96), 5));
 		JPanel pnlBottom = new JPanel();
 		JPanel pnlCenter = new JPanel();
 		

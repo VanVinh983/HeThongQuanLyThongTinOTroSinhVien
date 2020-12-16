@@ -20,6 +20,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,10 +31,12 @@ import connectDB.ConnectDB;
 import dao.NhanVien_Dao;
 import dao.TamLuuMaNhanVien_Dao;
 import entity.NhanVien;
+import resourse.SetSizeByPercent;
+
 import java.awt.Component;
 import java.awt.FlowLayout;
 
-public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
+public class GD_DangNhap extends JPanel implements ActionListener, KeyListener{
 
 	/**
 	 * 
@@ -47,7 +50,7 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 	private JCheckBox btnXemMK;
 	private JTextField txtMaDN;
 	private JPasswordField txtMK;
-
+	private JFrame frame;
 	private NhanVien_Dao nv_dao;
 
 	private TamLuuMaNhanVien_Dao tamLuuMaNhanVien_dao;
@@ -55,7 +58,7 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 	
 
 	public GD_DangNhap() {
-		
+		this.frame = frame;
 		nv_dao = new NhanVien_Dao();
 		tamLuuMaNhanVien_dao = new TamLuuMaNhanVien_Dao();
 		//mở kết nối sql
@@ -66,9 +69,10 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 			e.printStackTrace();
 		}
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		int screenHeight = screenSize.height - 20;
-		int screenWidth = screenSize.width + 15;
-		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
+		SetSizeByPercent setSizeByPercent = new SetSizeByPercent(screenSize);
+		int screenHeight = screenSize.height - setSizeByPercent.getHeightByPercent(3);
+		int screenWidth = screenSize.width;
+		this.setPreferredSize(new Dimension(screenSize));
 		tamLuuMaNhanVien_dao.xoaMaNhanVienVaoVungNhoTam();
 		ImageIcon img_background = new ImageIcon(
 				new ImageIcon("HinhAnh/background.jpg").getImage().getScaledInstance(screenWidth, screenHeight, Image.SCALE_SMOOTH));
@@ -85,7 +89,7 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 		JPanel pnlDN = new JPanel();
 		JPanel pnlXem = new JPanel();
 
-		pnlLeft.setPreferredSize(new Dimension(400, 400));
+		pnlLeft.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(29.4), setSizeByPercent.getHeightByPercent(52)));
 		pnlLeft.setLayout(new BoxLayout(pnlLeft, BoxLayout.Y_AXIS));
 		pnlLeft.setBackground(Color.white);
 		pnlRight.setBackground(Color.white);
@@ -96,7 +100,7 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 		pnlXem.setBackground(Color.white);
 
 		ImageIcon img_user = new ImageIcon(
-				new ImageIcon("HinhAnh/person_login.png").getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
+				new ImageIcon("HinhAnh/person_login.png").getImage().getScaledInstance(setSizeByPercent.getWidthByPercent(18.4), setSizeByPercent.getHeightByPercent(39), Image.SCALE_DEFAULT));
 
 		lbltitle = new JLabel("ĐĂNG NHẬP");
 		lblImgUser = new JLabel(img_user);
@@ -105,8 +109,8 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 		txtMK = new JPasswordField("Mật Khẩu", 20);
 		txtMK.setEchoChar((char) 0);
 
-		txtMaDN.setPreferredSize(new Dimension(200, 50));
-		txtMK.setPreferredSize(new Dimension(150, 50));
+		txtMaDN.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(12.2), setSizeByPercent.getHeightByPercent(6.5)));
+		txtMK.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(11), setSizeByPercent.getHeightByPercent(6.5)));
 
 		txtMaDN.setBackground(new Color(242, 242, 242));
 		txtMK.setBackground(new Color(242, 242, 242));
@@ -119,11 +123,11 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 		btnXemMK.setFont(new Font("Arial", Font.BOLD, 20));
 		btnXemMK.setBackground(Color.white);
 
-		btnDN.setPreferredSize(new Dimension(320, 50));
+		btnDN.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(23.5), setSizeByPercent.getHeightByPercent(6.5)));
 		btnDN.setBackground(new Color(254, 0, 54));
 		btnDN.setForeground(Color.white);
 
-		lblImgUser.setPreferredSize(new Dimension(300, 300));
+		lblImgUser.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(22), setSizeByPercent.getHeightByPercent(39)));
 		lbltitle.setFont(new Font("arial", Font.BOLD, 30));
 		txtMaDN.setFont(new Font("arial", Font.ITALIC, 20));
 		txtMK.setFont(new Font("arial", Font.ITALIC, 20));
@@ -173,7 +177,7 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 		});
 		
 		
-		pnlDangNhap.setPreferredSize(new Dimension(800, 400));
+		pnlDangNhap.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(58.8), setSizeByPercent.getHeightByPercent(52)));
 		pnlDangNhap.setBackground(Color.WHITE);
 		pnlDangNhap.setLayout(new BoxLayout(pnlDangNhap, BoxLayout.X_AXIS));
 
@@ -206,31 +210,33 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 		pnlDangNhap.add(pnlRight);
 
 		Component verticalStrut_1 = Box.createVerticalStrut(45);
-		verticalStrut_1.setMinimumSize(new Dimension(0, 100));
-		verticalStrut_1.setMaximumSize(new Dimension(32767, 100));
-		verticalStrut_1.setPreferredSize(new Dimension(0, 100));
+		verticalStrut_1.setMinimumSize(new Dimension(0, setSizeByPercent.getHeightByPercent(13)));
+		verticalStrut_1.setMaximumSize(new Dimension(0, setSizeByPercent.getHeightByPercent(13)));
+		verticalStrut_1.setPreferredSize(new Dimension(0, setSizeByPercent.getHeightByPercent(13)));
 		lblbackground.add(verticalStrut_1, BorderLayout.NORTH);
 		Component verticalStrut = Box.createVerticalStrut(79);
-		verticalStrut.setMaximumSize(new Dimension(32766, 100));
-		verticalStrut.setMinimumSize(new Dimension(0, 100));
-		verticalStrut.setPreferredSize(new Dimension(0, 150));
+		verticalStrut.setMaximumSize(new Dimension(0, setSizeByPercent.getHeightByPercent(13)));
+		verticalStrut.setMinimumSize(new Dimension(0, setSizeByPercent.getHeightByPercent(13)));
+		verticalStrut.setPreferredSize(new Dimension(0, setSizeByPercent.getHeightByPercent(19.5)));
 		lblbackground.add(verticalStrut, BorderLayout.SOUTH);
 		Component horizontalStrut = Box.createHorizontalStrut(200);
-		horizontalStrut.setPreferredSize(new Dimension(300, 0));
-		horizontalStrut.setMinimumSize(new Dimension(300, 0));
+		horizontalStrut.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(22),0));
+		horizontalStrut.setMinimumSize(new Dimension(setSizeByPercent.getWidthByPercent(22),0));
 		lblbackground.add(horizontalStrut, BorderLayout.WEST);
 		Component horizontalStrut_1 = Box.createHorizontalStrut(200);
-		horizontalStrut_1.setPreferredSize(new Dimension(300, 0));
+		horizontalStrut_1.setPreferredSize(new Dimension(setSizeByPercent.getWidthByPercent(22),0));
 		lblbackground.add(horizontalStrut_1, BorderLayout.EAST);
 		lblbackground.add(pnlDangNhap);
 
 		this.add(lblbackground);
-		txtMaDN.addKeyListener(this);
-		txtMK.addKeyListener(this);
+
 		txtMaDN.addActionListener(this);
 		txtMK.addActionListener(this);
 		btnDN.addActionListener(this);
 		btnXemMK.addActionListener(this);
+		txtMaDN.addKeyListener(this);
+		txtMK.addKeyListener(this);
+		btnXemMK.addKeyListener(this);
 	}
 
 	@Override
@@ -300,36 +306,14 @@ public class GD_DangNhap extends JPanel implements ActionListener,KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+			btnDN.doClick();
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-
-		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-		{
-			if(vaidData()==true) {
-				NhanVien nv = nv_dao.dangNhap(txtMaDN.getText().trim(), txtMK.getText().trim());
-				if(nv!=null) {
-					tamLuuMaNhanVien_dao.themMaNhanVienVaoVungNhoTam(txtMaDN.getText().trim());
-					if(nv.getLoaiNV().equals("NV")) {
-						removeAll();
-						add(new GD_TrangChuNhanVienGVK());
-						repaint();
-						revalidate();
-					}
-					else if (nv.getLoaiNV().equals("QL")) {
-						removeAll();
-						add(new GD_Admin());
-						repaint();
-						revalidate();
-					}
-				}
-				else {
-					JOptionPane.showMessageDialog(this, "sai mật khẩu hoặc sai mã nhân viên! mời nhập lại");
-				}
-			}
-		}
+		// TODO Auto-generated method stub
+		
 	}
 }
