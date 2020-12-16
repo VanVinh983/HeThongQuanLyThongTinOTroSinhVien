@@ -202,8 +202,8 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		JPanel pnlMenu = new JPanel();
-		pnlMenu.setLayout(new BorderLayout());
+			JPanel pnlMenu = new JPanel();
+			pnlMenu.setLayout(new BorderLayout());
 			JPanel pnlMenubtn = new JPanel();
 			pnlMenubtn.setBackground(Color.MAGENTA);
 			pnlMenu.add(pnlMenubtn, BorderLayout.CENTER);
