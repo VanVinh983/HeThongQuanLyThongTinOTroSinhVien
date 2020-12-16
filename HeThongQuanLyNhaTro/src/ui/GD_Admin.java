@@ -238,6 +238,12 @@ public class GD_Admin extends JPanel implements ActionListener{
 			repaint();
 			revalidate();
 		}
+		else if (o.equals(btnThongKe)) {
+			removeAll();
+			add(new GD_ThongKe());
+			repaint();
+			revalidate();
+		}
 		else if (o.equals(btnHDSD)) {
 			File file =  new File("File\\File Help.chm");
 			Desktop dsDesktop = Desktop.getDesktop();
