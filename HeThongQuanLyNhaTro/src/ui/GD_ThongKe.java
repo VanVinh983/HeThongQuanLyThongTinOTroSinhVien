@@ -120,8 +120,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 	private String key4=null;
 	private int maxx5 =0;
 	private String key5=null;
-	//Quận 1,Quận Bình Tân,Quận 2 ,Quận Bình Thạnh ,Quận 3,Quận Gò Vấp,Quận 4,Quận Phú Nhuận,Quận 5,Quận Tân Bình,Quận 6,Quận Tân Phú,Quận 7,
-		//Quận Thủ Đức,Quận 8,Huyện Bình Chánh,Quận 9,Huyện Cần Giờ,Quận 10,Huyện Củ Chi,Quận 11,Huyện Hóc Môn,Quận 12,Huyện Nhà Bè
+	
 	private int qbt=0;
 	private int q2=0;
 	private int qbth=0;
@@ -770,8 +769,6 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 			repaint();
 			revalidate();
 		}
-		
-		
 		
 		else if(ob.equals(btnThoat))
 		{
