@@ -268,7 +268,10 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				btnThoat.setBackground(new Color(0, 134, 139));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 				////////////////////////////////////////////////////////////////////////////////////////////
-				btnNhanVien.setIcon(imgNV);
+				if(dao.layTenNhanVien().trim().toString().equals("QL")){
+					btnNhanVien.setIcon(imgNV);
+				}
+			//	btnNhanVien.setIcon(imgNV);
 				btnTro.setIcon(imgTro);
 				btnSinhVien.setIcon(imgSV);
 				btnThoat.setIcon(imgexit);
