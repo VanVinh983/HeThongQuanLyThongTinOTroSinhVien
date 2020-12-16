@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,10 +51,15 @@ public class GD_DoiMK extends JFrame implements ActionListener {
 		Box box = Box.createVerticalBox();
 		
 		Box bMaNV = Box.createHorizontalBox();
+		box.add(Box.createVerticalStrut(20));
+
 		box.add(bMaNV);
-		String s = tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV();
+		JLabel lblMaNV_data = new JLabel();
+		lblMaNV_data.setText(tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV());
+		lblMaNV_data.setForeground(Color.RED);
 		
-		bMaNV.add(lblMaNV = new JLabel("Mã Nhân Viên:   " + tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV()));
+		bMaNV.add(lblMaNV = new JLabel("Mã nhân viên:  "));
+		bMaNV.add(lblMaNV_data);
 		box.add(Box.createVerticalStrut(20));
 		
 		Box bMKHienTai = Box.createHorizontalBox();
@@ -72,7 +78,7 @@ public class GD_DoiMK extends JFrame implements ActionListener {
 		box.add(bMKMoi_1);
 		bMKMoi_1.add(lblMKMoi_1 = new JLabel("  Xác nhận mật khẩu mới: "));
 		bMKMoi_1.add(txtMKMoi_1 = new JPasswordField(20));
-		box.add(Box.createVerticalStrut(20));
+		box.add(Box.createVerticalStrut(10));
 		
 		box.add(btnXemMK = new JCheckBox("Hiển thị mật khẩu"));
 		
@@ -87,7 +93,9 @@ public class GD_DoiMK extends JFrame implements ActionListener {
 		bButton.add(btnDoiMK = new JButton("Xác nhận"));
 		bButton.add(Box.createHorizontalStrut(50));
 		bButton.add(btnQuayLai = new JButton("Quay lại"));
-		
+		btnQuayLai.setBackground(Color.RED);
+		btnQuayLai.setForeground(Color.WHITE);
+		bButton.add(Box.createHorizontalStrut(50));
 		
 		pnl.add(box, BorderLayout.CENTER);
 	
@@ -97,10 +105,11 @@ public class GD_DoiMK extends JFrame implements ActionListener {
 		
 		nv_dao.loadNhanVienTuDatabase();
 
-		setSize(400, 280);
+		setSize(500, 300);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setTitle("Đổi mật khẩu");
+		setResizable(false);
 		setVisible(true);
 		
 		try {
@@ -134,6 +143,7 @@ public class GD_DoiMK extends JFrame implements ActionListener {
 			String maNhanVien = tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV();
 			if(validMatKhau()) {
 				nv_dao.doiMatKhau(maNhanVien, matKhauMoi);
+				setVisible(false);
 				JOptionPane.showMessageDialog(this, "Đổi mật khẩu thành công");
 			}
 		}
