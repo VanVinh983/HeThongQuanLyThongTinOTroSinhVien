@@ -94,7 +94,7 @@ public class SinhVien_Dao {
 		List<String> listMaNV = new ArrayList<String>();
 		try {
 			Connection con = ConnectDB.getInstance().getConnecction();
-			String sql = "select * from [dbo].[NhanVien]";
+			String sql = " select * from [QLThongTinOTroSinhVien].[dbo].[NhanVien] where [loaiNhanVien] = 'NV'";
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			

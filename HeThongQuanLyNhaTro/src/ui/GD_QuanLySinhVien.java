@@ -7,7 +7,9 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Label;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -67,6 +69,7 @@ import dao.ThongTinThueTro_Dao;
 import entity.NhaTro;
 import entity.NhanVien;
 import entity.SinhVien;
+import resourse.SetSizeByPercent;
 
 public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseListener{
 	/**
@@ -156,13 +159,38 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
 		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		SetSizeByPercent setSizeByPercent = new SetSizeByPercent(screenSize);
+		int screenHeight = screenSize.height - setSizeByPercent.getHeightByPercent(3);
+		int screenWidth = screenSize.width;
+		this.setPreferredSize(new Dimension(screenSize));
+		
+		ImageIcon imgUser = new ImageIcon(
+				new ImageIcon("HinhAnh/User.png").getImage().getScaledInstance(setSizeByPercent.getWidthByPercent(10),
+						setSizeByPercent.getHeightByPercent(17.7), Image.SCALE_DEFAULT));
+		ImageIcon imgSV = new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgNV = new ImageIcon(new ImageIcon("HinhAnh/nhanvien.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgTK = new ImageIcon(new ImageIcon("HinhAnh/thongke.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgBTT = new ImageIcon(new ImageIcon("HinhAnh/ghichu1.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgTro = new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgexit = new ImageIcon(new ImageIcon("HinhAnh/exit.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		setLayout(new BorderLayout(0, 0));
+		
 		pnl = new JPanel();
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
 		
 		//pnluser1 Tạo ảnh và txt hiển thị user
 			JPanel pnlUser = new JPanel();
-				pnlUser.setBackground(Color.GREEN);
+				pnlUser.setBackground(new Color(108, 123, 139));
 				Box buser = Box.createVerticalBox();
 				
 					//tạo 3 box user định dạng theo  chiều dọc
@@ -273,6 +301,17 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 				btnThoat.add(Box.createVerticalStrut(20));
 				btnThoat.setBackground(new Color(0, 134, 139));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
+				////////////////////////////////////////////////////////////////////////////////
+				if(daoSV.layLoaiNV().trim().toString().equals("QL")){
+					btnNhanVien.setIcon(imgNV);
+				}
+				
+				btnTro.setIcon(imgTro);
+				btnSinhVien.setIcon(imgSV);
+				btnThoat.setIcon(imgexit);
+				btnThongKe.setIcon(imgTK);
+				btnThueTro.setIcon(imgBTT);
+				btnHuongDanSD.setIcon(imgHDSD);
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -287,11 +326,11 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		//bcenTitle tạo tiêu đề
 		boxCen.add(bcenTitle = Box.createHorizontalBox());
 		//Label Title Quản lý trọ
-		JPanel pnlQuanLyTro = new JPanel();
-		pnlQuanLyTro.add(lblcenTitle = new JLabel("Quản lý thông tin sinh viên"));
-		bcenTitle.add(pnlQuanLyTro);
+		JPanel pnlQuanLySinhVien = new JPanel();
+		pnlQuanLySinhVien.add(lblcenTitle = new JLabel("Quản lý thông tin sinh viên"));
+		bcenTitle.add(pnlQuanLySinhVien);
 		//chỉnh font chữ
-		pnlQuanLyTro.setBackground(Color.blue);
+		pnlQuanLySinhVien.setBackground(new Color(79, 79, 79));
 		lblcenTitle.setFont(new Font("Arial", Font.BOLD, 40));
 		lblcenTitle.setForeground(Color.WHITE);
 		
@@ -310,8 +349,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 			bcenTable.add(scroll);
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		
-		//bcenForm tạo form thông tin và form tìm
 		//Form thông tin
 		boxCen.add(bcenForm = Box.createVerticalBox());
 		
@@ -336,7 +373,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		JPanel pnlSouth = new JPanel();
 		pnlSouth.setLayout(new BorderLayout());
 	
-		//boxcenFormTitle.setFont(new Font("Arial", Font.BOLD, 30));
 		boxcenFormSV.setBackground(new Color(0, 139, 139));
 		pnlSouth.add(Box.createHorizontalStrut(100), BorderLayout.WEST);
 		JPanel pnlFormSV=new JPanel();
@@ -358,7 +394,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		pnlFormtxtbtnSV.add(pnlFormtxtSV);
 		
 		pnlFormtxtSV.setLayout(new GridLayout(2, 4));
-		//pnlFormtxtSV.add(Box.createVerticalStrut(10));
 		Box boxMaSV = Box.createHorizontalBox();
 		boxMaSV.add(lblMaSV=new JLabel("Mã sinh viên:"));
 		boxMaSV.add(txtMaSV=new JTextField());
@@ -414,7 +449,6 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		boxTenSV.add(txtTenSV=new JTextField(5));
 		Box boxMaNV = Box.createHorizontalBox();
 		
-		//SinhVien_Dao dao = new SinhVien_Dao();
 		List<SinhVien> listSV = new ArrayList<SinhVien>();
 		if(daosv.layLoaiNV().equals("QL"))
 		{
@@ -437,14 +471,9 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 			JOptionPane.showMessageDialog(null, "Lỗi loại NV!!");
 		}
 		
-		
-		
 		pnlFormtxtSV.add(boxTenSV);
 		pnlFormtxtSV.add(boxMaNV);
 		
-		
-		
-		//pnlFormtxtSV.add(Box.createVerticalStrut(10));
 		Box boxNgaySinh = Box.createHorizontalBox();
 		dateNgaySinh = new JDateChooser();
 		dateNgaySinh.setDateFormatString("dd-MM-yyyy");
@@ -488,8 +517,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 			txtKhoa.setText(daosv.layTenKhoaNV(txtMaNV.getText()));
 			
 		}
-		
-		//AutoCompleteDecorator.decorate(txtKhoa);
+		pnlFormtxtSV.setBackground(new Color(181, 181, 181));
 		pnlForm.add(boxKhoa);
 		pnlFormtxtSV.add(boxQueQuan);
 		
@@ -498,17 +526,25 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		pnlFormtxtbtnSV.add(Box.createVerticalStrut(20));
 		Box boxButton = Box.createHorizontalBox();
 		boxButton.add(btnThem =new JButton("Thêm"));
+		btnThem.setFont(new Font("Arial", Font.BOLD, 25));
+		btnThem.setBackground(new Color(156, 156, 156));
 		boxButton.add(Box.createHorizontalStrut(20));
 		boxButton.add(btnXoa =new JButton("Xóa"));
+		btnXoa.setBackground(new Color(105, 105, 105));
+		btnXoa.setFont(new Font("Arial", Font.BOLD, 25));
 		boxButton.add(Box.createHorizontalStrut(20));
 		boxButton.add(btnSua =new JButton("Sửa"));
+		btnSua.setBackground(new Color(130, 130, 130));
+		btnSua.setFont(new Font("Arial", Font.BOLD, 25));
 		boxButton.add(Box.createHorizontalStrut(20));
 		boxButton.add(btnXoaTrang =new JButton("Xóa trắng"));
+		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 25));
+		btnXoaTrang.setBackground(new Color(156, 156, 156));
 		pnlFormtxtbtnSV.add(Box.createVerticalStrut(5));
 		pnlFormtxtbtnSV.add(boxButton);
 		pnlFormtxtbtnSV.add(Box.createVerticalStrut(20));
 		pnlFormtxtbtnSV.setBorder(BorderFactory.createRaisedBevelBorder());
-		
+		pnlFormtxtbtnSV.setBackground(new Color(181, 181, 181));
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		 //Form tìm
 		 JPanel pnlTim = new JPanel();
@@ -553,12 +589,9 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		 pnlTim.add(Box.createVerticalStrut(30));
 		 Box boxbtnTim = Box.createHorizontalBox();
 		 
-		// boxbtnTim.add(btnTim = new JButton("Tìm"));
-
-		
 		 pnlTim.add(btnTim = new JButton("Tìm"));
 		 btnTim.setFont(new Font("Arial", Font.BOLD, 25));
-		 btnTim.setBackground(new Color(102, 205, 170));
+		 btnTim.setBackground(new Color(232, 232, 232));
 		 pnlTim.setBackground(Color.CYAN);
 		 pnlTim.add(box.createVerticalStrut(40));
 		 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,9 +10,11 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Label;
 import java.awt.LayoutManager;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -56,6 +58,7 @@ import entity.DiaChi;
 import entity.NhaTro;
 import entity.NhanVien;
 import entity.SinhVien;
+import resourse.SetSizeByPercent;
 
 public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListener{
 
@@ -132,9 +135,34 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
 	
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		SetSizeByPercent setSizeByPercent = new SetSizeByPercent(screenSize);
+		int screenHeight = screenSize.height - setSizeByPercent.getHeightByPercent(3);
+		int screenWidth = screenSize.width;
+		this.setPreferredSize(new Dimension(screenSize));
+		
+		ImageIcon imgUser = new ImageIcon(
+				new ImageIcon("HinhAnh/User.png").getImage().getScaledInstance(setSizeByPercent.getWidthByPercent(10),
+						setSizeByPercent.getHeightByPercent(17.7), Image.SCALE_DEFAULT));
+		ImageIcon imgSV = new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgNV = new ImageIcon(new ImageIcon("HinhAnh/nhanvien.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgTK = new ImageIcon(new ImageIcon("HinhAnh/thongke.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgBTT = new ImageIcon(new ImageIcon("HinhAnh/ghichu1.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgTro = new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgexit = new ImageIcon(new ImageIcon("HinhAnh/exit.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		setLayout(new BorderLayout(0, 0));
+		
 		//Tạo ảnh và txt hiển thị user
 			JPanel pnlUser = new JPanel();
-				pnlUser.setBackground(Color.GREEN);
+					pnlUser.setBackground(new Color(108, 123, 139));
 				Box buser = Box.createVerticalBox();
 					Box bUser, buserImg;
 					buser.add(bUser = Box.createHorizontalBox());
@@ -239,6 +267,14 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 				btnThoat.add(Box.createVerticalStrut(20));
 				btnThoat.setBackground(new Color(0, 134, 139));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
+				////////////////////////////////////////////////////////////////////////////////////////////
+				btnNhanVien.setIcon(imgNV);
+				btnTro.setIcon(imgTro);
+				btnSinhVien.setIcon(imgSV);
+				btnThoat.setIcon(imgexit);
+				btnThongKe.setIcon(imgTK);
+				btnThueTro.setIcon(imgBTT);
+				btnHuongDanSD.setIcon(imgHDSD);
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -251,7 +287,7 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		JPanel pnlQuanLyTro = new JPanel();
 		pnlQuanLyTro.add(lblcenTitle = new JLabel("Quản lý nhà trọ"));
 		bcenTitle.add(pnlQuanLyTro);
-		pnlQuanLyTro.setBackground(Color.blue);
+		pnlQuanLyTro.setBackground(new Color(79, 79, 79));
 		lblcenTitle.setFont(new Font("Arial", Font.BOLD, 40));
 		lblcenTitle.setForeground(Color.WHITE);
 	//Table
@@ -285,14 +321,14 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		boxcenTitleForm.add(pnlThongTin);
 		lblThongTin.setFont(new Font("Arial", Font.BOLD, 30));
 		
-		pnlThongTin.setBackground(Color.LIGHT_GRAY);
-		pnlForm.setBackground(Color.LIGHT_GRAY);
+		pnlThongTin.setBackground(new Color(108, 123, 139));
+		pnlForm.setBackground(new Color(108, 123, 139));
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 		bcenForm.add(boxcenFormSV = Box.createVerticalBox());
 		JPanel pnlSouth = new JPanel();
 		pnlSouth.setLayout(new BorderLayout());
-		pnlSouth.setBackground(Color.LIGHT_GRAY);
+		pnlSouth.setBackground(new Color(108, 123, 139));
 		
 		pnlSouth.add(Box.createHorizontalStrut(100), BorderLayout.WEST);
 		JPanel pnlFormSV=new JPanel();
@@ -379,17 +415,25 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		boxSDT.add(lblSDT=new JLabel("Số điện thoại"));
 		boxSDT.add(txtSDT=new JTextField());
 		pnlFormSV.add(boxSDT);
-		
+		pnlFormSV.setBackground(new Color(181, 181, 181));
 		// các nút chức năng thêm xóa sửa xóa trắng
 		pnlFormSV.add(Box.createVerticalStrut(10));
 		Box boxButton = Box.createHorizontalBox();
 		boxButton.add(btnThem =new JButton("Thêm"));
+		btnThem.setBackground(new Color(156, 156, 156));
+		btnThem.setFont(new Font("Arial", Font.BOLD, 25));
 		boxButton.add(Box.createHorizontalStrut(20));
 		boxButton.add(btnXoa =new JButton("Xóa"));
+		btnXoa.setBackground(new Color(105, 105, 105));
+		btnXoa.setFont(new Font("Arial", Font.BOLD, 25));
 		boxButton.add(Box.createHorizontalStrut(20));
 		boxButton.add(btnSua =new JButton("Sửa"));
+		btnSua.setBackground(new Color(130, 130, 130));
+		btnSua.setFont(new Font("Arial", Font.BOLD, 25));
 		boxButton.add(Box.createHorizontalStrut(20));
 		boxButton.add(btnXoaTrang =new JButton("Xóa trắng"));
+		btnXoaTrang.setFont(new Font("Arial", Font.BOLD, 25));
+		btnXoaTrang.setBackground(new Color(156, 156, 156));
 		pnlFormSV.add(boxButton); 
 		pnlFormSV.add(Box.createVerticalStrut(20));
 		pnlFormSV.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -406,12 +450,15 @@ public class GD_QuanLyTro extends JPanel implements ActionListener, MouseListene
 		 
 		 JPanel pnlFormTim = new JPanel();
 		 
-		 
-		 Box boxtxtTim = Box.createHorizontalBox();
+		 Box boxTieuDeTim = Box.createHorizontalBox();
+		 JLabel lblTieuDeTim = new JLabel("___Tìm thông tin trọ___");
+		 lblTieuDeTim.setFont(new Font("Arial", Font.BOLD, 30));
+		 boxTieuDeTim.add(lblTieuDeTim);
+		 pnlTim.add(boxTieuDeTim);
+		 pnlTim.add(Box.createVerticalStrut(20));
 		 pnlFormTim = new JPanel();
 		 pnlTim.add(pnlFormTim);
-		 
-		 boxtxtTim = Box.createHorizontalBox();
+		 Box boxtxtTim = Box.createHorizontalBox();
 		 boxtxtTim.add(lblTim=new JLabel("Tìm Thông tin sinh viên: "));
 		 cmpTim = new JComboBox<String>();
 		 cmpTim.setEditable(true);
