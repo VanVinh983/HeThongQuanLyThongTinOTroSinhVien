@@ -683,8 +683,7 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 					max = Integer.parseInt(ma1[1].toString().trim());
 					max = max+1;
 				}
-			});
-			
+			});			
 			String maTro = null;
 			if(max<10)
 			{
