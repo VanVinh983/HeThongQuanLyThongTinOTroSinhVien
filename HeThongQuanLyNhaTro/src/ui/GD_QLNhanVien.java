@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -46,6 +48,7 @@ import dao.NhaTro_Dao;
 import dao.NhanVien_Dao;
 import dao.TamLuuMaNhanVien_Dao; 
 import entity.NhanVien;
+import resourse.SetSizeByPercent;
 
 public class GD_QLNhanVien extends JPanel implements ActionListener, MouseListener{
 	
@@ -57,7 +60,6 @@ public class GD_QLNhanVien extends JPanel implements ActionListener, MouseListen
 	private JLabel lblTKLoaiNV;
 	private JLabel lblTKKhoa;
 	private TamLuuMaNhanVien_Dao tamluu_dao;
-	private String maNV_data;
 	
 	//lịch
 	private JComboBox<Integer> cbNgay;
@@ -93,7 +95,6 @@ public class GD_QLNhanVien extends JPanel implements ActionListener, MouseListen
 	private JButton btnXoa;
 	private JButton btnSua;
 	private JButton btnXoaTrang;
-	private JButton btnQuanLy;
 	private JLabel lblUser;
 	private JLabel lblcen1;
 	private DefaultTableModel tableModel;
@@ -104,6 +105,7 @@ public class GD_QLNhanVien extends JPanel implements ActionListener, MouseListen
 	private JComboBox<String> cmp;
 	private JButton btnDSNV;
 	private JButton btnLuu;
+	private JButton btnDoiMK;
 	
 	private NhanVien_Dao nv_dao;
 	
@@ -114,8 +116,42 @@ public class GD_QLNhanVien extends JPanel implements ActionListener, MouseListen
 	
 	public GD_QLNhanVien() {
 		// TODO Auto-generated constructor stub
+	
+		tamluu_dao = new TamLuuMaNhanVien_Dao();
+		//tamluu_dao.layNhanVienTrongBangTamLuu();
+		nv_dao = new NhanVien_Dao();
+		
 		this.setLayout(new BorderLayout());
 		this.setPreferredSize(new Dimension(1200, 600));
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		SetSizeByPercent setSizeByPercent = new SetSizeByPercent(screenSize);
+		int screenHeight = screenSize.height - setSizeByPercent.getHeightByPercent(3);
+		int screenWidth = screenSize.width;
+		this.setPreferredSize(new Dimension(screenSize));
+		
+		ImageIcon imgUser = new ImageIcon(
+				new ImageIcon("HinhAnh/User.png").getImage().getScaledInstance(setSizeByPercent.getWidthByPercent(10),
+						setSizeByPercent.getHeightByPercent(17.7), Image.SCALE_DEFAULT));
+		ImageIcon imgSV = new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgNV = new ImageIcon(new ImageIcon("HinhAnh/nhanvien.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgTK = new ImageIcon(new ImageIcon("HinhAnh/thongke.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgBTT = new ImageIcon(new ImageIcon("HinhAnh/ghichu1.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgTro = new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgexit = new ImageIcon(new ImageIcon("HinhAnh/exit.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgDoiMK = new ImageIcon(new ImageIcon("HinhAnh/doimk.png").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		
+		setLayout(new BorderLayout(0, 0));
+		
 		
 JPanel pnl = new JPanel();
 		
@@ -152,7 +188,7 @@ JPanel pnl = new JPanel();
 		JPanel pnlMenu = new JPanel();
 		pnlMenu.setLayout(new BorderLayout());
 			JPanel pnlMenubtn = new JPanel();
-			pnlMenubtn.setBackground(Color.MAGENTA);
+			pnlMenubtn.setBackground(Color.CYAN);
 			pnlMenu.add(pnlMenubtn, BorderLayout.CENTER);
 			pnlMenubtn.setLayout(new BoxLayout(pnlMenubtn, BoxLayout.Y_AXIS));
 				box.add(pnlMenu);
@@ -190,11 +226,28 @@ JPanel pnl = new JPanel();
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
 				
 				pnlMenubtn.add(Box.createVerticalStrut(10));
+				pnlMenubtn.add(btnDoiMK = new JButton("Đổi mật khẩu"));
+				btnDoiMK.add(Box.createHorizontalStrut(30));
+				btnDoiMK.add(Box.createVerticalStrut(20));
+				
+				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
+				btnThoat.setBackground(Color.RED);
+				btnThoat.setForeground(Color.WHITE);
 				btnThoat.add(Box.createHorizontalStrut(30));
 				btnThoat.add(Box.createVerticalStrut(20));
 		
-
+				if(tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV().trim().toString().equals("QL")){
+					btnNhanVien.setIcon(imgNV);
+				}
+				
+				btnTro.setIcon(imgTro);
+				btnSinhVien.setIcon(imgSV);
+				btnThoat.setIcon(imgexit);
+				btnThongKe.setIcon(imgTK);
+				btnThueTro.setIcon(imgBTT);
+				btnHuongDanSD.setIcon(imgHDSD);
+				btnDoiMK.setIcon(imgDoiMK);
 		
 		//Center
 		JPanel pnlCen = new JPanel();
@@ -208,7 +261,7 @@ JPanel pnl = new JPanel();
 		bcen1.add(pnlQuanLyNhanVien);
 		pnlQuanLyNhanVien.setBackground(Color.BLUE);
 		lblcen1.setFont(new Font("Arial", Font.BOLD, 40));
-		lblcen1.setForeground(Color.PINK);
+		lblcen1.setForeground(Color.CYAN);
 	//Table
 		boxCen.add(bcen2 = Box.createHorizontalBox());
 		
@@ -250,8 +303,9 @@ JPanel pnl = new JPanel();
 		JPanel pnlThongTin = new JPanel();
 		pnlThongTin.add(lblThongTin = new JLabel("Thông tin"));
 		boxcen31.add(pnlThongTin);
+		lblThongTin.setForeground(Color.CYAN);
 		lblThongTin.setFont(new Font("Arial", Font.BOLD, 30));
-		pnlThongTin.setBackground(Color.LIGHT_GRAY);
+		pnlThongTin.setBackground(Color.DARK_GRAY);
 		
 		
 		
@@ -261,7 +315,7 @@ JPanel pnl = new JPanel();
 		bcen3.add(boxcen32 = Box.createVerticalBox());
 		JPanel pnlSouth = new JPanel();
 		pnlSouth.setLayout(new BorderLayout());
-		pnlSouth.setBackground(Color.LIGHT_GRAY);
+		pnlSouth.setBackground(Color.DARK_GRAY);
 		
 		pnlSouth.add(Box.createHorizontalStrut(100), BorderLayout.WEST);
 		JPanel pnlForm=new JPanel();
@@ -322,7 +376,6 @@ JPanel pnl = new JPanel();
 		Box boxKhoa = Box.createHorizontalBox();
 		boxKhoa.add(lblKhoa=new JLabel("Khoa: "));
 		boxKhoa.add(cbKhoa=new JComboBox<>());
-		//cbkhoa
 		pnlForm.add(boxKhoa);
 		
 		lblMaNV.setPreferredSize(lblTenNV.getPreferredSize());
@@ -375,7 +428,7 @@ JPanel pnl = new JPanel();
 		 btnTim.setBackground(Color.green);
 		 pnlSouthRight.setBackground(Color.CYAN);
 		 
-		 boxbtnTim.add(btnDSNV = new JButton("Làm mới DS"));
+		 boxbtnTim.add(btnDSNV = new JButton("Làm mới"));
 		 btnDSNV.add(Box.createHorizontalStrut(50));
 		 btnDSNV.add(Box.createVerticalStrut(50));
 		 pnlSouthRight.add(boxbtnTim);
@@ -399,17 +452,26 @@ JPanel pnl = new JPanel();
 		btnXoa.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
 		btnDSNV.addActionListener(this);
+		btnDoiMK.addActionListener(this);
 		table.addMouseListener(this);
 		
 		/////////////////////////////////////////////////
 		
 		//pnlcen3.add(Box.createHorizontalStrut(400), BorderLayout.EAST);
-		tamluu_dao = new TamLuuMaNhanVien_Dao();
-		nv_dao = new NhanVien_Dao();
+		
 		nv_dao.loadNhanVienTuDatabase();
 		loadToanBoNhanVienLenTable();
 		xoaTrangAction();
 		setVisible(true);
+		
+		try {
+			ConnectDB.getInstance().connect();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public  void setPicture(  JLabel label ,String filename ){
@@ -433,7 +495,10 @@ JPanel pnl = new JPanel();
 	public void actionPerformed(ActionEvent e) {
 		Object ob = e.getSource();
 		
-		if(ob.equals(cbThang) || ob.equals(cbNam)) {
+		if(ob.equals(btnDoiMK)) {
+			new GD_DoiMK();
+		}
+		else if(ob.equals(cbThang) || ob.equals(cbNam)) {
 			
 			// chỉnh các ngày trong tháng
 			
@@ -469,8 +534,8 @@ JPanel pnl = new JPanel();
 			if(validData()) {
 				int row = table.getSelectedRow();
 				
-				String maNV = txtMaNV.getText().trim();
-				String tenNV = txtTenNV.getText().trim();
+				String maNV = txtMaNV.getText().strip();
+				String tenNV = txtTenNV.getText().strip();
 				String khoa = cbKhoa.getSelectedItem().toString();
 				String loaiNV = cbCapBac.getSelectedItem().toString();
 				
@@ -489,8 +554,8 @@ JPanel pnl = new JPanel();
 		{
 			if(validData()) {
 				//lấy dl từ textfield
-				String maNV = txtMaNV.getText().trim();
-				String tenNV = txtTenNV.getText().trim();
+				String maNV = txtMaNV.getText().strip();
+				String tenNV = txtTenNV.getText().strip();
 				String loaiNV = cbCapBac.getSelectedItem().toString();
 				String khoa = cbKhoa.getSelectedItem().toString();
 				String ngaySinh =  (int)cbNam.getSelectedItem() + "-" + (int)cbThang.getSelectedItem() + "-" + (int)cbNgay.getSelectedItem();
@@ -515,10 +580,23 @@ JPanel pnl = new JPanel();
 		}
 		else if(ob.equals(btnThoat))
 		{
-				removeAll();
-				add(new GD_Admin());
-				repaint();
-				revalidate();
+			int n = JOptionPane.showConfirmDialog(this, "Bạn có muốn thoát hay không?","Thoát",JOptionPane.YES_NO_OPTION);
+			if(n==JOptionPane.YES_OPTION)
+			{
+				String loaiNV = tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV();
+				if(loaiNV.equals("QL")) {
+					removeAll();
+					add(new GD_Admin());
+					repaint();
+					revalidate();
+				}
+				else if (loaiNV.equals("NV")) {
+					removeAll();
+					add(new GD_TrangChuNhanVienGVK());
+					repaint();
+					revalidate();
+				}
+			}
 		}
 		else if(ob.equals(btnThongKe))
 		{
@@ -532,7 +610,7 @@ JPanel pnl = new JPanel();
 			
 			//tim theo ma
 			if(cmp.getSelectedItem().toString().equals("Mã")) {
-				String maNhanVienCanTim = txtTim.getText().trim();
+				String maNhanVienCanTim = txtTim.getText().strip();
 				ArrayList<NhanVien> dsNVTheoMa  = nv_dao.timNhanVienTheoMa(maNhanVienCanTim);
 				tableModel.setRowCount(0);
 				for(NhanVien nv : dsNVTheoMa){
@@ -543,7 +621,7 @@ JPanel pnl = new JPanel();
 			
 			//tim theo ten
 			if(cmp.getSelectedItem().toString().equals("Tên Nhân Viên")) {
-				String tenNhanVienCanTim = txtTim.getText().trim();
+				String tenNhanVienCanTim = txtTim.getText().strip();
 				ArrayList<NhanVien> dsNVTheoTen  = nv_dao.timNhanVienTheoTen(tenNhanVienCanTim);
 				tableModel.setRowCount(0);
 				for(NhanVien nv : dsNVTheoTen){
@@ -554,7 +632,7 @@ JPanel pnl = new JPanel();
 			
 			//tim theo khoa
 			if(cmp.getSelectedItem().toString().equals("Khoa")) {
-				String khoaCanTim = txtTim.getText().trim();
+				String khoaCanTim = txtTim.getText().strip();
 				ArrayList<NhanVien> dsNVTheoTen  = nv_dao.timNhanVienTheoKhoa(khoaCanTim);
 				tableModel.setRowCount(0);
 				for(NhanVien nv : dsNVTheoTen){
@@ -563,10 +641,6 @@ JPanel pnl = new JPanel();
 				}
 			}
 			
-			
-		}
-		else if(ob.equals(btnQuanLy))
-		{
 			
 		}
 		else if(ob.equals(btnXoa))
@@ -672,7 +746,7 @@ JPanel pnl = new JPanel();
 	}
 	
 	public boolean validData() {
-		if(!(txtTenNV.getText().length()>0)) {
+		if(!(txtTenNV.getText().strip().length()>0)) {
 			JOptionPane.showMessageDialog(this, "Tên nhân viên không được bỏ trống");
 			txtTenNV.requestFocus();
 			return false;

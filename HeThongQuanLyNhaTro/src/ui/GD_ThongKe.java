@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -28,12 +29,13 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
+import connectDB.ConnectDB;
 import dao.TamLuuMaNhanVien_Dao;
 import dao.ThongKe_Dao;
 import entity.NhaTro;
 
 public class GD_ThongKe extends JPanel implements ActionListener {
-	private TamLuuMaNhanVien_Dao tamluu_dao;
+	
 	
 //Thanh điều hướng
 	private JButton btnTro;
@@ -61,7 +63,7 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 	private JComboBox<String> cbChon;
 	private JComboBox<String> cbSV;
 	private JComboBox<String> cbNhaTro;
-	private TamLuuMaNhanVien_Dao tamLuu_dao;
+	private TamLuuMaNhanVien_Dao tamluu_dao;
 	private ThongKe_Dao tk_dao;
 	
 	public void setDataFont(JLabel lbl) {
@@ -70,7 +72,8 @@ public class GD_ThongKe extends JPanel implements ActionListener {
 	}
 	
 	public GD_ThongKe() {
-		tamLuu_dao = new TamLuuMaNhanVien_Dao();
+		tamluu_dao = new TamLuuMaNhanVien_Dao();
+		tamluu_dao.layNhanVienTrongBangTamLuu();
 		tk_dao = new ThongKe_Dao();
 		// TODO Auto-generated constructor stub
 		this.setLayout(new BorderLayout());
@@ -111,7 +114,7 @@ JPanel pnl = new JPanel();
 		JPanel pnlMenu = new JPanel();
 		pnlMenu.setLayout(new BorderLayout());
 			JPanel pnlMenubtn = new JPanel();
-			pnlMenubtn.setBackground(Color.MAGENTA);
+			pnlMenubtn.setBackground(Color.CYAN);
 			pnlMenu.add(pnlMenubtn, BorderLayout.CENTER);
 			pnlMenubtn.setLayout(new BoxLayout(pnlMenubtn, BoxLayout.Y_AXIS));
 				box.add(pnlMenu);
@@ -212,8 +215,9 @@ JPanel pnl = new JPanel();
 				JPanel pnlThongTin = new JPanel();
 				pnlThongTin.add(lblThongTin = new JLabel("Thông tin thống kê"));
 				boxcen31.add(pnlThongTin);
+				lblThongTin.setForeground(Color.CYAN);
 				lblThongTin.setFont(new Font("Arial", Font.BOLD, 30));
-				pnlThongTin.setBackground(Color.LIGHT_GRAY);
+				pnlThongTin.setBackground(Color.DARK_GRAY);
 				
 				
 			///////////////////
@@ -222,7 +226,7 @@ JPanel pnl = new JPanel();
 				bcen3.add(boxcen32 = Box.createVerticalBox());
 				JPanel pnlSouth = new JPanel();
 				pnlSouth.setLayout(new BorderLayout());
-				pnlSouth.setBackground(Color.LIGHT_GRAY);
+				pnlSouth.setBackground(Color.DARK_GRAY);
 				
 				pnlSouth.add(Box.createHorizontalStrut(100), BorderLayout.WEST);
 				JPanel pnlForm=new JPanel();
@@ -237,6 +241,7 @@ JPanel pnl = new JPanel();
 				bTTTK.add(lblNhaTro = new JLabel("       Trọ:    "));
 				bTTTK.add(cbNhaTro = new JComboBox<>());
 				cbNhaTro.addItem(" ");
+				cbNhaTro.addItem("Thống kê số lượng trọ theo từng quận");
 				cbNhaTro.addItem("Đang được thuê");
 				cbNhaTro.addItem("Không có sinh viên thuê");
 				cbNhaTro.addItem("Thống kê trọ theo địa chỉ");
@@ -290,6 +295,15 @@ JPanel pnl = new JPanel();
 				btnTK_Action.addActionListener(this);
 				xoaTrangAction();
 		setVisible(true); 		
+		
+		try {
+			ConnectDB.getInstance().connect();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -349,7 +363,7 @@ JPanel pnl = new JPanel();
 			xoaTrangAction();
 		}
 		else if(ob.equals(btnTK_Action)) {
-			if(cbNhaTro.getSelectedItem().toString().trim().equals("Đang được thuê")) {
+			if(cbNhaTro.getSelectedItem().toString().strip().equals("Đang được thuê")) {
 				
 				String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 				tableModel = new DefaultTableModel(header, 0);
@@ -362,7 +376,7 @@ JPanel pnl = new JPanel();
 					tableModel.addRow(row);
 				}
 			}
-			else if(cbNhaTro.getSelectedItem().toString().trim().equals("Không có sinh viên thuê")) {
+			else if(cbNhaTro.getSelectedItem().toString().strip().equals("Không có sinh viên thuê")) {
 				String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 				tableModel = new DefaultTableModel(header, 0);
 				table.setModel(tableModel);
@@ -373,6 +387,9 @@ JPanel pnl = new JPanel();
 					String[] row = { v.getMaTro(), v.getTenChutro(), diaChi, v.getSDT()};
 					tableModel.addRow(row);
 				}
+			}
+			else if(cbNhaTro.getSelectedItem().toString().strip().equals("Thống kê số lượng trọ theo từng quận")) {
+				
 			}
 		}
 	}

@@ -34,6 +34,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 		private JButton btnTro;
 		private JButton btnBangThongTin;
 		private JButton btnDangXuat;
+		private JButton btnDoiMK;
 		private JLabel lblSinhVien;
 		private JLabel lblThongKe;
 		private JLabel lblTro;
@@ -41,6 +42,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 		private TamLuuMaNhanVien_Dao TamLuuMaNhanVien_Dao;
 		private JButton btnHDSD;
 		private JLabel lblHDSD;
+		private JLabel lblDoiMK;
 
 		public GD_TrangChuNhanVienGVK() {
 			
@@ -63,6 +65,8 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			ImageIcon imgNhaTro =  new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 			ImageIcon imgSinhVien =  new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 			ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+			ImageIcon imgDoiMK = new ImageIcon(new ImageIcon("HinhAnh/doimk.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+
 			
 			lblTieuDe = new JLabel("Trang Chủ Giáo Vụ Khoa");
 			lblSinhVien = new JLabel("        Sinh Viên");
@@ -70,21 +74,30 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			lblBangThongTin = new JLabel("    Bảng Thông Tin");
 			lblTro = new JLabel("              Trọ");
 			lblHDSD = new JLabel("Hướng Dẫn");
+			lblDoiMK = new JLabel("Đổi mật khẩu");
+			
 			
 			lblSinhVien.setFont(new Font("arial", 1, 20));
 			lblTro.setFont(new Font("arial", 1, 20));
 			lblBangThongTin.setFont(new Font("arial", 1, 20));
 			lblThongKe.setFont(new Font("arial", 1, 20));
 			lblHDSD.setFont(new Font("arial", 1, 20));
+			lblDoiMK.setFont(new Font("arial", 1, 20));
+
 			
 			btnSinhVien = new JButton(imgSinhVien);
 			btnThongKe = new JButton(imgThongKe);
 			btnTro = new JButton(imgNhaTro);
 			btnBangThongTin = new JButton(imgGhiChu);
+			btnDoiMK = new JButton(imgDoiMK);
+			
 			btnDangXuat = new JButton("Đăng Xuất");
 			btnDangXuat.setFont(new Font("arial",1,20));
 			btnDangXuat.setBackground(Color.RED);
 			btnDangXuat.setForeground(Color.white);
+			
+			btnDoiMK.setLayout(new BorderLayout());
+			btnDoiMK.add(lblDoiMK,BorderLayout.NORTH);
 			
 			btnSinhVien.setLayout(new BorderLayout());
 			btnSinhVien.add(lblSinhVien,BorderLayout.NORTH);
@@ -103,6 +116,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			btnSinhVien.setPreferredSize(new Dimension(230, 400));
 			btnThongKe.setPreferredSize(new Dimension(230, 400));
 			btnTro.setPreferredSize(new Dimension(230, 400));
+			btnDoiMK.setPreferredSize(new Dimension(230, 400));
 			btnDangXuat.setPreferredSize(new Dimension(500, 70));
 			
 			
@@ -110,7 +124,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			btnSinhVien.setFocusPainted(false);
 			btnThongKe.setFocusPainted(false);
 			btnTro.setFocusPainted(false);
-			
+			btnDoiMK.setFocusPainted(false);
 			
 			
 			lblTieuDe.setFont(new Font("arial", 1, 50));
@@ -132,6 +146,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			pnlCenter.add(btnSinhVien);
 			pnlCenter.add(btnTro);
 			pnlCenter.add(btnThongKe);
+			pnlCenter.add(btnDoiMK);
 			
 			pnlBottom.add(btnDangXuat);
 			
@@ -163,6 +178,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			btnSinhVien.addActionListener(this);
 			btnThongKe.addActionListener(this);
 			btnTro.addActionListener(this);
+			btnDoiMK.addActionListener(this);
 		}
 
 		@Override
@@ -197,6 +213,9 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 							repaint();
 							revalidate();
 
+			}
+			else if(o.equals(btnDoiMK)) {
+				new GD_DoiMK();
 			}
 		}
 }

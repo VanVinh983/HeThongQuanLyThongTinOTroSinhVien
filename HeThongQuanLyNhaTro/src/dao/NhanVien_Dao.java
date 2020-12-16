@@ -151,6 +151,7 @@ private ArrayList<NhanVien> danhSachNhanVien;
 			st.executeUpdate("UPDATE NhanVien SET tenNhanVien = N'"+nv.getTenNV()+"', loaiNhanVien = '"+nv.getLoaiNV()+"', matKhau = '"+nv.getMatKhau()+"', ngaySinh = '"+nv.getNgaySinh()+"', tenKhoa = N'"+nv.getTenKhoa()+"' WHERE maNhanVien='"+nv.getMaNV()+"'");
 			this.xoaNhanVien(nv.getMaNV());
 			this.themNV(nv);
+			con.close();
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -212,6 +213,19 @@ private ArrayList<NhanVien> danhSachNhanVien;
 			}
 		return maNV;
 	}
+	
+	public void doiMatKhau(String maNhanVien, String matKhauMoi) {
+		try {
+			ConnectDB.getInstance().connect();
+			Connection con = ConnectDB.getConnecction();
+			Statement st = con.createStatement();
+			st.executeUpdate("update NhanVien set matKhau='"+matKhauMoi+"' where maNhanVien='"+maNhanVien+"'");
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
 }
 	
 	

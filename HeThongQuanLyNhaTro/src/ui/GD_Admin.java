@@ -39,6 +39,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 	private JButton btnThongKe;
 	private JButton btnTro;
 	private JButton btnBangThongTin;
+	private JButton btnDoiMK;
 	private JButton btnDangXuat;
 	private JLabel lblNhanVien;
 	private JLabel lblSinhVien;
@@ -50,6 +51,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 	private JLabel lblTin;
 	private JLabel lblHD;
 	private JLabel lblSD;
+	private JLabel lblDoiMK;
 
 	public GD_Admin() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -74,6 +76,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		ImageIcon imgNhaTro =  new ImageIcon(new ImageIcon("HinhAnh/nhatro.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		ImageIcon imgSinhVien =  new ImageIcon(new ImageIcon("HinhAnh/sinhvien.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+		ImageIcon imgDoiMK = new ImageIcon(new ImageIcon("HinhAnh/doimk.png").getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
 		
 		lblTieuDe = new JLabel("Trang Chủ Quản Lý");
 		lblNhanVien = new JLabel("     Nhân Viên");
@@ -84,6 +87,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		lblTro = new JLabel("           Trọ");
 		lblHD = new JLabel("Hướng Dẫn\n");
 		lblSD = new JLabel("Sử Dụng");
+		lblDoiMK = new JLabel("Đổi mật khẩu");
 		
 		lblNhanVien.setFont(new Font("arial", 1, 20));
 		lblSinhVien.setFont(new Font("arial", 1, 20));
@@ -93,16 +97,21 @@ public class GD_Admin extends JPanel implements ActionListener{
 		lblTin.setFont(new Font("arial", 1, 20));
 		lblHD.setFont(new Font("arial", 1, 20));
 		lblSD.setFont(new Font("arial", 1, 20));
+		lblDoiMK.setFont(new Font("arial", 1, 20));
 		
 		btnSinhVien = new JButton(imgSinhVien);
 		btnNhanVien = new JButton(imgNhanVien);
 		btnThongKe = new JButton(imgThongKe);
 		btnTro = new JButton(imgNhaTro);
 		btnBangThongTin = new JButton(imgGhiChu);
+		btnDoiMK = new JButton(imgDoiMK);
 		btnDangXuat = new JButton("Đăng Xuất");
 		btnDangXuat.setFont(new Font("arial",1,20));
 		btnDangXuat.setBackground(Color.RED);
 		btnDangXuat.setForeground(Color.white);
+		
+		btnDoiMK.setLayout(new BorderLayout());
+		btnDoiMK.add(lblDoiMK,BorderLayout.NORTH);
 		
 		btnSinhVien.setLayout(new BorderLayout());
 		btnSinhVien.add(lblSinhVien,BorderLayout.NORTH);
@@ -128,6 +137,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		btnSinhVien.setPreferredSize(new Dimension(190, screenHeight-300));
 		btnThongKe.setPreferredSize(new Dimension(190, screenHeight-300));
 		btnTro.setPreferredSize(new Dimension(190, screenHeight-300));
+		btnDoiMK.setPreferredSize(new Dimension(190, screenHeight-300));
 		btnDangXuat.setPreferredSize(new Dimension(500, 70));
 		
 		
@@ -159,6 +169,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		pnlCenter.add(btnSinhVien);
 		pnlCenter.add(btnTro);
 		pnlCenter.add(btnThongKe);
+		pnlCenter.add(btnDoiMK);
 		
 		pnlBottom.add(btnDangXuat);
 		
@@ -187,6 +198,7 @@ public class GD_Admin extends JPanel implements ActionListener{
 		btnThongKe.addActionListener(this);
 		btnTro.addActionListener(this);
 		btnHDSD.addActionListener(this);
+		btnDoiMK.addActionListener(this);
 	}
 
 	@Override
@@ -236,8 +248,10 @@ public class GD_Admin extends JPanel implements ActionListener{
 					e1.printStackTrace();
 				}
 			}
-	}
-	
+		}
+		else if(o.equals(btnDoiMK)) {
+			new GD_DoiMK();
+		}
 	
 	}
 }

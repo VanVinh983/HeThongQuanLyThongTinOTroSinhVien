@@ -130,6 +130,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 	private JButton btnNhanVien;
 	private JButton btnHuongDanSD;
 	private JButton btnThoat;
+	private JButton btnDoiMK;
 	//Compobox Lua cong tim kiếm
 	private JComboBox cmpTim;
 //	private JTextField txtTim;
@@ -181,6 +182,8 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		ImageIcon imgexit = new ImageIcon(new ImageIcon("HinhAnh/exit.png").getImage().getScaledInstance(
 				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
 		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgDoiMK = new ImageIcon(new ImageIcon("HinhAnh/doimk.png").getImage().getScaledInstance(
 				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
 		setLayout(new BorderLayout(0, 0));
 		
@@ -293,6 +296,14 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
 				btnHuongDanSD.setBackground(new Color(0, 197, 205));
 				pnlMenubtn.add(Box.createVerticalStrut(10));
+				
+				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnDoiMK = new JButton("Đổi mật khẩu"));
+				btnDoiMK.add(Box.createHorizontalStrut(30));
+				btnDoiMK.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnDoiMK.add(Box.createVerticalStrut(20));
+				btnDoiMK.setBackground(new Color(0, 197, 205));
+				pnlMenubtn.add(Box.createVerticalStrut(10));
 
 				pnlMenubtn.add(Box.createVerticalStrut(25));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
@@ -312,6 +323,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 				btnThongKe.setIcon(imgTK);
 				btnThueTro.setIcon(imgBTT);
 				btnHuongDanSD.setIcon(imgHDSD);
+				btnDoiMK.setIcon(imgDoiMK);
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -619,6 +631,7 @@ public class GD_QuanLySinhVien extends JPanel implements ActionListener, MouseLi
 		btnTro.addActionListener(this);
 		btnXoa.addActionListener(this);
 		btnXoaTrang.addActionListener(this);
+		btnDoiMK.addActionListener(this);
 		table.addMouseListener(this);
 		//cmpKhoa.addActionListener(this);
 		SinhVien_Dao dao = new SinhVien_Dao();
@@ -727,6 +740,9 @@ public void addDatabase() {
 			add(new GD_QLNhanVien());
 			repaint();
 			revalidate();
+		}
+		else if(ob.equals(btnDoiMK)) {
+			new GD_DoiMK();
 		}
 		else if(ob.equals(btnSinhVien))
 		{

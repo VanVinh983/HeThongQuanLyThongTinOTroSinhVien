@@ -69,6 +69,10 @@ public class NhanVien {
 			return false;
 		return true;
 	}
+	
+	public NhanVien() {
+		super();
+	}
 	public NhanVien(String maNV, String loaiNV, String tenNV, String matKhau, Date ngaySinh, String tenKhoa) {
 		super();
 		this.maNV = maNV;
