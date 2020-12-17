@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import connectDB.ConnectDB;
 import dao.TamLuuMaNhanVien_Dao;
 import javax.swing.border.LineBorder;
+import java.awt.GridLayout;
 
 public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 		/**
@@ -87,15 +88,21 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 
 			
 			btnSinhVien = new JButton(imgSinhVien);
-			btnSinhVien.setBounds(228, 5, 208, 494);
 			btnThongKe = new JButton(imgThongKe);
-			btnThongKe.setBounds(681, 5, 215, 494);
+			btnThongKe.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					removeAll();
+					add(new GD_ThongKe());
+					repaint();
+					revalidate();
+					
+				}
+			});
 			btnTro = new JButton(imgNhaTro);
-			btnTro.setBounds(446, 5, 215, 494);
 			btnBangThongTin = new JButton(imgGhiChu);
-			btnBangThongTin.setBounds(10, 5, 208, 494);
 			btnDoiMK = new JButton(imgDoiMK);
-			btnDoiMK.setBounds(906, 5, 208, 494);
 			
 			btnDangXuat = new JButton("Đăng Xuất");
 			btnDangXuat.setBorder(new LineBorder(new Color(255, 102, 0), 5));
@@ -148,7 +155,7 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			pnlTitle.setPreferredSize(new Dimension(1200, 100));
 			pnlTitle.setBackground(new Color(237, 125, 49));
 			pnlTitle.add(lblTieuDe);
-			pnlCenter.setLayout(null);
+			pnlCenter.setLayout(new GridLayout(0, 6, 0, 0));
 			
 			
 			pnlCenter.add(btnBangThongTin);
@@ -163,7 +170,6 @@ public class GD_TrangChuNhanVienGVK extends JPanel implements ActionListener{
 			this.add(pnlCenter,BorderLayout.CENTER);
 			
 			btnHDSD = new JButton(imgHDSD);
-			btnHDSD.setBounds(1127, 5, 208, 494);
 			btnHDSD.setLayout(new BorderLayout());
 			btnHDSD.add(lblHDSD,BorderLayout.NORTH);
 			btnHDSD.addActionListener(new ActionListener() {

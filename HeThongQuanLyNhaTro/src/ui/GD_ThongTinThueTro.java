@@ -296,6 +296,17 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlNhanVien.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JButton btnThongKe = new JButton("Thống Kê\r\n");
+		btnThongKe.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				removeAll();
+				add(new GD_ThongKe());
+				repaint();
+				revalidate();
+				
+			}
+		});
 		btnThongKe.setBorder(null);
 		btnThongKe.setBackground(new Color(0, 191, 255));
 		btnThongKe.setFont(new Font("Arial", Font.BOLD, 20));
@@ -1038,7 +1049,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			}
 		}
 	}
-
+	
 	public void themDuLieuCoSan(String maNV, String loaiNV) {
 		ArrayList<ThongTinThueTro> t = null;
 		if (loaiNV.equals("QL")) {
