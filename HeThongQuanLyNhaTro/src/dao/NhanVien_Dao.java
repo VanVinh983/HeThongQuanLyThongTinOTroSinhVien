@@ -205,13 +205,27 @@ private ArrayList<NhanVien> danhSachNhanVien;
 			}	
 		}
 			number++;
-			if(number < 100000) {
-				maNV = "NV_" + String.valueOf(number/10000) + String.valueOf(number/1000) + String.valueOf(number/100) + String.valueOf(number/10) + String.valueOf(number/1);
+			if(number < 10) {
+				maNV = "NV_0000" + number;
+				return maNV;
+			}
+			if(number < 100 ) {
+				maNV = "NV_000" + number;
+				return maNV;
+			}
+			if(number < 1000 ) {
+				maNV = "NV_00" + number;
+				return maNV;
+			}
+			if(number < 10000 ) {
+				maNV = "NV_0" + number;
+				return maNV;
 			}
 			else {
 				maNV = "NV_" + number;
+				return maNV;
 			}
-		return maNV;
+		
 	}
 	
 	public void doiMatKhau(String maNhanVien, String matKhauMoi) {
