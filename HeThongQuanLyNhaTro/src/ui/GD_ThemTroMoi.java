@@ -128,11 +128,7 @@ public class GD_ThemTroMoi extends JPanel implements ActionListener, MouseListen
 		pnl.setLayout(new BorderLayout());
 		Box box = Box.createVerticalBox();
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		SetSizeByPercent setSizeByPercent = new SetSizeByPercent(screenSize);
-		int screenHeight = screenSize.height - setSizeByPercent.getHeightByPercent(3);
-		int screenWidth = screenSize.width;
-		this.setPreferredSize(new Dimension(screenSize));
+	
 
 		// Tạo ảnh và txt hiển thị user
 		JPanel pnlUser = new JPanel();
