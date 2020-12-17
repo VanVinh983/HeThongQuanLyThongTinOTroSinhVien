@@ -209,7 +209,6 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 	private JButton btnNhanVien;
 	private JButton btnHuongDanSD;
 	private JButton btnThoat;
-	private JButton btnDoiMK;
 	//Compobox Lua cong tim kiếm
 	private JComboBox cmpTim;
 //	private JTextField txtTim;
@@ -261,8 +260,6 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 		ImageIcon imgexit = new ImageIcon(new ImageIcon("HinhAnh/exit.png").getImage().getScaledInstance(
 				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
 		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(
-				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
-		ImageIcon imgDoiMK = new ImageIcon(new ImageIcon("HinhAnh/doimk.png").getImage().getScaledInstance(
 				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
 		setLayout(new BorderLayout(0, 0));
 		
@@ -325,7 +322,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 				box.add(pnlMenu);
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				//Thanh điều hướng 
-				pnlMenubtn.add(Box.createVerticalStrut(20));
+				pnlMenubtn.add(Box.createVerticalStrut(10));
 				pnlMenubtn.add(btnTro = new JButton("Trọ"));
 				pnlMenubtn.setBackground(new Color(0, 238, 238));
 				btnTro.add(Box.createHorizontalStrut(30));
@@ -333,7 +330,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 				btnTro.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnTro.setBackground(new Color(72, 209, 204));
 				
-				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(Box.createVerticalStrut(2));
 				pnlMenubtn.add(btnSinhVien = new JButton("Sinh viên"));
 				btnSinhVien.add(Box.createHorizontalStrut(30));
 				btnSinhVien.add(Box.createVerticalStrut(20));
@@ -341,7 +338,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 				btnSinhVien.setBackground(new Color(0, 206, 209));
 				if(daoSV.layLoaiNV().equals("QL"))
 				{
-					pnlMenubtn.add(Box.createVerticalStrut(25));
+					pnlMenubtn.add(Box.createVerticalStrut(2));
 					pnlMenubtn.add(btnNhanVien = new JButton("Nhân viên"));
 					btnNhanVien.add(Box.createHorizontalStrut(30));
 					btnNhanVien.add(Box.createVerticalStrut(20));
@@ -352,41 +349,36 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 				
 				
 				
-				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(Box.createVerticalStrut(2));
 				pnlMenubtn.add(btnThueTro = new JButton("Thuê trọ"));
 				btnThueTro.add(Box.createHorizontalStrut(30));
 				btnThueTro.add(Box.createVerticalStrut(20));
 				btnThueTro.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnThueTro.setBackground(new Color(0, 245, 255));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
+				//pnlMenubtn.add(Box.createVerticalStrut(10));
 				
-				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(Box.createVerticalStrut(2));
 				pnlMenubtn.add(btnThongKe = new JButton("Thống kê"));
 				btnThongKe.add(Box.createHorizontalStrut(30));
+				btnThongKe.add(Box.createVerticalStrut(20));
 				btnThongKe.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnThongKe.add(Box.createVerticalStrut(20));
 				btnThongKe.setBackground(new Color(0, 229, 238));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
+				//pnlMenubtn.add(Box.createVerticalStrut(10));
 				
-				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(Box.createVerticalStrut(2));
 				pnlMenubtn.add(btnHuongDanSD = new JButton("Trợ giúp"));
 				btnHuongDanSD.add(Box.createHorizontalStrut(30));
+				btnHuongDanSD.add(Box.createVerticalStrut(20));
 				btnHuongDanSD.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnHuongDanSD.add(Box.createVerticalStrut(20));
 				btnHuongDanSD.setBackground(new Color(0, 197, 205));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
+				//pnlMenubtn.add(Box.createVerticalStrut(10));
 
-				pnlMenubtn.add(Box.createVerticalStrut(25));
-				pnlMenubtn.add(btnDoiMK = new JButton("Đổi mật khẩu"));
-				btnDoiMK.add(Box.createHorizontalStrut(30));
-				btnDoiMK.setFont(new Font( "Arial", Font.BOLD, 25));
-				btnDoiMK.add(Box.createVerticalStrut(20));
-				btnDoiMK.setBackground(new Color(0, 197, 205));
-				pnlMenubtn.add(Box.createVerticalStrut(10));
-				
-				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(Box.createVerticalStrut(2));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
 				btnThoat.add(Box.createHorizontalStrut(30));
+				btnThoat.add(Box.createVerticalStrut(20));
 				btnThoat.setFont(new Font( "Arial", Font.BOLD, 25));
 				btnThoat.add(Box.createVerticalStrut(20));
 				btnThoat.setBackground(new Color(0, 134, 139));
@@ -402,7 +394,6 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 				btnThongKe.setIcon(imgTK);
 				btnThueTro.setIcon(imgBTT);
 				btnHuongDanSD.setIcon(imgHDSD);
-				btnDoiMK.setIcon(imgDoiMK);
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -711,7 +702,6 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 		btnTro.addActionListener(this);
 		//btnTKTop5TroDuocThueNhieu.addActionListener(this);
 		btnTKGioiTinh.addActionListener(this);
-		btnDoiMK.addActionListener(this);
 		//txt8.addActionListener(this);
 		//SinhVien_Dao dao = new SinhVien_Dao();
 		
@@ -824,9 +814,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 			repaint();
 			revalidate();
 		}
-		else if(ob.equals(btnDoiMK)) {
-			new GD_DoiMK();
-		}
+		
 		else if(ob.equals(btnTro))
 		{
 			EventQueue.invokeLater(new Runnable() {
@@ -859,6 +847,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
     		txt7.setText("");
 			pnlFormTim.removeAll();
 			bcenTable.removeAll();
+			
 			TKQuan++;
 			//Tổng 
 			 DefaultPieDataset datasetQuan = createDatasetQuan();
@@ -878,7 +867,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 		        TKTinhTrangThue=0;
 		        TKTuoi=0;
 		   
-		        
+		       
 		        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				NhaTro_Dao daont = new NhaTro_Dao();
 				List<NhaTro> listnt = daont.layTatCaBang();
@@ -2083,6 +2072,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 	       
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	    	       
 
 }
 
