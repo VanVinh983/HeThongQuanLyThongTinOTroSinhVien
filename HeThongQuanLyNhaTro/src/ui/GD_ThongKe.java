@@ -209,6 +209,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 	private JButton btnNhanVien;
 	private JButton btnHuongDanSD;
 	private JButton btnThoat;
+	private JButton btnDoiMK;
 	//Compobox Lua cong tim kiếm
 	private JComboBox cmpTim;
 //	private JTextField txtTim;
@@ -260,6 +261,8 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 		ImageIcon imgexit = new ImageIcon(new ImageIcon("HinhAnh/exit.png").getImage().getScaledInstance(
 				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
 		ImageIcon imgHDSD = new ImageIcon(new ImageIcon("HinhAnh/User manual.jpg").getImage().getScaledInstance(
+				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
+		ImageIcon imgDoiMK = new ImageIcon(new ImageIcon("HinhAnh/doimk.png").getImage().getScaledInstance(
 				setSizeByPercent.getWidthByPercent(3), setSizeByPercent.getHeightByPercent(6), Image.SCALE_DEFAULT));
 		setLayout(new BorderLayout(0, 0));
 		
@@ -374,6 +377,14 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 				pnlMenubtn.add(Box.createVerticalStrut(10));
 
 				pnlMenubtn.add(Box.createVerticalStrut(25));
+				pnlMenubtn.add(btnDoiMK = new JButton("Đổi mật khẩu"));
+				btnDoiMK.add(Box.createHorizontalStrut(30));
+				btnDoiMK.setFont(new Font( "Arial", Font.BOLD, 25));
+				btnDoiMK.add(Box.createVerticalStrut(20));
+				btnDoiMK.setBackground(new Color(0, 197, 205));
+				pnlMenubtn.add(Box.createVerticalStrut(10));
+				
+				pnlMenubtn.add(Box.createVerticalStrut(25));
 				pnlMenubtn.add(btnThoat = new JButton("Thoát"));
 				btnThoat.add(Box.createHorizontalStrut(30));
 				btnThoat.setFont(new Font( "Arial", Font.BOLD, 25));
@@ -391,6 +402,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 				btnThongKe.setIcon(imgTK);
 				btnThueTro.setIcon(imgBTT);
 				btnHuongDanSD.setIcon(imgHDSD);
+				btnDoiMK.setIcon(imgDoiMK);
 				//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		//Center
@@ -699,6 +711,7 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 		btnTro.addActionListener(this);
 		//btnTKTop5TroDuocThueNhieu.addActionListener(this);
 		btnTKGioiTinh.addActionListener(this);
+		btnDoiMK.addActionListener(this);
 		//txt8.addActionListener(this);
 		//SinhVien_Dao dao = new SinhVien_Dao();
 		
@@ -811,7 +824,9 @@ public class GD_ThongKe extends JPanel implements ActionListener{
 			repaint();
 			revalidate();
 		}
-		
+		else if(ob.equals(btnDoiMK)) {
+			new GD_DoiMK();
+		}
 		else if(ob.equals(btnTro))
 		{
 			EventQueue.invokeLater(new Runnable() {

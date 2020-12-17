@@ -301,23 +301,6 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		btnThongKe.setFont(new Font("Arial", Font.BOLD, 20));
 		pnlNhanVien.add(btnThongKe);
 		
-		JPanel pnlDoiMatKhau = new JPanel();
-		pnlDoiMatKhau.setBackground(new Color(135, 206, 250));
-		pnlMenuCon.add(pnlDoiMatKhau);
-		
-		JButton btnDoiMatKhau = new JButton("Đổi mật khẩu");
-		btnDoiMatKhau.setFont(new Font("Arial", Font.BOLD, 20));
-		btnDoiMatKhau.setPreferredSize(btnNhanVien.getPreferredSize());
-		btnDoiMatKhau.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new GD_DoiMK();
-			}
-		});
-		btnDoiMatKhau.setBorder(null);
-		btnDoiMatKhau.setIcon(imgdoimk);
-		btnDoiMatKhau.setBackground(new Color(0, 191, 255));
-		pnlDoiMatKhau.add(btnDoiMatKhau);
-
 		JPanel pnlTroGiup = new JPanel();
 		pnlTroGiup.setBackground(new Color(135, 206, 250));
 		pnlMenuCon.add(pnlTroGiup);
@@ -343,6 +326,24 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				}
 			}
 		});
+		
+		JPanel pnlDoiMatKhau = new JPanel();
+		pnlDoiMatKhau.setBackground(new Color(135, 206, 250));
+		pnlMenuCon.add(pnlDoiMatKhau);
+		
+		JButton btnDoiMatKhau = new JButton("Đổi mật khẩu");
+		btnDoiMatKhau.setFont(new Font("Arial", Font.BOLD, 20));
+		btnDoiMatKhau.setPreferredSize(btnNhanVien.getPreferredSize());
+		btnDoiMatKhau.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new GD_DoiMK();
+			}
+		});
+		btnDoiMatKhau.setBorder(null);
+		btnDoiMatKhau.setIcon(imgdoimk);
+		btnDoiMatKhau.setBackground(new Color(0, 191, 255));
+		pnlDoiMatKhau.add(btnDoiMatKhau);
+
 
 		JPanel pnlThoat = new JPanel();
 		pnlThoat.setBackground(new Color(135, 206, 250));

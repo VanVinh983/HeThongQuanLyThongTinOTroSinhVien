@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
 import javax.swing.Box;
@@ -22,7 +24,7 @@ import dao.NhanVien_Dao;
 import dao.TamLuuMaNhanVien_Dao;
 import entity.NhanVien;
 
-public class GD_DoiMK extends JFrame implements ActionListener {
+public class GD_DoiMK extends JFrame implements ActionListener, KeyListener {
 	
 	private JLabel lblMaNV;
 	private JLabel lblMKHienTai;
@@ -102,6 +104,7 @@ public class GD_DoiMK extends JFrame implements ActionListener {
 		btnXemMK.addActionListener(this);
 		btnDoiMK.addActionListener(this);
 		btnQuayLai.addActionListener(this);
+		btnDoiMK.addKeyListener(this);
 		
 		nv_dao.loadNhanVienTuDatabase();
 
@@ -175,6 +178,25 @@ public class GD_DoiMK extends JFrame implements ActionListener {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+			btnDoiMK.doClick();
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
