@@ -1017,7 +1017,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			JFrame frame = new JFrame();
 			frame.getContentPane().add(new GD_ThemTroMoi());
 			frame.pack();
-			frame.setExtendedState(Frame.MAXIMIZED_BOTH);
+			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 		}else if (o.equals(btnXemLichSu)) {
 			String maSV = JOptionPane.showInputDialog("Mời nhập vào mã sinh viên cần xem lịch sử thay đổi trọ");
