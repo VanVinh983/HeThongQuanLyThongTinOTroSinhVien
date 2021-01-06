@@ -184,10 +184,10 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		JLabel lblNewLabel = new JLabel("Quản Lý\r\n");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 20));
 		if (loaiNV.equals("NV")) {
-			lblNewLabel.setFont(new Font("arial",Font.BOLD, 15));
+			lblNewLabel.setFont(new Font("arial", Font.BOLD, 15));
 			lblNewLabel.setText(tamluu_dao.layNhanVienTrongBangTamLuu().getTenKhoa());
 		}
-		
+
 		lblNewLabel.setForeground(Color.DARK_GRAY);
 		lblNewLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		pnlChucVu.add(lblNewLabel);
@@ -297,21 +297,21 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 		JButton btnThongKe = new JButton("Thống Kê\r\n");
 		btnThongKe.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				removeAll();
 				add(new GD_ThongKe());
 				repaint();
 				revalidate();
-				
+
 			}
 		});
 		btnThongKe.setBorder(null);
 		btnThongKe.setBackground(new Color(0, 191, 255));
 		btnThongKe.setFont(new Font("Arial", Font.BOLD, 20));
 		pnlNhanVien.add(btnThongKe);
-		
+
 		JPanel pnlTroGiup = new JPanel();
 		pnlTroGiup.setBackground(new Color(135, 206, 250));
 		pnlMenuCon.add(pnlTroGiup);
@@ -337,11 +337,11 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				}
 			}
 		});
-		
+
 		JPanel pnlDoiMatKhau = new JPanel();
 		pnlDoiMatKhau.setBackground(new Color(135, 206, 250));
 		pnlMenuCon.add(pnlDoiMatKhau);
-		
+
 		JButton btnDoiMatKhau = new JButton("Đổi mật khẩu");
 		btnDoiMatKhau.setFont(new Font("Arial", Font.BOLD, 20));
 		btnDoiMatKhau.setPreferredSize(btnNhanVien.getPreferredSize());
@@ -354,7 +354,6 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		btnDoiMatKhau.setIcon(imgdoimk);
 		btnDoiMatKhau.setBackground(new Color(0, 191, 255));
 		pnlDoiMatKhau.add(btnDoiMatKhau);
-
 
 		JPanel pnlThoat = new JPanel();
 		pnlThoat.setBackground(new Color(135, 206, 250));
@@ -456,7 +455,17 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				btnThoat.setBackground(new Color(0, 191, 255));
 			}
 		});
+		
+		btnDoiMatKhau.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseEntered(java.awt.event.MouseEvent evt) {
+				btnDoiMatKhau.setBackground(new Color(30, 144, 255));
+			}
 
+			public void mouseExited(java.awt.event.MouseEvent evt) {
+				btnDoiMatKhau.setBackground(new Color(0, 191, 255));
+			}
+		});
+		
 		JPanel pnlTrongTam = new JPanel();
 		pnlChinh.add(pnlTrongTam, BorderLayout.CENTER);
 		pnlTrongTam.setLayout(new BorderLayout(0, 0));
@@ -671,10 +680,6 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		pnlXoaThongTinOTro.setLayout(new BorderLayout(0, 0));
 
 		btnXoaThongTin = new JButton("Xóa thông tin\r\n");
-		btnXoaThongTin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnXoaThongTin.setBackground(new Color(240, 128, 128));
 		btnXoaThongTin.setFont(new Font("Arial", Font.BOLD, 20));
 		pnlXoaThongTinOTro.add(btnXoaThongTin);
@@ -836,14 +841,14 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			list1.add(nhaTro.getSDT());
 			list1.add(nhaTro.getTenChutro());
 			DiaChi d = nhaTro.getDiaChiTro();
-			String dc1 = d.getTenQuan()+", "+d.getTenPhuong()+", "+d.getTenDuong()+", "+d.getSoNha();
+			String dc1 = d.getTenQuan() + ", " + d.getTenPhuong() + ", " + d.getTenDuong() + ", " + d.getSoNha();
 			list1.add(dc1);
-			String dc2 = d.getSoNha()+", "+d.getTenDuong()+", "+d.getTenPhuong()+", "+d.getTenQuan();
-			String dc3 = d.getTenQuan()+", "+d.getTenPhuong()+", "+d.getTenDuong();
-			String dc4 = d.getTenQuan()+", "+d.getTenPhuong();
-			String dc5 =  d.getTenQuan();
-			String dc6 = d.getTenDuong()+", "+d.getTenPhuong()+", "+d.getTenQuan();
-			String dc7 = d.getTenPhuong()+", "+d.getTenQuan();
+			String dc2 = d.getSoNha() + ", " + d.getTenDuong() + ", " + d.getTenPhuong() + ", " + d.getTenQuan();
+			String dc3 = d.getTenQuan() + ", " + d.getTenPhuong() + ", " + d.getTenDuong();
+			String dc4 = d.getTenQuan() + ", " + d.getTenPhuong();
+			String dc5 = d.getTenQuan();
+			String dc6 = d.getTenDuong() + ", " + d.getTenPhuong() + ", " + d.getTenQuan();
+			String dc7 = d.getTenPhuong() + ", " + d.getTenQuan();
 			String dc8 = d.getTenPhuong();
 			String dc9 = d.getTenDuong();
 			list1.add(dc9);
@@ -859,19 +864,17 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		set1.addAll(list);
 		list = new ArrayList<String>(set1);
 		cboTimNhaTro.addItem("");
-		list1.forEach(v->cboTimNhaTro.addItem(v));
+		list1.forEach(v -> cboTimNhaTro.addItem(v));
 		AutoCompleteDecorator.decorate(cboTimNhaTro);
 		cboTimNhaTro.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					btnTimKiemTro.doClick();
 				}
 			}
 		});
-		
-		
-		
+
 		cboTimSinhVien.getEditor().getEditorComponent().addKeyListener(this);
 		tableBTT.addMouseListener(this);
 		btnXoaTrang.addActionListener(this);
@@ -943,21 +946,21 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				} else {
 					JOptionPane.showMessageDialog(this, "Cập nhật quá thuê trọ mới không thành công");
 				}
-			} else if (o.equals(btnXoaThongTin)) {
-				if (JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa dòng này", "Xác nhận xóa",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			}
+		} else if (o.equals(btnXoaThongTin)) {
+			if (JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa dòng này", "Xác nhận xóa",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-					int n = tableBTT.getSelectedRowCount();
-					for (int i = 0; i < n; i++) {
-						int row = tableBTT.getSelectedRow();
-						String maNhaTro = tableModelBTT.getValueAt(row, 2).toString();
-						String maSinhVien = tableModelBTT.getValueAt(row, 0).toString();
-						if (thongtinthuetro_dao.xoaThong(maSinhVien, maNhaTro)) {
-							JOptionPane.showMessageDialog(this, "Đã xóa thành công");
-							tableModelBTT.removeRow(row);
-						} else {
-							JOptionPane.showMessageDialog(this, "Xóa không thành công");
-						}
+				int n = tableBTT.getSelectedRowCount();
+				for (int i = 0; i < n; i++) {
+					int row = tableBTT.getSelectedRow();
+					String maNhaTro = tableModelBTT.getValueAt(row, 2).toString();
+					String maSinhVien = tableModelBTT.getValueAt(row, 0).toString();
+					if (thongtinthuetro_dao.xoaThong(maSinhVien, maNhaTro)) {
+						JOptionPane.showMessageDialog(this, "Đã xóa thành công");
+						tableModelBTT.removeRow(row);
+					} else {
+						JOptionPane.showMessageDialog(this, "Xóa không thành công");
 					}
 				}
 			}
@@ -1009,12 +1012,13 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				JOptionPane.showMessageDialog(this, "Mời nhập vào thông tin cần tìm");
 				cboTimSinhVien.setFocusable(true);
 			}
-		}else if (o.equals(btnTimKiemTro)) {
+		} else if (o.equals(btnTimKiemTro)) {
 			if (!cboTimNhaTro.getSelectedItem().equals("")) {
 				String[] header = "Mã nhà trọ;Tên chủ nhà;Địa chỉ;Số điện thoại".split(";");
 				tableModelNhaTro = new DefaultTableModel(header, 0);
 				tableBTT.setModel(tableModelNhaTro);
-				ArrayList<NhaTro> dsnt = thongtinthuetro_dao.TimKiemTroTrenBangThongTin(cboTimNhaTro.getSelectedItem().toString().trim());
+				ArrayList<NhaTro> dsnt = thongtinthuetro_dao
+						.TimKiemTroTrenBangThongTin(cboTimNhaTro.getSelectedItem().toString().trim());
 				for (NhaTro v : dsnt) {
 					String diaChi = v.getDiaChiTro().getSoNha() + ", " + v.getDiaChiTro().getTenDuong() + ", "
 							+ v.getDiaChiTro().getTenPhuong() + ", " + v.getDiaChiTro().getTenQuan();
@@ -1024,24 +1028,23 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			} else {
 				JOptionPane.showMessageDialog(this, "Mời nhập vào từ khóa là mã nhà trọ");
 			}
-		}else if (o.equals(btnThemTro)) {
+		} else if (o.equals(btnThemTro)) {
 			JFrame frame = new JFrame();
 			frame.getContentPane().add(new GD_ThemTroMoi());
 			frame.pack();
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
-		}else if (o.equals(btnXemLichSu)) {
+		} else if (o.equals(btnXemLichSu)) {
 			String maSV = JOptionPane.showInputDialog("Mời nhập vào mã sinh viên cần xem lịch sử thay đổi trọ");
 			String[] header = { "Mã Sinh Viên", "Tên Sinh Viên", "Mã Nhà Trọ", "Tên Nhà Trọ", "Địa Chỉ",
 					"Ngày Bắt Đầu Thuê", "Ngày Kết Thúc Thuê", "Giá", "Ngày Cập Nhật", "Trạng thái" };
 			tableModelBTT2 = new DefaultTableModel(header, 0);
 			tableBTT.setModel(tableModelBTT2);
-			List<ThongTinThueTro> tt = thongtinthuetro_dao.xemLichSuTheoMaSinhVien(
-					maSV, tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV(),
+			List<ThongTinThueTro> tt = thongtinthuetro_dao.xemLichSuTheoMaSinhVien(maSV,
+					tamluu_dao.layNhanVienTrongBangTamLuu().getLoaiNV(),
 					tamluu_dao.layNhanVienTrongBangTamLuu().getMaNV());
 			if (tt == null) {
-				JOptionPane.showMessageDialog(this,
-						"Không tìm thấy lịch sử vinh viên có mã" + maSV);
+				JOptionPane.showMessageDialog(this, "Không tìm thấy lịch sử vinh viên có mã" + maSV);
 			} else {
 				for (ThongTinThueTro thongTinThueTro : tt) {
 					themDongVaoBangThongTin(thongTinThueTro, tableModelBTT2);
@@ -1049,7 +1052,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			}
 		}
 	}
-	
+
 	public void themDuLieuCoSan(String maNV, String loaiNV) {
 		ArrayList<ThongTinThueTro> t = null;
 		if (loaiNV.equals("QL")) {
@@ -1077,9 +1080,9 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-			int row = tableBTT.getSelectedRow();
+		int row = tableBTT.getSelectedRow();
 		if (tableBTT.getModel() == tableModelBTT || tableBTT.getModel() == tableModelBTT2) {
-			
+
 			txtMaSinhVien.setText(tableBTT.getValueAt(row, 0).toString());
 			txtTenSinhVien.setText(tableBTT.getValueAt(row, 1).toString());
 			txtMaNhaTro.setText(tableBTT.getValueAt(row, 2).toString());
@@ -1158,10 +1161,10 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 				e1.printStackTrace();
 			}
 			cboTrangThai.setSelectedItem(tableBTT.getValueAt(row, 9));
-		}else if (tableBTT.getModel()== tableModelSinhVien) {
+		} else if (tableBTT.getModel() == tableModelSinhVien) {
 			txtMaSinhVien.setText(tableBTT.getValueAt(row, 0).toString().trim());
 			txtTenSinhVien.setText(tableBTT.getValueAt(row, 1).toString().trim());
-		}else if (tableBTT.getModel()==tableModelNhaTro) {
+		} else if (tableBTT.getModel() == tableModelNhaTro) {
 			txtMaNhaTro.setText(tableBTT.getValueAt(row, 0).toString().trim());
 			txtTenChuTro.setText(tableBTT.getValueAt(row, 1).toString().trim());
 			txtDiaChi.setText(tableBTT.getValueAt(row, 2).toString().trim());
@@ -1214,7 +1217,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			dateNgayBatDau.setDate(null);
 			dateNgayBatDau.setFocusable(true);
 		}
-		
+
 		LocalDate ngayCapNhat = null;
 		try {
 			ngayCapNhat = LocalDate.of(dateNgayCapNhat.getJCalendar().getYearChooser().getYear(),
@@ -1242,7 +1245,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 		String gia = txtGiaThue.getText().trim().toString();
 		String maSV = txtMaNhaTro.getText().trim().toString();
 		String maNT = txtMaNhaTro.getText().trim().toString();
-		
+
 		if (maSV.equals(null)) {
 			JOptionPane.showMessageDialog(this, "Bạn phải chọn sinh viên trước đã");
 		}
@@ -1288,7 +1291,7 @@ public class GD_ThongTinThueTro extends JPanel implements ActionListener, MouseL
 			dateNgayBatDau.setFocusable(true);
 			return false;
 		}
-		
+
 		if (ngayBatDau.isAfter(ngayKetThuc)) {
 			JOptionPane.showMessageDialog(this, "Ngày bắt đầu trước ngày kết thúc!");
 			dateNgayKetThuc.setFocusable(true);
